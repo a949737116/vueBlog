@@ -6,17 +6,18 @@
          <tabBar></tabBar>
       </el-header>
       <el-container>
-        <el-aside width="200px">
-          <!-- 左侧个人栏 -->
-          <privateL></privateL>
+        <el-aside width="150px" style='overflow:hidden'>
+          <!-- 左侧导航栏 -->
+          <leftTab></leftTab>
         </el-aside>
         <el-main>
           <!-- 路由控制部分 -->
            <router-view></router-view>
         </el-main>
-        <el-aside width="200px">
+        <el-aside width="220px">
           <!-- 右侧登录以及友链 -->
           <friendShip></friendShip>
+          <pinfo></pinfo>
         </el-aside>
       </el-container>
       <el-footer style='background-color: #000;height:auto'>
@@ -28,9 +29,10 @@
 </template>
 <script>
 import tabBar from '@components/commonComponents/tabBar/tabBar'
-import privateL from '@components/commonComponents/individual/private'
+import leftTab from '@components/commonComponents/leftTab/leftTab'
 import friendShip from '@components/commonComponents/friendShip/friendShip'
 import vfooter from '@components/commonComponents/footer/footer'
+import pinfo from '@components/viewComponents/pInfo/pInfo'
 export default {
   name: 'App',
   data () {
@@ -40,15 +42,18 @@ export default {
   },
   components: {
     tabBar,
-    privateL,
+    leftTab,
     friendShip,
-    vfooter
+    vfooter,
+    pinfo
   }
 }
 </script>
 
 <style lang='less'>
-@import 'common/css/footer.less';
+@import 'common/css/common.less';
+@import 'common/css/fixForEle.less';
+@import 'common/css/icon.less';
 /* 变量区 */
 @backgroundImg-src : './assets/background1.png';
 /* CSS区 */
@@ -58,7 +63,6 @@ body {
   #app{
     .el-container{
       .el-header, .el-footer {
-      background-color: #fff;
       color: #333;
       text-align: center;
       line-height: 60px;
@@ -68,16 +72,12 @@ body {
       width: 1024px;
       margin: 0 auto;
       .el-aside {
-        background-color: #fff;
         color: #333;
         text-align: center;
-        line-height: 200px;
       }
       .el-main {
-        background-color: #fff;
         color: #333;
         text-align: center;
-        line-height: 160px;
       }
     }
   }

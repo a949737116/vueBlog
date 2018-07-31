@@ -1,6 +1,14 @@
 <template>
   <div>
-    <el-tabs v-model="activeName" @tab-click="handleClick">
+    <el-tabs v-model="activeName" >
+      <el-tab-pane label="微信" name="wx">
+        <el-card :body-style="{ padding: '0px' }">
+          <img src="@/assets/weixin.jpg" class="image">
+          <div class='join wxjoin'>
+             扫描二维码，添加好友
+          </div>
+        </el-card>
+      </el-tab-pane>
       <el-tab-pane label="QQ" name="qq">
         <div>
            <el-card :body-style="{ padding: '0px' }">
@@ -12,16 +20,11 @@
             </el-card>
         </div>
       </el-tab-pane>
-      <el-tab-pane label="微信" name="weixin">
-        <el-card :body-style="{ padding: '0px' }">
-          <img src="@/assets/weixin.jpg" class="image">
-          <div class='join wxjoin'>
-             扫描二维码，添加好友
-          </div>
-        </el-card>
-      </el-tab-pane>
-      <el-tab-pane label="微博" name="weibo">
-
+      <el-tab-pane label="github" name="git">
+        <img src="@/assets/github.png" class="image">
+        <div class='join wxjoin'>
+            <a href="https://github.com/a949737116" target='_Blank'> >>戳我跳转&lt;&lt; </a>
+        </div>
       </el-tab-pane>
     </el-tabs>
   </div>
@@ -29,14 +32,19 @@
 <script>
 export default{
   name: 'tablink',
+  props: {
+    aName: String
+  },
   data () {
     return {
-      activeName: 'qq'
+      activeName: this.aName
     }
   },
-  methods: {
-    handleClick (tab, event) {
-      console.log(tab, event)
+  watch: {
+    aName: {
+      handler: function () {
+        this.activeName = this.aName
+      }
     }
   }
 }
@@ -66,5 +74,8 @@ export default{
   .wxjoin{
     height: 40px;
     line-height: 40px;
+    a{
+      text-decoration: none
+    }
   }
 </style>

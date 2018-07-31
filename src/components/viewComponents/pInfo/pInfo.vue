@@ -1,0 +1,78 @@
+<template>
+  <div class='meCard'>
+     <el-card shadow='always' style='border:none' :body-style="{padding: '0px' }">
+        <!-- 头像 -->
+        <div class='touxiang'>
+          <img src="../../../assets/touxiang.png" alt="">
+        </div>
+        <!-- 简单资料 -->
+        <div class='ziliao'>
+          <p>
+            <span>本站作者</span>
+            <el-tooltip content="站主" placement='top' effect="light">
+              <i class='icon_head icon_image'></i>
+            </el-tooltip>
+            <el-tooltip content="Lv:999" placement='top' effect="light">
+              <i class='icon_max icon_image'></i>
+            </el-tooltip>
+          </p>
+          <div class='position'>
+            <i class='icon-position icon iconfont' style='color:#6666bd;vertical-align: middle;'></i>
+            <span>广东 · 广州</span>
+          </div>
+          <div class='otherInfo'>
+            <i class='icon_man icon_image'></i>
+            <span>男</span>
+            <i class='icon-wenzhang1 icon iconfont'></i>
+            <span>29篇</span>
+          </div>
+        </div>
+      </el-card>
+  </div>
+</template>
+<script>
+export default{
+  name: 'pInfo'
+}
+</script>
+<style scoped lang='less'>
+.meCard{
+  margin-bottom: 10px;
+  .touxiang{
+    width: 100%;
+    padding: 10px 0;
+    text-align: center;
+    background-size: 100% 100%;
+    background-image: url('../../../assets/touxiangbeijing.png');
+    img {
+      border-radius: 50%;
+      height: 60px;
+      width: 60px;
+    }
+  }
+  .ziliao{
+    padding: 10px;
+    i {
+      margin-left: 5px;
+    }
+    p {
+      span{
+        font-weight: 800;
+        vertical-align: top;
+      }
+    }
+    .position {
+      margin: 10px 0;
+      font-size: 13px;
+    }
+    .otherInfo {
+      i {
+        vertical-align: middle;
+      }
+      span {
+        font-size: 13px;
+      }
+    }
+  }
+}
+</style>
