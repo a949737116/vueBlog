@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>博客后台管理系统</title>
+  <link rel="stylesheet" href="../../static/css/cssReset.css" rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="../../static/css/iconFont/iconfont.css" rel='stylesheet' type='text/css'>
+  <script src='./public/js/jquery-3.3.1.min.js'></script>
+</head>
+<body>
+  <div id='backStage'>
+    <!-- 头部导航 -->
+    <div class='header'>
+      <span class='title'>博客后台管理系统</span>
+      <div class='logo'>
+        <img class='logo-img' src="./assets/logo.png" alt="">
+      </div>
+    </div>
+    <!-- 左边导航 -->
+    <div class='leftTab'>
+      <ul class='lt-top'>
+        <li>
+          <div>
+              <i class='icon iconfont icon-login_user'></i>
+              用户管理
+          </div>
+        </li>
+        <li>
+          <div class='fold'>
+              <i class='icon iconfont icon-fenlei'></i>
+              分类管理
+              <i class='icon iconfont upDown icon-xialajiantouxiao'></i>
+          </div>
+          <ul class='dropUl toClose hidden'>
+            <li><i style='margin-right: 3px' class='icon iconfont icon-caret-right-circle'></i>分类列表</li>
+            <li><i style='margin-right: 3px' class='icon iconfont icon-caret-right-circle'></i>添加分类</li>
+            <li><i style='margin-right: 3px' class='icon iconfont icon-caret-right-circle'></i>删除分类</li>
+          </ul>
+        </li>
+        <li>
+          <div class='fold'>
+              <i class='icon iconfont icon-wenzhang1'></i>
+              内容管理
+              <i class='icon iconfont upDown icon-xialajiantouxiao'></i>
+          </div>
+          <ul class='dropUl toClose hidden'>
+              <li><i style='margin-right: 3px' class='icon iconfont icon-caret-right-circle'></i>文章列表</li>
+              <li><i style='margin-right: 3px' class='icon iconfont icon-caret-right-circle'></i>添加文章</li>
+              <li><i style='margin-right: 3px' class='icon iconfont icon-caret-right-circle'></i>删除文章</li>
+            </ul>
+        </li>
+      </ul>
+      <div class='lt-bottom'>
+        <p>CopyRight @2018-2020</p>
+        <p>www.lizenghao.cn</p>
+      </div>
+    </div>
+    <!-- 主内容 -->
+    <div class='main'>
+      {% block main %}
+      {% endblock %}
+    </div>
+  </div>
+</body>
+</html>
+<style scoped>
+.hidden { 
+  display: none;
+}
+.iconfont {
+  font-size: 14px!important;
+}
+.upDown {
+  float: right;
+} 
+#backStage {
+
+}
+.header {
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  height: 80px;
+  background-image: url('./assets/header.png');
+  padding: 20px 30px 0px;
+}
+.title {
+  text-indent: 10px;
+  color: #fff;
+  font-size: 25px;
+}
+.main {
+  position: relative;
+  left: 160px;
+  padding: 20px;
+}
+.logo {
+  position: absolute;
+  top:0px;
+  right: 50px;
+  width: 40px;
+  height: 40px;
+}
+.log-img {
+  width: 40px;
+  height: 40px;
+}
+.leftTab {
+  width: 160px;
+  position: absolute;
+  top: 80px;
+  left: 0;
+  bottom: 0;
+  background-color:#e5e5ed;
+}
+.leftTab:after {
+  content: '';
+  visibility: hidden;
+  clear: both;
+}
+.lt-bottom {
+  text-align: center;
+  position: absolute;
+  bottom: 10px;
+  width: 100%;
+}
+.lt-bottom>p {
+  margin-bottom: 5px;
+  font-size: 12px;
+  text-align: center;
+  color:#808080;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif
+}
+.lt-top>li>div:first-child{
+  padding: 10px 8px;
+  text-indent: 10px;
+  font-family: Microsoft Yahei;
+  font-size: 14px;
+}
+.lt-top>li>div:first-child:hover {
+  background-color: #bad4dd;
+  cursor: pointer;
+}
+@keyframes foldTags {
+  0% {
+    height: 0px;
+  }
+  100% {
+   height: 73.2px;
+  }
+}
+@-webkit-keyframes foldTags
+{
+  0% {
+    height: 0px;
+  }
+  100% {
+   height: 73.2px;
+  }
+}
+@-moz-keyframes foldTags
+{
+  0% {
+    height: 0px;
+  }
+  100% {
+   height: 73.2px;
+  }
+}
+@-o-keyframes foldTags
+{
+  0% {
+    height: 0px;
+  }
+  100% {
+   height: 73.2px;
+  }
+}
+@keyframes closeTags {
+  0% {
+    height: 73.2px;
+  }
+  100% {
+   height: 0px;
+  }
+}
+@-webkit-keyframes closeTags
+{
+  0% {
+    height: 73.2px;
+  }
+  100% {
+   height: 0px;
+  }
+}
+@-moz-keyframes closeTags
+{
+  0% {
+    height: 73.2px;
+  }
+  100% {
+   height: 0px;
+  }
+}
+@-o-keyframes closeTags
+{
+  0% {
+    height: 73.2px;
+  }
+  100% {
+   height: 0px;
+  }
+}
+.toFold {
+  animation: closeTags 1s forwards;
+  -webkit-animation: foldTags 1s forwards;
+  animation-duration: 1s;
+}
+.toClose {
+  animation: foldTags 1s forwards;
+  -webkit-animation: closeTags 1s forwards;
+  animation-duration: 1s;
+}
+.dropUl {
+  overflow: hidden;
+  height: 0px;
+}
+.dropUl li {
+  text-align: left;
+  padding: 5px;
+  font-size: 12px;
+  transition: background 1s ; 
+  text-indent: 29px;
+}
+.dropUl li:hover{
+  background-color: #e3e398;
+  cursor: pointer;
+}
+.icon-caret-right-circle {
+  color: green;
+}
+</style>
+<script>
+  $(function(){
+    console.log('Jquery is running...');    
+    // 折叠展开的方法
+    $('.fold').click(function(e){
+      e = e || window.event;
+      var target = e.currentTarget;
+      $(target).siblings('.dropUl').removeClass('hidden');
+      $(target).children('.upDown').toggleClass('icon-xialajiantouxiao');
+      $(target).children('.upDown').toggleClass('icon-shouqijiantouxiao');
+      $(target).siblings('.dropUl').toggleClass('toFold');
+      $(target).siblings('.dropUl').toggleClass('toClose');
+    });
+  });
+</script>

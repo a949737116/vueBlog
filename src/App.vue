@@ -69,7 +69,7 @@ body {
       padding: 0;
     }
     &>.el-container{
-      width: 1024px;
+      width: 1224px;
       margin: 0 auto;
       .el-aside {
         color: #333;
