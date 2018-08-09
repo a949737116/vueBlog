@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="../../static/css/iconFont/iconfont.css" rel='stylesheet' type='text/css'>
   <script src='./public/js/jquery-3.3.1.min.js'></script>
 </head>
-<body>
+<body >
   <div id='backStage'>
     <!-- 头部导航 -->
     <div class='header'>
@@ -18,54 +18,81 @@
         <img class='logo-img' src="./assets/logo.png" alt="">
       </div>
     </div>
-    <!-- 左边导航 -->
-    <div class='leftTab'>
-      <ul class='lt-top'>
-        <li>
-          <div>
-              <i class='icon iconfont icon-login_user'></i>
-              用户管理
-          </div>
-        </li>
-        <li>
-          <div class='fold'>
-              <i class='icon iconfont icon-fenlei'></i>
-              分类管理
-              <i class='icon iconfont upDown icon-xialajiantouxiao'></i>
-          </div>
-          <ul class='dropUl toClose hidden'>
-            <li><i style='margin-right: 3px' class='icon iconfont icon-caret-right-circle'></i>分类列表</li>
-            <li><i style='margin-right: 3px' class='icon iconfont icon-caret-right-circle'></i>添加分类</li>
-            <li><i style='margin-right: 3px' class='icon iconfont icon-caret-right-circle'></i>删除分类</li>
-          </ul>
-        </li>
-        <li>
-          <div class='fold'>
-              <i class='icon iconfont icon-wenzhang1'></i>
-              内容管理
-              <i class='icon iconfont upDown icon-xialajiantouxiao'></i>
-          </div>
-          <ul class='dropUl toClose hidden'>
-              <li><i style='margin-right: 3px' class='icon iconfont icon-caret-right-circle'></i>文章列表</li>
-              <li><i style='margin-right: 3px' class='icon iconfont icon-caret-right-circle'></i>添加文章</li>
-              <li><i style='margin-right: 3px' class='icon iconfont icon-caret-right-circle'></i>删除文章</li>
+    <div class='content'>
+      <!-- 左边导航 -->
+      <div class='leftTab'>
+        <ul class='lt-top'>
+          <li>
+            <div>
+                <i class='icon iconfont icon-login_user'></i>
+                <a href="/admin/user">用户管理</a>
+            </div>
+          </li>
+          <li>
+            <div class='fold'>
+                <i class='icon iconfont icon-fenlei1'></i>
+                分类管理
+                <i class='icon iconfont upDown icon-xialajiantouxiao'></i>
+            </div>
+            <ul class='dropUl toClose hidden'>
+              <li><i style='margin-right: 3px' class='icon iconfont icon-caret-right-circle'></i>
+                <a href="/admin/class">分类列表</a>
+              </li>
+              <li><i style='margin-right: 3px' class='icon iconfont icon-caret-right-circle'></i>
+                <a href="/admin/addClass">添加分类</a>
+              </li>
+              <li><i style='margin-right: 3px' class='icon iconfont icon-caret-right-circle'></i>
+                <a href="/admin/todo">修改分类</a>
+              </li>
+              <li><i style='margin-right: 3px' class='icon iconfont icon-caret-right-circle'></i>
+                <a href="/admin/todo">删除分类</a>
+              </li>
             </ul>
-        </li>
-      </ul>
-      <div class='lt-bottom'>
-        <p>CopyRight @2018-2020</p>
-        <p>www.lizenghao.cn</p>
+          </li>
+          <li>
+            <div class='fold'>
+                <i class='icon iconfont icon-wenzhang1'></i>
+                内容管理
+                <i class='icon iconfont upDown icon-xialajiantouxiao'></i>
+            </div>
+            <ul class='dropUl toClose hidden'>
+                <li><i style='margin-right: 3px' class='icon iconfont icon-caret-right-circle'></i>
+                    <a href="/admin/list">博文列表</a>
+                </li>
+                <li><i style='margin-right: 3px' class='icon iconfont icon-caret-right-circle'></i>
+                    <a href="/admin/aBlog">添加博文</a>
+                </li>
+                <li><i style='margin-right: 3px' class='icon iconfont icon-caret-right-circle'></i>
+                    <a href="/admin/todo2">修改博文</a>
+                </li>
+                <li><i style='margin-right: 3px' class='icon iconfont icon-caret-right-circle'></i>
+                    <a href="/admin/todo2">删除博文</a>
+                </li>
+              </ul>
+          </li>
+        </ul>
+        <div class='lt-bottom'>
+          <p>CopyRight @2018-2020</p>
+          <p>www.lizenghao.cn</p>
+        </div>
       </div>
-    </div>
-    <!-- 主内容 -->
-    <div class='main'>
-      {% block main %}
-      {% endblock %}
-    </div>
+      <!-- 主内容 -->
+      <div class='rightTab'>
+        {% block main %}
+        {% endblock %}
+      </div>
+     </div>
   </div>
 </body>
 </html>
 <style scoped>
+html,body,#backStage,.content {
+  height: 100%
+}
+#backStage {
+  display: flex;
+  flex-direction: column;
+}
 .hidden { 
   display: none;
 }
@@ -78,7 +105,12 @@
 #backStage {
 
 }
+.content {
+  display: flex;
+  flex: auto 1 1;
+}
 .header {
+  flex: 80px 0 0;
   position: relative;
   box-sizing: border-box;
   width: 100%;
@@ -91,11 +123,7 @@
   color: #fff;
   font-size: 25px;
 }
-.main {
-  position: relative;
-  left: 160px;
-  padding: 20px;
-}
+
 .logo {
   position: absolute;
   top:0px;
@@ -108,12 +136,16 @@
   height: 40px;
 }
 .leftTab {
+  position: relative;
+  flex: 160px 0 0;
+  padding-top: 13px;
   width: 160px;
-  position: absolute;
-  top: 80px;
-  left: 0;
-  bottom: 0;
+  height: 100%;
   background-color:#e5e5ed;
+}
+.rightTab {
+  flex:auto 1 1;
+  padding: 20px;
 }
 .leftTab:after {
   content: '';
@@ -123,6 +155,7 @@
 .lt-bottom {
   text-align: center;
   position: absolute;
+  left: 0;
   bottom: 10px;
   width: 100%;
 }
@@ -148,7 +181,7 @@
     height: 0px;
   }
   100% {
-   height: 73.2px;
+   height: 97.6px;
   }
 }
 @-webkit-keyframes foldTags
@@ -157,7 +190,7 @@
     height: 0px;
   }
   100% {
-   height: 73.2px;
+   height: 97.6px;
   }
 }
 @-moz-keyframes foldTags
@@ -166,7 +199,7 @@
     height: 0px;
   }
   100% {
-   height: 73.2px;
+   height: 97.6px;
   }
 }
 @-o-keyframes foldTags
@@ -175,12 +208,12 @@
     height: 0px;
   }
   100% {
-   height: 73.2px;
+   height: 97.6px;
   }
 }
 @keyframes closeTags {
   0% {
-    height: 73.2px;
+    height: 97.6px;
   }
   100% {
    height: 0px;
@@ -189,7 +222,7 @@
 @-webkit-keyframes closeTags
 {
   0% {
-    height: 73.2px;
+    height: 97.6px;
   }
   100% {
    height: 0px;
@@ -198,7 +231,7 @@
 @-moz-keyframes closeTags
 {
   0% {
-    height: 73.2px;
+    height: 97.6px;
   }
   100% {
    height: 0px;
@@ -207,7 +240,7 @@
 @-o-keyframes closeTags
 {
   0% {
-    height: 73.2px;
+    height: 97.6px;
   }
   100% {
    height: 0px;
@@ -230,7 +263,9 @@
 .dropUl li {
   text-align: left;
   padding: 5px;
+  box-sizing: border-box;
   font-size: 12px;
+  height: 24.4px;
   transition: background 1s ; 
   text-indent: 29px;
 }

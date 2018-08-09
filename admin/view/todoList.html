@@ -1,0 +1,100 @@
+{% extends 'index.html' %}
+{% block main %}
+  <div style='position: relative;height:100%'>
+    <!-- 标题页 -->
+    <div style='padding-left: 10px;'>
+      <i class='iconfont icon icon-shezhi' style='margin-right: 5px;font-size: 18px!important;color: #ada824;'></i>
+      <span style='font-weight: 600;font-family: cursive;font-size:18px'>请选择一个分类进行操作</span>
+    </div>
+    <!-- 彩条 -->
+    <p class='colorStrip' style='background-color:#c9c66777'></p>
+    <!-- 用户面板 -->
+    <div class='userBorad' style='margin-top:20px;'>
+        <table class='userTable'>
+            <thead >
+              <tr>
+                <th style='width:10%' class='br'>
+                  
+                </th>
+                <th style='width:70%' class='br'>
+                  分类名字
+                </th>
+                <th style='width:10%' class='br'>
+                  创建者
+                </th>
+                <th style='width:10%' class='br'>
+                  博文数
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class='trRow'>
+                <td class='br'>
+                  <input type="checkbox">
+                </td>
+                <td class='br'>
+                  佛雷尔之光
+                </td>
+                <td class='br'>
+                  冰喉者
+                </td>
+                <td class='br'>
+                  50
+                </td>
+            </tr>
+            <tr class='trRow'>
+                <td class='br'>
+                  <input type="checkbox">
+                </td>
+                <td class='br'>
+                  佛雷尔之光
+                </td>
+                <td class='br'>
+                  冰喉者
+                </td>
+                <td class='br'>
+                  50
+                </td>
+            </tr>
+            <tr class='trRow'>
+                <td class='br'>
+                  <input type="checkbox">
+                </td>
+                <td class='br'>
+                  佛雷尔之光
+                </td>
+                <td class='br'>
+                  冰喉者
+                </td>
+                <td class='br'>
+                  50
+                </td>
+            </tr>
+            <tr class='trRow'>
+                <td class='br'>
+                  <input type="checkbox">
+                </td>
+                <td class='br'>
+                  佛雷尔之光
+                </td>
+                <td class='br'>
+                  冰喉者
+                </td>
+                <td class='br'>
+                  50
+                </td>
+            </tr>
+            </tbody>
+          </table>
+    </div>
+    <!-- 点击下一步 -->
+    <div style='margin-top:20px'>
+      <button>下一步</button>
+    </div>
+    <!-- 页码数 -->
+    <div class='page'>
+        <i class='iconfont icon icon-pageup disbale'></i> <span>1/20</span> <i class='iconfont icon icon-pagedown enable'></i>
+    </div>
+  </div>
+<link rel="stylesheet" href="public/css/common.css" type='text/css'>
+{% endblock %}

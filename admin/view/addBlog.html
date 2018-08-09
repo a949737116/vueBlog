@@ -1,0 +1,99 @@
+{% extends 'index.html' %}
+{% block main %}
+  <div style='position: relative;overflow: hidden;'>
+    <!-- 标题页 -->
+    <div style='padding-left: 10px;'>
+      <i class='iconfont icon icon-jia' style='margin-right: 5px;font-size: 18px!important;color: #c5698e;'></i>
+      <!-- <span style='font-weight: 600;font-family: cursive;font-size:18px'>写博文</span> -->
+      <span style='font-weight: 600;font-family: cursive;font-size:18px'>修改博文</span>
+    </div>
+    <!-- 彩条 -->
+    <p class='colorStrip' style='background-color:#95648982'></p>
+    <!-- 新增博文 -->
+    <form class='toAddBlog'>
+      <div class='row'>
+        <span>博文标题：</span>
+        <input type="text">
+      </div>
+      <div class='row'>
+        <span>请选择分类：</span>
+        <select name="class" id="cClass">
+          <option value="1">大花水东哥</option>
+        </select>
+      </div>
+      <div class='row'>
+          <span style='vertical-align: top;padding-top: 2px'>引语：</span>
+          <textarea name="yinyu" id="quatation" cols="80" rows="3" maxlength=300></textarea>
+      </div>
+      <div class='row'>
+          <span>插图：</span>
+          <input type="file">
+      </div>
+      <div class='row'>
+        <span style='vertical-align: top;padding-top: 2px'>正文：</span>
+        <div id="editor" style='display:inline-block'>
+
+        </div>
+      </div>
+      <div class='row'>
+        <span>写完了？</span>
+        <button class='danger hidden'>清空博文</button>
+        <button>提交博文</button>
+      </div>
+    </div>
+  </form>
+<script type="text/javascript" src="public/js/wangEditor.min.js"></script>
+<link rel="stylesheet" href="public/css/common.css" type='text/css'>
+<style>
+  .toAddBlog {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #e5e5ed;
+  }
+  .row {
+    margin-bottom: 10px;
+  }
+  .row>span {
+    display: inline-block;
+    width: 80px;
+    text-align: right;
+    font-size: 13px;
+  }
+  .row>select {
+    height: 25px;
+    line-height: 25px;
+  }
+  #editor {
+    background-color: #fff;
+  }
+</style>
+<script type="text/javascript" src="public/js/wangEditor.min.js"></script>
+<script type="text/javascript" src="public/js/wangEditor.min.js"></script>
+<script type='text/javascript'>
+  var editor = window.wangEditor;
+  var myEdiotr = new editor('#editor');
+  myEdiotr.customConfig.uploadImgShowBase64 = true;
+  myEdiotr.customConfig.menus = [
+      'head',  // 标题
+      'bold',  // 粗体
+      'fontSize',  // 字号
+      'fontName',  // 字体
+      'italic',  // 斜体
+      'underline',  // 下划线
+      'strikeThrough',  // 删除线
+      'foreColor',  // 文字颜色
+      'link',  // 插入链接
+      'list',  // 列表s
+      'justify',  // 对齐方式
+      'quote',  // 引用
+      'emoticon',  // 表情
+      'image',  // 插入图片
+      'table',  // 表格
+      'video',  // 插入视频
+      'code',  // 插入代码
+      'undo',  // 撤销
+      'redo'  // 重复
+  ];
+  myEdiotr.create();
+</script>
+{% endblock %}

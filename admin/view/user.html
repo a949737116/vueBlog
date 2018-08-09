@@ -1,17 +1,127 @@
 {% extends 'index.html' %}
 {% block main %}
-  <div>
+  <div style='position: relative;height:100%'>
     <!-- 标题页 -->
-    <div>
-      <i class='iconfont icon '></i>
-      <span>用户管理面板</span>
+    <div style='padding-left: 10px;'>
+      <i class='iconfont icon icon-yonghu' style='margin-right: 5px;font-size: 16px!important;color: #4a89d7;'></i>
+      <span style='font-weight: 600;font-family: cursive;'>用户管理面板</span>
     </div>
+    <!-- 彩条 -->
+    <p class='colorStrip'></p>
     <!-- 用户面板 -->
-    <div>
-
+    <div class='userBorad' style='margin-top:20px;'>
+      <table class='userTable' style='width: 100%;'>
+        <thead >
+          <tr>
+            <th style='width:20%' class='br'>
+              账号
+            </th>
+            <th style='width:20%' class='br'>
+              用户名
+            </th>
+            <th style='width:10%' class='br'>
+              管理员权限
+            </th>
+            <th style='width:25%' class='br'>
+              用户头衔
+            </th>
+            <th style='width:25%'>
+              管理操作
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class='trRow'>
+            <td class='br'>
+              a9887765123
+            </td>
+            <td class='br'>
+              冰棺老尸
+            </td>
+            <td class='br'>
+              是
+            </td>
+            <td class='br'>
+                <i class='iconfont icon icon-yonghu'></i>
+                <i class='iconfont icon icon-yonghu'></i>
+                <i class='iconfont icon icon-yonghu'></i>
+                <i class='iconfont icon icon-yonghu'></i>
+                <i class='iconfont icon icon-yonghu'></i>
+            </td>
+            <td class='br'>
+              <a href="">删除</a> | <a href="">级别</a> | <a href="">权限</a>
+            </td>
+          </tr>
+          <tr class='trRow sBg'>
+              <td class='br'>
+                a9887765123
+              </td>
+              <td class='br'>
+                冰棺老尸
+              </td>
+              <td class='br'>
+                是
+              </td>
+              <td class='br'>
+                  <i class='iconfont icon icon-yonghu'></i>
+                  <i class='iconfont icon icon-yonghu'></i>
+                  <i class='iconfont icon icon-yonghu'></i>
+                  <i class='iconfont icon icon-yonghu'></i>
+                  <i class='iconfont icon icon-yonghu'></i>
+              </td>
+              <td>
+                <a href="">删除</a> | <a href="">级别</a> | <a href="">权限</a>
+              </td>
+          </tr>
+          <tr class='trRow'>
+            <td class='br'>
+              a9887765123
+            </td>
+            <td class='br'>
+              冰棺老尸
+            </td>
+            <td class='br'>
+              是
+            </td>
+            <td class='br'>
+                <i class='iconfont icon icon-yonghu'></i>
+                <i class='iconfont icon icon-yonghu'></i>
+                <i class='iconfont icon icon-yonghu'></i>
+                <i class='iconfont icon icon-yonghu'></i>
+                <i class='iconfont icon icon-yonghu'></i>
+            </td>
+            <td class='br'>
+              <a href="">删除</a> | <a href="">级别</a> | <a href="">权限</a>
+            </td>
+          </tr>
+          <tr class='trRow sBg'>
+            <td class='br'>
+              a9887765123
+            </td>
+            <td class='br'>
+              冰棺老尸
+            </td>
+            <td class='br'>
+              是
+            </td>
+            <td class='br'>
+                <i class='iconfont icon icon-yonghu'></i>
+                <i class='iconfont icon icon-yonghu'></i>
+                <i class='iconfont icon icon-yonghu'></i>
+                <i class='iconfont icon icon-yonghu'></i>
+                <i class='iconfont icon icon-yonghu'></i>
+            </td>
+            <td>
+              <a href="">删除</a> | <a href="">级别</a> | <a href="">权限</a>
+            </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <!-- 页码数 -->
+    <div class='page'>
+        <i class='iconfont icon icon-pageup disbale'></i> <span>1/20</span> <i class='iconfont icon icon-pagedown enable'></i>
     </div>
   </div>
-<style>
-  
-</style>
+<link rel="stylesheet" href="public/css/common.css" type='text/css'>
 {% endblock %}

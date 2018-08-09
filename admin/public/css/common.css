@@ -1,0 +1,113 @@
+  .colorStrip {
+    margin-top: 10px;
+    height: 10px;
+    background-color: #e3561382
+  }
+  .userTable {
+    text-align: center;
+    border: 1px solid #d9d9d9;  
+  }
+  .trRow {
+    border-top: 1px solid #d9d9d9;
+  }
+  .br {
+    border-right: 1px solid #d9d9d9;
+  }
+  th {
+    background-color: #7872ae;
+    padding: 10px;
+    color: #fff;
+    font-weight: normal;
+  }
+  td {
+    padding: 8px;
+    font-size: 13px;
+  }
+  .sBg {
+    background-color: #bbc5c6
+  }
+  .dBg {
+    background-color: #fff
+  }
+  .page {
+    position: absolute;
+    bottom: -10px;
+    width: 100%;
+    text-align: center
+  }
+  .page i {
+    font-size: 19px!important;
+  }
+  .page>i.disbale {
+    color: #bbc5c6;
+  }
+  .page>i.enable:hover {
+    color: red;
+  }
+  .page span{
+    vertical-align: top;
+    color: black
+  }
+  input[type='text'] {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    text-indent: 3px;
+    line-height: 15px;
+    height: 25px;
+  }
+  input[type='text']:focus {
+    border-color: blue
+  }
+  input[type='checkbox'] {
+    width: 15px;
+    height: 15px;
+    position: relative;
+  }
+  input[type='checkbox']:before {
+    content: '';
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 15px;
+    height: 15px;
+    text-align: center;
+    background-color: #999;
+  }
+  input[type='checkbox']:checked::before {
+    content: '√';
+    font-size: 15px;
+    line-height: 20px;
+    color: #fff;
+    background-color: #5aad5a;
+  }
+  button {
+    padding:0 10px;
+    height: 30px;
+    border-width: 0px;
+    border-radius: 5px;
+    background-color: #1E90FF;
+    cursor: pointer;
+    outline: none;
+    font-family: Microsoft YaHei;
+    color: white;
+    font-size: 13px;
+  }
+  button:hover{
+    background-color: #5599FF;
+  }
+  .danger{
+    background-color: red;
+  }
+  .danger:hover {
+    background-color: #dd9f9f
+  }
+  textarea {
+    resize:none
+  }
+  textarea:focus {
+    border-color: #1E90FF
+  }
+  a {
+    text-decoration: none;
+  }
