@@ -4,9 +4,11 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import elementUi from 'element-ui'
+import vReasource from 'vue-resource'
 import 'element-ui/lib/theme-chalk/index.css'
 
 Vue.use(elementUi)
+Vue.use(vReasource)
 
 Vue.config.productionTip = false
 

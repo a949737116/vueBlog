@@ -14,10 +14,12 @@
           <!-- 路由控制部分 -->
            <router-view></router-view>
         </el-main>
-        <el-aside width="220px">
+        <el-aside width="250px">
           <!-- 右侧登录以及友链 -->
-          <friendShip></friendShip>
-          <pinfo></pinfo>
+          <loginBoard></loginBoard>
+          <lreg></lreg>
+          <pinfo style='margin-top:20px'></pinfo>
+          <notice></notice>
         </el-aside>
       </el-container>
       <el-footer style='background-color: #000;height:auto'>
@@ -28,11 +30,13 @@
   </div>
 </template>
 <script>
+import lreg from '@components/viewComponents/logReg/logReg'
 import tabBar from '@components/commonComponents/tabBar/tabBar'
 import leftTab from '@components/commonComponents/leftTab/leftTab'
-import friendShip from '@components/commonComponents/friendShip/friendShip'
 import vfooter from '@components/commonComponents/footer/footer'
 import pinfo from '@components/viewComponents/pInfo/pInfo'
+import notice from '@components/viewComponents/notice/notice'
+import loginBoard from '@components/viewComponents/loginBoard/loginBoard'
 export default {
   name: 'App',
   data () {
@@ -41,11 +45,13 @@ export default {
     }
   },
   components: {
+    lreg,
     tabBar,
     leftTab,
-    friendShip,
     vfooter,
-    pinfo
+    pinfo,
+    notice,
+    loginBoard
   }
 }
 </script>

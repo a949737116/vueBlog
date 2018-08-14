@@ -3,12 +3,12 @@
      <el-card shadow='always' style='border:none' :body-style="{padding: '0px' }">
         <!-- 头像 -->
         <div class='touxiang'>
-          <img src="../../../assets/touxiang.png" alt="">
+          <img src="../../../assets/unknown.png" alt="">
         </div>
         <!-- 简单资料 -->
         <div class='ziliao'>
           <p>
-            <span>本站作者</span>
+            <span>？？？</span>
             <el-tooltip content="站主" placement='top' effect="light">
               <i class='icon_head icon_image'></i>
             </el-tooltip>
@@ -18,13 +18,13 @@
           </p>
           <div class='position'>
             <i class='icon-position icon iconfont' style='color:#6666bd;vertical-align: middle;'></i>
-            <span>广东 · 广州</span>
+            <span>中国 · ？？</span>
           </div>
           <div class='otherInfo'>
             <i class='icon_man icon_image'></i>
-            <span>男</span>
+            <span>？</span>
             <i class='icon-wenzhang1 icon iconfont'></i>
-            <span>29篇</span>
+            <span>？？篇</span>
           </div>
         </div>
       </el-card>

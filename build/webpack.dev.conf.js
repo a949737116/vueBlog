@@ -12,6 +12,25 @@ const portfinder = require('portfinder')
 const express = require('express')
 let app = express()
 
+//数据库
+const mongoose = require('mongoose');
+//monogooseDB防止数据库报错
+mongoose.Promise = global.Promise;
+//连接数据库
+mongoose.connect("mongodb://localhost:27020/Blog_dev", { useNewUrlParser: true },function(err){
+  if (err) {
+    console.log('数据库链接失败')
+  }else{
+    console.log('数据库已经链接成功了')
+  }
+})
+const dbStatus = mongoose.connection;
+dbStatus.on('error',function(err){
+  console.log(err)
+})
+dbStatus.on('open',function(){
+  console.log('数据库链接稳定')
+})
 
 const HOST = process.env.HOST
 const PORT = process.env.PORT && Number(process.env.PORT)
@@ -49,20 +68,6 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     /* DEV环境后端代码*/
     //=======================================================================
     before(app) {
-    //数据库
-        // const mongoose = require('mongoose');
-        // //monogooseDB防止数据库报错
-        // mongoose.Promise = global.Promise;
-        // //连接数据库
-        // mongoose.connect("mongodb://localhost:27000/dev/VueBlog",{
-        //   useMongoClient:true
-        // },function(err){
-        //   if (err) {
-        //     console.log('数据库链接失败')
-        //   }else{
-        //     console.log('数据库已经链接成功了')
-        //   }
-        // })
     //swig模板处理
         const swig = require('swig');
         //html使用swig模板解析
@@ -77,11 +82,12 @@ const devWebpackConfig = merge(baseWebpackConfig, {
         //关闭缓存
         app.set('view cache',false);
     //静态文件托管
-    app.use('/admin',express.static('./admin'));
+    app.use('/admin',express.static('./admin'));  
     //请求头JSON格式解析
     const bodyParser = require('body-parser');
     app.use(bodyParser.urlencoded({extended:true,limit:'20000kb'}));
     app.use('/admin',require('../admin/router'));
+    app.use('/api',require('../admin/api'));
   }
 //=======================================================================
 /*DEV环境后端代码 */
