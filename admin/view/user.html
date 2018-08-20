@@ -22,8 +22,11 @@
             <th style='width:10%' class='br'>
               管理员权限
             </th>
-            <th style='width:25%' class='br'>
-              用户头衔
+            <th style='width:10%' class='br'>
+              用户等级
+            </th>
+            <th style='width:15%' class='br'>
+              用户职业  
             </th>
             <th style='width:25%'>
               管理操作
@@ -31,7 +34,52 @@
           </tr>
         </thead>
         <tbody>
-          <tr class='trRow'>
+          {% for i,u in userData %}
+            {% if i % 2 === 0 %}
+              <tr class='trRow sBg'>
+                  <td class='br'>
+                    {{u.account}}
+                  </td>
+                  <td class='br'>
+                    {{u.name}}
+                  </td>
+                  <td class='br'>
+                    {{u.ifAdmin}}
+                  </td>
+                  <td class='br'>
+                    {{u.level}}
+                  </td>
+                  <td class='br'>
+                    {{u.job1}}
+                  </td>
+                  <td class='br'>
+                    <a href="">删除</a> | <a href="">级别</a> | <a href="">权限</a>
+                  </td>
+              </tr>
+            {% else %}
+              <tr class='trRow'>
+                <td class='br'>
+                    {{u.account}}
+                  </td>
+                  <td class='br'>
+                    {{u.name}}
+                  </td>
+                  <td class='br'>
+                    {{u.ifAdmin}}
+                  </td>
+                  <td class='br'>
+                    {{u.level}}
+                  </td>
+                  <td class='br'>
+                    {{u.job1}}
+                  </td>
+                  <td class='br'>
+                    <a href="">删除</a> | <a href="">级别</a> | <a href="">权限</a>
+                  </td>
+              </tr>
+            {% endif %}
+          {% endfor %}
+          <!-- <tr class='trRow'>
             <td class='br'>
               a9887765123
             </td>
@@ -114,7 +162,7 @@
             <td>
               <a href="">删除</a> | <a href="">级别</a> | <a href="">权限</a>
             </td>
-        </tr>
+        </tr> -->
         </tbody>
       </table>
     </div>

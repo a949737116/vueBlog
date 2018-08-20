@@ -1,5 +1,5 @@
 <template>
-  <div id='logReg' :class='open ? "" : "hidden"'>
+  <div id='logReg'>
       <el-tabs v-model="state"  type="border-card" style='border-radius: 9px;'>
         <el-tab-pane label="登录" name="log">
           <div class='loginBox'>
@@ -26,7 +26,7 @@
               >
               </el-input>
             </div>
-            <div class='loginRow3'>
+            <div class='loginRow3' style='margin-top:5px'>
               <el-button @click='toRestart("log")'>清空</el-button>
               <el-button type="primary" @click='enterLogin'>登录</el-button>
             </div>
@@ -104,7 +104,6 @@ export default{
   name: 'logReg',
   data () {
     return {
-      open: true,
       state: 'log',
       options: [
         {
@@ -155,7 +154,9 @@ export default{
           me.openAlert(fb.body.tip, 'error')
         } else if (fb.body.status === 0) {
           me.openHint(fb.body.tip)
-          this.open = false
+          this.$emit('lrCipher')
+          fb.body.info.Logined = true
+          this.$store.commit('enterLogin', fb.body.info)
         }
       })
     },
@@ -276,9 +277,9 @@ export default{
   #logReg{
      padding-top:20px;
     .loginBox {
-        padding: 10px;
-        div {
-          margin-bottom: 8px
+        padding: 5px;
+        div:first-child {
+          margin-bottom: 5px
         }
         .loginRow3 {
           text-align: right

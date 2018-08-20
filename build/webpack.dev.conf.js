@@ -82,7 +82,8 @@ const devWebpackConfig = merge(baseWebpackConfig, {
         //关闭缓存
         app.set('view cache',false);
     //静态文件托管
-    app.use('/admin',express.static('./admin'));  
+    app.use('/admin',express.static('./admin'));
+    app.use('/data',express.static('./Data')); 
     //请求头JSON格式解析
     const bodyParser = require('body-parser');
     app.use(bodyParser.urlencoded({extended:true,limit:'20000kb'}));

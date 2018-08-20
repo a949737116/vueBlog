@@ -3,12 +3,14 @@
      <el-card shadow='always' style='border:none' :body-style="{padding: '0px' }">
         <!-- 头像 -->
         <div class='touxiang'>
-          <img src="../../../assets/unknown.png" alt="">
+          <img :src="wd.imgUrl?wd.imgUrl:'/data/unknown.png'"  alt="">
         </div>
         <!-- 简单资料 -->
         <div class='ziliao'>
           <p>
-            <span>？？？</span>
+            <a href="">
+              <span>{{wd.name || '？？？'}}</span>
+            </a>
             <el-tooltip content="站主" placement='top' effect="light">
               <i class='icon_head icon_image'></i>
             </el-tooltip>
@@ -21,8 +23,8 @@
             <span>中国 · ？？</span>
           </div>
           <div class='otherInfo'>
-            <i class='icon_man icon_image'></i>
-            <span>？</span>
+            <i class='icon_image' :class='wd.sex==="女"?"icon_woman":"icon_man"'></i>
+            <span>{{wd.sex || "?" }}</span>
             <i class='icon-wenzhang1 icon iconfont'></i>
             <span>？？篇</span>
           </div>
@@ -32,7 +34,10 @@
 </template>
 <script>
 export default{
-  name: 'pInfo'
+  name: 'pInfo',
+  props: {
+    wd: Object
+  }
 }
 </script>
 <style scoped lang='less'>
@@ -45,6 +50,7 @@ export default{
     background-size: 100% 100%;
     background-image: url('../../../assets/touxiangbeijing.png');
     img {
+      background-color: #fff;
       border-radius: 50%;
       height: 60px;
       width: 60px;
@@ -56,9 +62,18 @@ export default{
       margin-left: 5px;
     }
     p {
-      span{
-        font-weight: 800;
-        vertical-align: top;
+      a {
+        text-decoration: none;
+        span{
+          color: #000;
+          font-weight: 800;
+          vertical-align: top;
+        }
+      }
+      a:hover {
+        span {
+          color: red
+        }
       }
     }
     .position {

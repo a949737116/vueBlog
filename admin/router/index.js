@@ -1,11 +1,67 @@
 const express = require('express')
+const User = require('../../dbModel/user')
 console.log('adminRouter is Ready')
 const router = express.Router()
+const pageMaxNum = 10
+const tools = {
+  getUrl: function (req) {
+    const data = req.query
+    return data
+  },
+  getUrlPage: function (req) {
+    const data = req.query.page
+    return data
+  },
+  dealWithPage: function (page, num) {
+    const dataNum = page * pageMaxNum
+    if (page <= 0) {
+      return 1
+    } else if (dataNum > num) {
+      const page2 = Math.ceil(num / pageMaxNum)
+      return page2
+    } else {
+      return page
+    }
+  }
+}
 router.get('/', function (req, res, next) {
   res.render('index')
 })
 router.get('/user', function (req, res, next) {
-  res.render('user')
+  let page = tools.getUrlPage(req)
+  page = Number(page)
+  User.count().then((length) => {
+    // data是对象数组
+    console.log('一共有' + length + '条数据')
+    const Dpage = tools.dealWithPage(page, length)
+    console.log('正确的页码是' + Dpage + '最大页码是' + length)
+    return User.find().limit(pageMaxNum).skip((Dpage - 1) * pageMaxNum).then((data) => {
+      if (data) {
+        console.log(data)
+        data.forEach((item) => {
+          item.ifAdmin = item.isAdmin ? '是' : '否'
+          switch (item.job) {
+            case '00':
+              item.job1 = '学生'
+              break
+            case '01':
+              item.job1 = '从业人员'
+              break
+            case '02':
+              item.job1 = '兴趣人群'
+              break
+            case '03':
+              item.job1 = '其他'
+              break
+          }
+        })
+      }
+      res.render('user', {
+        userData: data
+      })
+      return true
+    })
+  })
 })
 router.get('/class', function (req, res, next) {
   res.render('class')

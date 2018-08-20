@@ -6,6 +6,7 @@ import router from './router'
 import elementUi from 'element-ui'
 import vReasource from 'vue-resource'
 import 'element-ui/lib/theme-chalk/index.css'
+import store from './store'
 
 Vue.use(elementUi)
 Vue.use(vReasource)
@@ -17,5 +18,6 @@ new Vue({
   el: '#app',
   router,
   components: { App },
-  template: '<App/>'
+  template: '<App/>',
+  store
 })

@@ -9,17 +9,20 @@
     </p>
     <p>
       <span class='cg cgAnimation'>欢迎，</span>
-      <a href=''>我的98K贼6</a>
+      <a href=''>{{wd.name}}</a>
     </p>
     <div class='login_do'>
-      <div>后台管理</div>
+      <div :class='wd.isAdmin?"":"disabled"' >后台管理</div>
       <div>退出登录</div>
     </div>
   </div>
 </template>
 <script>
 export default {
-  name: 'loginBoard'
+  name: 'loginBoard',
+  props: {
+    wd: Object
+  }
 }
 </script>
 <style lang='less'>
@@ -137,13 +140,13 @@ export default {
     0% {
       color: #fedb71
     }
-    20% {
+    10% {
       color: #fff687
     }
-    40% {
+    20% {
       color: #f6416c
     }
-    50% {
+    40% {
       color: #ABDCFF
     }
     70% {

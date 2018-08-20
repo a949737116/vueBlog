@@ -7,19 +7,16 @@
       </el-header>
       <el-container>
         <el-aside width="150px" style='overflow:hidden'>
-          <!-- 左侧导航栏 -->
-          <leftTab></leftTab>
+            <leftTab></leftTab>
         </el-aside>
         <el-main>
-          <!-- 路由控制部分 -->
-           <router-view></router-view>
+            <router-view></router-view>
         </el-main>
         <el-aside width="250px">
-          <!-- 右侧登录以及友链 -->
-          <loginBoard></loginBoard>
-          <lreg></lreg>
-          <pinfo style='margin-top:20px'></pinfo>
-          <notice></notice>
+            <loginBoard :class='rightShowList.lbShow ? "" : "hidden"' :wd="lg01"></loginBoard>
+            <lreg :class='rightShowList.lrShow ? "" : "hidden"' @lrCipher="receiveData"></lreg>
+            <pinfo :class='rightShowList.piShow ? "" : "hidden"' style='margin-top:20px' :wd="lg02"></pinfo>
+            <notice :class='rightShowList.ntShow ? "" : "hidden"' style='margin-top:20px'></notice>
         </el-aside>
       </el-container>
       <el-footer style='background-color: #000;height:auto'>
@@ -41,7 +38,41 @@ export default {
   name: 'App',
   data () {
     return {
-      radio: '1'
+      radio: '1',
+      rightShowList: {
+        // loginBoard
+        lbShow: false,
+        // lreg
+        lrShow: true,
+        // pinfo
+        piShow: true,
+        // notice
+        ntShow: true
+      }
+    }
+  },
+  computed: {
+    lg01 () {
+      let data = this.$store.state.loginInfo
+      let info = {}
+      info = {
+        name: data.name,
+        isAdmin: data.isAdmin
+      }
+      return info
+    },
+    lg02 () {
+      let data = this.$store.state.loginInfo
+      let info = {}
+      if (data.sex) {
+        data.sexCN = data.sex === 'm' ? '男' : '女'
+      }
+      info = {
+        name: data.name,
+        sex: data.sexCN,
+        imgUrl: data.icon_image
+      }
+      return info
     }
   },
   components: {
@@ -52,6 +83,12 @@ export default {
     pinfo,
     notice,
     loginBoard
+  },
+  methods: {
+    receiveData (data) {
+      this.rightShowList.lrShow = false
+      this.rightShowList.lbShow = true
+    }
   }
 }
 </script>
