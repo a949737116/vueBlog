@@ -1,6 +1,6 @@
 {% extends 'index.html' %}
 {% block main %}
-  <div style='position: relative;height:100%'>
+  <div style='padding: 20px;z-index: 1'>
     <!-- 标题页 -->
     <div style='padding-left: 10px;'>
       <i class='iconfont icon icon-yonghu' style='margin-right: 5px;font-size: 16px!important;color: #4a89d7;'></i>
@@ -13,10 +13,10 @@
       <table class='userTable' style='width: 100%;'>
         <thead >
           <tr>
-            <th style='width:20%' class='br'>
+            <th style='width:18%' class='br'>
               账号
             </th>
-            <th style='width:20%' class='br'>
+            <th style='width:17%' class='br'>
               用户名
             </th>
             <th style='width:10%' class='br'>
@@ -24,6 +24,9 @@
             </th>
             <th style='width:10%' class='br'>
               用户等级
+            </th>
+            <th style='width:5%' class='br'>
+                性别 
             </th>
             <th style='width:15%' class='br'>
               用户职业  
@@ -36,7 +39,7 @@
         <tbody>
           {% for i,u in userData %}
             {% if i % 2 === 0 %}
-              <tr class='trRow sBg'>
+              <tr class='trRow sBg' data-name="{{u.name}}" data-level='{{u.level}}' data-img='{{u.icon_image}}' data-account="{{u.account}}" data-isAdmin='{{u.isAdmin}}'>
                   <td class='br'>
                     {{u.account}}
                   </td>
@@ -50,14 +53,17 @@
                     {{u.level}}
                   </td>
                   <td class='br'>
+                    {{u.ifSex}}
+                  </td>
+                  <td class='br'>
                     {{u.job1}}
                   </td>
                   <td class='br'>
-                    <a href="">删除</a> | <a href="">级别</a> | <a href="">权限</a>
+                      <a href='javascript:void(0)' class='operate' data-code='0'>删除</a> | <a class='operate' href='javascript:void(0)' data-code='1'>级别</a> | <a class='operate' href='javascript:void(0)' data-code='2'>权限</a>
                   </td>
               </tr>
             {% else %}
-              <tr class='trRow'>
+              <tr class='trRow' data-name="{{u.name}}" data-level='{{u.level}}' data-img='{{u.icon_image}}' data-account="{{u.account}}">
                 <td class='br'>
                     {{u.account}}
                   </td>
@@ -71,105 +77,250 @@
                     {{u.level}}
                   </td>
                   <td class='br'>
+                    {{u.ifSex}}
+                  </td>
+                  <td class='br'>
                     {{u.job1}}
                   </td>
                   <td class='br'>
-                    <a href="">删除</a> | <a href="">级别</a> | <a href="">权限</a>
+                    <a href='javascript:void(0)' class='operate' data-code='0'>删除</a> | <a class='operate' href='javascript:void(0)' data-code='1'>级别</a> | <a class='operate' href='javascript:void(0)' data-code='2'>权限</a>
                   </td>
               </tr>
             {% endif %}
           {% endfor %}
-          <!-- <tr class='trRow'>
-            <td class='br'>
-              a9887765123
-            </td>
-            <td class='br'>
-              冰棺老尸
-            </td>
-            <td class='br'>
-              是
-            </td>
-            <td class='br'>
-                <i class='iconfont icon icon-yonghu'></i>
-                <i class='iconfont icon icon-yonghu'></i>
-                <i class='iconfont icon icon-yonghu'></i>
-                <i class='iconfont icon icon-yonghu'></i>
-                <i class='iconfont icon icon-yonghu'></i>
-            </td>
-            <td class='br'>
-              <a href="">删除</a> | <a href="">级别</a> | <a href="">权限</a>
-            </td>
-          </tr>
-          <tr class='trRow sBg'>
-              <td class='br'>
-                a9887765123
-              </td>
-              <td class='br'>
-                冰棺老尸
-              </td>
-              <td class='br'>
-                是
-              </td>
-              <td class='br'>
-                  <i class='iconfont icon icon-yonghu'></i>
-                  <i class='iconfont icon icon-yonghu'></i>
-                  <i class='iconfont icon icon-yonghu'></i>
-                  <i class='iconfont icon icon-yonghu'></i>
-                  <i class='iconfont icon icon-yonghu'></i>
-              </td>
-              <td>
-                <a href="">删除</a> | <a href="">级别</a> | <a href="">权限</a>
-              </td>
-          </tr>
-          <tr class='trRow'>
-            <td class='br'>
-              a9887765123
-            </td>
-            <td class='br'>
-              冰棺老尸
-            </td>
-            <td class='br'>
-              是
-            </td>
-            <td class='br'>
-                <i class='iconfont icon icon-yonghu'></i>
-                <i class='iconfont icon icon-yonghu'></i>
-                <i class='iconfont icon icon-yonghu'></i>
-                <i class='iconfont icon icon-yonghu'></i>
-                <i class='iconfont icon icon-yonghu'></i>
-            </td>
-            <td class='br'>
-              <a href="">删除</a> | <a href="">级别</a> | <a href="">权限</a>
-            </td>
-          </tr>
-          <tr class='trRow sBg'>
-            <td class='br'>
-              a9887765123
-            </td>
-            <td class='br'>
-              冰棺老尸
-            </td>
-            <td class='br'>
-              是
-            </td>
-            <td class='br'>
-                <i class='iconfont icon icon-yonghu'></i>
-                <i class='iconfont icon icon-yonghu'></i>
-                <i class='iconfont icon icon-yonghu'></i>
-                <i class='iconfont icon icon-yonghu'></i>
-                <i class='iconfont icon icon-yonghu'></i>
-            </td>
-            <td>
-              <a href="">删除</a> | <a href="">级别</a> | <a href="">权限</a>
-            </td>
-        </tr> -->
         </tbody>
       </table>
     </div>
-    <!-- 页码数 -->
-    <div class='page'>
-        <i class='iconfont icon icon-pageup disbale'></i> <span>1/20</span> <i class='iconfont icon icon-pagedown enable'></i>
+
+    <!-- 遮蔽层 -->
+    {% include "./cover.html" %}
+    <div class='center m hidden' id='delete'>
+      <div class='cover_title'>
+        您确定要删除以下用户吗？
+      </div>
+      <div class='cover_content'>
+        <div class='cover_img'>
+            <img src="" width='60px' height="60px" alt="" id='img'>
+        </div>
+        <div class='account'>
+          <span>账号：</span>
+          <span id='account'></span>
+        </div>
+        <div class='name'>
+          <span>用户名：</span>
+          <span id='name'></span>
+        </div>
+        <div class='level'>
+          <span>级别：</span>
+          <span id='level'></span>
+        </div>
+        <div class='admin'>
+          <span>管理权限：</span>
+          <span id='isAdmin'></span>
+        </div>
+      </div>
+      <div class='cover_operate' style='text-align: center'>
+        <button class='danger' id='deleteBtn' style='margin-right: 10px'>删除</button>
+        <button class='return'>返回</button>
+      </div>
     </div>
+    <div class='center sm hidden' id='changeLevel'>
+        <div class='cover_title '>
+            改变以下账户的用户级别
+        </div>
+        <div class='cover_content'>
+            <div class='account'>
+              <span>账号：</span>
+              <span id='account'></span>
+            </div>
+            <div class='name'>
+              <span>用户名：</span>
+              <span id='name'></span>
+            </div>
+            <div class='level' style='line-height: 20px;height: 20px;'>
+              <span>级别：</span>
+              <i class='icon-jian iconfont icon doIcon' data-op='-' style='font-size: 17px!important;'></i>
+              <span id='level'></span>
+              <i class='icon-jia iconfont icon doIcon' data-op='+' style='font-size: 17px!important;'></i>
+            </div>
+          </div>
+        <div class='cover_operate' style='text-align: center'>
+          <button class='danger' id='confirmLv' style='margin-right: 10px'>确认修改</button>
+          <button class='return'>返回</button>
+        </div>
+    </div>
+    <div class='center sm hidden' id='changeAdmin'>
+        <div class='cover_title '>
+            改变以下账户的管理员权限
+        </div>
+        <div class='cover_content'>
+            <div class='account'>
+              <span>账号：</span>
+              <span id='account'></span>
+            </div>
+            <div class='name'>
+              <span>用户名：</span>
+              <span id='name'></span>
+            </div>
+            <div class='admin' style='line-height: 20px;height: 20px;'>
+              <span>管理权限：</span>
+              <i class='icon-pageup iconfont icon doIcon' data-op='N' style='font-size: 17px!important;'></i>
+              <span id='isAdmin'></span>
+              <i class='icon-pagedown iconfont icon doIcon' data-op='Y' style='font-size: 17px!important;'></i>
+            </div>
+          </div>
+        <div class='cover_operate' style='text-align: center'>
+          <button class='danger' id='adminE' style='margin-right: 10px'>确认修改</button>
+          <button class='return'>返回</button>
+        </div>
+    </div>
+    <!-- 遮蔽层 -->
+
+    <!-- 页码层 -->
+    {% include "./page.html" %}
+    <!-- 页码层 -->
+    {% include './tip.html' %}
   </div>
 <link rel="stylesheet" href="public/css/common.css" type='text/css'>
+<script>
+    $(function(){
+      $('#adminE').click(() => {
+        const account = $('#changeAdmin #account').text();
+        const ifAdmin = $('#changeAdmin #isAdmin').data('admin')
+        if (account) {
+          $.post("/api/adminChange",
+          {
+            account,
+            ifAdmin
+          },
+          (data) => {
+            console.log(data)
+            if (data.code === 0) {
+              console.log('权限改变成功')
+              $('#tip').removeClass('hidden');
+              $('#changeAdmin').addClass('hidden');
+              $('.cover_tip').text(data.message);
+            }
+          }
+        )
+        }else {
+          console.log('请不要违规操作')
+        }
+      })
+      // 返回按钮
+      $('.return').click(()=>{
+        $('.cover, .center').addClass('hidden'); 
+      })
+      // 加减/管理权限按钮按钮
+      $('.doIcon').click((e) => {
+        e = e || window.event;
+        const target = $(e.currentTarget);
+        const op = target.data("op");
+        let keyAttr = target.siblings('#level').text() || target.siblings('#isAdmin');
+        switch(op){
+          case '+' :
+            keyAttr = Number(keyAttr)
+            if (keyAttr>=0){
+              keyAttr = keyAttr >=5 ? 5 : keyAttr + 1
+            }else {
+              keyAttr = 0
+            }
+            target.siblings('#level').text(keyAttr)
+            break;
+          case '-' :
+            keyAttr = Number(keyAttr)
+            if (keyAttr>0){
+                keyAttr = keyAttr - 1
+            }else {
+              keyAttr = 0
+            }
+            target.siblings('#level').text(keyAttr)
+            break;
+          case 'N' :
+           $('#changeAdmin #isAdmin').attr('data-admin',false)
+           $('#changeAdmin #isAdmin').text('否');
+           break;
+          case 'Y' :
+           $('#changeAdmin #isAdmin').attr('data-admin',true)
+           $('#changeAdmin #isAdmin').text('是');
+           break;
+        }
+      })
+      // 删除按钮 
+      $('#deleteBtn').click(()=>{
+        const account = $('#delete #account').text();
+        if (account) {
+          $.get("/api/deleteAccount",
+          {
+            account
+          },
+          (data) => {
+            console.log(data)
+            if (data.code === 0) {
+              $('#tip').removeClass('hidden');
+              $('#delete').addClass('hidden');
+              $('.cover_tip').text(data.message);
+            }
+          }
+        )
+        }else {
+          console.log('请不要违规操作')
+        }
+      })
+      // 提交按钮
+      $('#confirmLv').click(()=>{
+        const account = $('#changeLevel #account').text();
+        const level = $('#changeLevel #level').text();
+        if (account) {
+          $.post("/api/changeLevel",
+          {
+            account,
+            level
+          },
+          (data) => {
+            console.log(data)
+            if (data.code === 0) {
+              $('#tip').removeClass('hidden');
+              $('#changeLevel').addClass('hidden');
+              $('.cover_tip').text(data.message);
+            }
+          }
+        )
+        }else {
+          console.log('请不要违规操作')
+        }
+      })
+      // 操作按钮
+      $(".operate").click((e)=>{
+        e = e || window.event;
+        const target = $(e.currentTarget);
+        const code = target.data('code');
+        const parentTarget = target.parent().parent()
+        console.log(code)
+        switch (code) {
+          case 0:
+            $('.cover, #delete').removeClass('hidden');
+            $('#delete #account').text(parentTarget.data('account'));
+            $('#delete #name').text(parentTarget.data('name'));
+            $('#delete #level').text(parentTarget.data('level'));
+            $('#delete #isAdmin').text(parentTarget.data('isadmin')?'是':'否');
+            $('#delete #img').attr('src',parentTarget.data('img'));
+            break;
+          case 1:
+            $('.cover, #changeLevel').removeClass('hidden');
+            $('#changeLevel #account').text(parentTarget.data('account'));
+            $('#changeLevel #name').text(parentTarget.data('name'));
+            $('#changeLevel #level').text(parentTarget.data('level'));
+            break;
+          case 2:
+            $('.cover, #changeAdmin').removeClass('hidden');
+            $('#changeAdmin #account').text(parentTarget.data('account'));
+            $('#changeAdmin #name').text(parentTarget.data('name'));
+            $('#changeAdmin #isAdmin').attr('data-admin',parentTarget.data('isadmin'))
+            $('#changeAdmin #isAdmin').text(parentTarget.data('isadmin')?'是':'否');
+            break;
+        }
+      })
+    })
+  </script>
 {% endblock %}

@@ -1,0 +1,20 @@
+ <!-- 页码数 -->
+<div class='page'>
+    {% if pageData.Dpage <= 1 %}
+    <i class='iconfont icon icon-pageup disable'></i> 
+    {% else %}
+    <a href="/admin/user?page={{pageData.Dpage - 1}}">
+        <i class='iconfont icon icon-pageup enable'></i> 
+    </a>
+    {% endif %}
+    &nbsp;
+    <span>第{{pageData.Dpage}}页 / 共{{pageData.Tpage}}页</span> 
+    {% if pageData.Dpage >= pageData.Tpage %}
+    &nbsp;
+    <i class='iconfont icon icon-pagedown disable'></i>
+    {% else %}
+    <a href="/admin/user?page={{pageData.Dpage + 1}}">
+        <i class='iconfont icon icon-pagedown enable'></i>
+    </a>
+    {% endif %}
+</div>

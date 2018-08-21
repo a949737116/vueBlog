@@ -2,14 +2,14 @@ const express = require('express')
 const User = require('../../dbModel/user')
 console.log('adminRouter is Ready')
 const router = express.Router()
-const pageMaxNum = 10
+const pageMaxNum = 20
 const tools = {
   getUrl: function (req) {
     const data = req.query
     return data
   },
   getUrlPage: function (req) {
-    const data = req.query.page
+    const data = req.query.page || 1
     return data
   },
   dealWithPage: function (page, num) {
@@ -37,8 +37,8 @@ router.get('/user', function (req, res, next) {
     console.log('正确的页码是' + Dpage + '最大页码是' + length)
     return User.find().limit(pageMaxNum).skip((Dpage - 1) * pageMaxNum).then((data) => {
       if (data) {
-        console.log(data)
         data.forEach((item) => {
+          item.ifSex = item.sex === 'm' ? '男' : '女'
           item.ifAdmin = item.isAdmin ? '是' : '否'
           switch (item.job) {
             case '00':
@@ -56,8 +56,14 @@ router.get('/user', function (req, res, next) {
           }
         })
       }
+      // 页码处理
+      const pageData = {
+        Dpage: Dpage,
+        Tpage: Math.ceil(length / pageMaxNum)
+      }
       res.render('user', {
-        userData: data
+        userData: data,
+        pageData
       })
       return true
     })

@@ -261,4 +261,50 @@ router.get('/getPersonalData', function (req, res, next) {
     return true
   })
 })
+router.get('/deleteAccount', function (req, res, next) {
+  console.log(req.query.account)
+  Users.deleteOne({account: req.query.account}).then(function (data) {
+    res.json({
+      code: 0,
+      message: '该用户已经被成功删除'
+    })
+    return true
+  })
+})
+router.post('/changeLevel', function (req, res, next) {
+  const data = req.body
+  Users.findOne({
+    account: data.account
+  }).then((dd) => {
+    if (dd) {
+      return Users.update({account: data.account}, {level: data.level}).then(function () {
+        res.json({
+          code: 0,
+          message: '该用户的等级已被成功更改'
+        })
+        return true
+      })
+    } else {
+      return false
+    }
+  })
+})
+router.post('/adminChange', function (req, res, next) {
+  const data = req.body
+  Users.findOne({
+    account: data.account
+  }).then((dd) => {
+    if (dd) {
+      return Users.update({account: data.account}, {isAdmin: data.ifAdmin}).then(function () {
+        res.json({
+          code: 0,
+          message: '该用户的管理权限已被成功更改'
+        })
+        return true
+      })
+    } else {
+      return false
+    }
+  })
+})
 module.exports = router

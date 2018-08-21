@@ -24,25 +24,25 @@
     font-size: 13px;
   }
   .sBg {
-    background-color: #bbc5c6
+    background-color: #bad3d4
   }
   .dBg {
     background-color: #fff
   }
   .page {
-    position: absolute;
-    bottom: -10px;
+    margin-top: 20px;
     width: 100%;
     text-align: center
   }
   .page i {
     font-size: 19px!important;
   }
-  .page>i.disbale {
+  .page i.disable {
     color: #bbc5c6;
   }
-  .page>i.enable:hover {
-    color: red;
+  .page i.enable:hover{
+    cursor: pointer;
+    color: #7b7bc1;
   }
   .page span{
     vertical-align: top;
@@ -108,6 +108,87 @@
   textarea:focus {
     border-color: #1E90FF
   }
-  a {
+  .br>a {
+    color: blue;
     text-decoration: none;
+  }
+  .br>a:hover {
+    color: red
+  }
+  a {
+    text-decoration: none
+  }
+  .cover {
+    z-index: 100;
+    background-color: #000000;
+    position: absolute;
+    opacity: 0.6;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+  }
+  .center {
+    position: absolute;
+    border-radius: 5px;
+    background-color: #fff;
+    z-index: 999;
+    opacity: 1;
+  }
+  .center.xm {
+    top: 40%;
+    left: 40%;
+    width: 20%;
+    height: 20%;
+  }
+  .center.m {
+    top: 35%;
+    left: 35%;
+    width: 30%;
+    height: 30%;
+  }
+  .center.sm {
+    top: 38%;
+    left: 38%;
+    width: 24%;
+    height: 24%;
+  }
+  .center .cover_title{
+    text-align: center;
+    padding:10px 8px;
+    font-weight: 700;
+    border-bottom: 2px solid red
+  }
+  .center .cover_content {
+    padding: 15px;
+  }
+  .center .cover_content>div {
+    margin-bottom: 5px;
+  }
+  .center .cover_content>div>span {
+    display: inline-block;
+    font-size: 14px;
+  }
+  .center .cover_content>div>span:first-child {
+    color: #ccc;
+    font-size: 13px;
+    width: 65px;
+  }
+  .center .cover_img{
+    float:right;
+    width: 60px;
+    height: 60px;
+  }
+  .icon {
+    color: #5599ff
+  }
+  .icon:hover {
+    color: #ccc;
+    cursor: pointer
+  }
+  .cover_tip {
+    text-align: center;
+    color: #b5647b;
+    height: 50px;
+    line-height: 50px;  
   }
