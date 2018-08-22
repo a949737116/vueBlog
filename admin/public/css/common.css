@@ -139,13 +139,11 @@
     top: 40%;
     left: 40%;
     width: 20%;
-    height: 20%;
   }
   .center.m {
     top: 35%;
     left: 35%;
     width: 30%;
-    height: 30%;
   }
   .center.free {
     top: 10%;
@@ -156,7 +154,6 @@
     top: 38%;
     left: 38%;
     width: 24%;
-    height: 24%;
   }
   .center .cover_title{
     text-align: center;
@@ -168,7 +165,7 @@
     padding: 15px;
   }
   #cSlot .cover_content{
-    border-top: 1px solid #ccc
+    border-top: 1px dashed #ccc
   }
   .center.free .cover_content {
     padding: 10px 15px 10px 15px
@@ -202,4 +199,7 @@
     color: #b5647b;
     height: 50px;
     line-height: 50px;  
+  }
+  .cover_operate {
+    padding-bottom: 10px;
   }

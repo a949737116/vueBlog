@@ -75,7 +75,26 @@
 <script>
   $(()=>{
     $('#class_toDel').click(()=>{
-
+      let classList = [];
+      $('.classStore').each((index,item) => {
+        const a = $(item).html()
+        classList.push(a)
+      });
+      if (classList.length>0 ) {
+        $.post("/api/deleteClassList",
+        {
+          classList
+        },
+        (data) => {
+          console.log(data)
+          $('#tip').removeClass('hidden');
+          $('#deleteClass').addClass('hidden');
+          $('.cover_tip').text(data.message);
+        }
+      )
+      }else {
+        console.log('请不要违规操作')
+      }
     })
     // $('.cover, #deleteClass').removeClass('hidden');
     $('#todo_delete').click(()=>{
@@ -94,7 +113,7 @@
           dealHtml += `<div class='cover_content'>
             <div class='className'>
               <span>分类名称：</span>
-              <span>${className}</span>
+              <span class='classStore'>${className}</span>
             </div>
             <div class='classDesc'>
               <span style='vertical-align: top'>分类概述:</span>

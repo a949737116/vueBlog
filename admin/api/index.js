@@ -379,4 +379,17 @@ router.post('/changeClass', (req, res, next) => {
     }
   })
 })
+router.post('/deleteClassList', function (req, res, next) {
+  const list = req.body.classList
+  if (list.length > 0) {
+    return Class.remove({'className': {$in: list}}).then(() => {
+      res.json({
+        code: 0,
+        message: '这些分类已经被成功删除了'
+      })
+    })
+  } else {
+    return res.end()
+  }
+})
 module.exports = router
