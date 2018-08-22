@@ -8,4 +8,12 @@
     <div class='cover_operate' style='text-align: center'>
         <button onclick='javascript:window.location.reload()'>确定</button>
     </div>
-</div> 
+</div>
+<script>
+    $(()=>{
+        // 返回按钮
+        $('.return').click(()=>{
+            $('.cover, .center').addClass('hidden'); 
+        })
+    })
+</script> 

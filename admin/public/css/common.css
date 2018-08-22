@@ -147,6 +147,11 @@
     width: 30%;
     height: 30%;
   }
+  .center.free {
+    top: 10%;
+    left: 35%;
+    width: 30%;
+  }
   .center.sm {
     top: 38%;
     left: 38%;
@@ -162,8 +167,14 @@
   .center .cover_content {
     padding: 15px;
   }
+  #cSlot .cover_content{
+    border-top: 1px solid #ccc
+  }
+  .center.free .cover_content {
+    padding: 10px 15px 10px 15px
+  }
   .center .cover_content>div {
-    margin-bottom: 5px;
+    margin-bottom: 8px;
   }
   .center .cover_content>div>span {
     display: inline-block;

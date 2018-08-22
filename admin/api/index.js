@@ -1,4 +1,5 @@
 const Users = require('../../dbModel/user')
+const Class = require('../../dbModel/class')
 const express = require('express')
 const router = express.Router()
 const defualtExtraOption = {
@@ -90,6 +91,13 @@ router.post('/goToLogin', function (req, res, next) {
             tip: '登陆密码错误，请检查您的密保信息'
           })
         } else {
+          res.cookie('logInfo', {
+            account: data.account,
+            isAdmin: fData.isAdmin,
+            name: fData.name
+          }, {
+            'maxAge': 1000000
+          })
           res.json({
             status: 0,
             tip: '恭喜您登陆成功',
@@ -304,6 +312,70 @@ router.post('/adminChange', function (req, res, next) {
       })
     } else {
       return false
+    }
+  })
+})
+router.post('/addClass', (req, res, next) => {
+  // 读取cookie
+  const cookieInfo = req.cookies.logInfo
+  if (cookieInfo.isAdmin) {
+    const postData = req.body
+    Class.findOne({className: postData.className}).then((answer) => {
+      if (!answer) {
+        const newClass = new Class({
+          className: postData.className,
+          classDescription: postData.classDesc,
+          classDate: new Date(),
+          classAuthor: cookieInfo.name
+        })
+        return newClass.save().then(() => {
+          res.json({
+            code: 0,
+            message: '恭喜您，新的分类已被成功创建'
+          })
+        })
+      } else {
+        return res.json({
+          code: -1,
+          message: '抱歉，该分类已存在'
+        })
+      }
+    })
+  } else {
+    res.end()
+    return false
+  }
+})
+router.get('/deleteClass', (req, res, next) => {
+  const query = req.query
+  Class.findOne({className: query.className}).then((data) => {
+    if (data) {
+      return Class.deleteOne({className: query.className}).then(() => {
+        res.json({
+          code: 0,
+          message: '恭喜您已经成功删除该分类'
+        })
+      })
+    } else {
+      return res.end()
+    }
+  })
+})
+router.post('/changeClass', (req, res, next) => {
+  const body = req.body
+  Class.findOne({className: body.oClassName}).then((data) => {
+    if (data) {
+      return Class.update({className: body.oClassName}, {
+        className: body.className,
+        classDescription: body.classDesc
+      }).then(() => {
+        res.json({
+          code: 0,
+          message: '恭喜您，分类信息更改成功'
+        })
+      })
+    } else {
+      return res.end()
     }
   })
 })

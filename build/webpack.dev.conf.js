@@ -10,6 +10,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 const portfinder = require('portfinder')
 const express = require('express')
+const cookie = require('cookie-parser')
 let app = express()
 
 //数据库
@@ -68,6 +69,8 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     /* DEV环境后端代码*/
     //=======================================================================
     before(app) {
+    // 启用cookie插件
+    app.use(cookie());
     //swig模板处理
         const swig = require('swig');
         //html使用swig模板解析

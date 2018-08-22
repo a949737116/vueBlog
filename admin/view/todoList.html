@@ -1,10 +1,10 @@
 {% extends 'index.html' %}
 {% block main %}
-  <div style='position: relative;height:100%;padding: 20px;'>
+  <div style='padding: 20px;'>
     <!-- 标题页 -->
     <div style='padding-left: 10px;'>
       <i class='iconfont icon icon-shezhi' style='margin-right: 5px;font-size: 18px!important;color: #ada824;'></i>
-      <span style='font-weight: 600;font-family: cursive;font-size:18px'>请选择一个分类进行操作</span>
+      <span style='font-weight: 600;font-family: cursive;font-size:18px'>请选择分类进行操作</span>
     </div>
     <!-- 彩条 -->
     <p class='colorStrip' style='background-color:#c9c66777'></p>
@@ -16,85 +16,103 @@
                 <th style='width:10%' class='br'>
                   
                 </th>
-                <th style='width:70%' class='br'>
+                <th class='br'>
                   分类名字
                 </th>
-                <th style='width:10%' class='br'>
-                  创建者
+                <th class='br'>
+                  分类概述
                 </th>
-                <th style='width:10%' class='br'>
+                <th class='br'>
                   博文数
                 </th>
               </tr>
             </thead>
             <tbody>
+              {% for u in classList %}
               <tr class='trRow'>
                 <td class='br'>
-                  <input type="checkbox">
+                  <input type="checkbox"
+                   class='classChoice'
+                   data-name='{{u.className}}'
+                    data-desc='{{u.classDescription}}'
+                    data-num='0'
+                  >
                 </td>
                 <td class='br'>
-                  佛雷尔之光
+                  {{u.className}}
                 </td>
                 <td class='br'>
-                  冰喉者
-                </td>
-                <td class='br'>
-                  50
-                </td>
-            </tr>
-            <tr class='trRow'>
-                <td class='br'>
-                  <input type="checkbox">
-                </td>
-                <td class='br'>
-                  佛雷尔之光
-                </td>
-                <td class='br'>
-                  冰喉者
+                  {{ u.classDescription}}
                 </td>
                 <td class='br'>
                   50
                 </td>
-            </tr>
-            <tr class='trRow'>
-                <td class='br'>
-                  <input type="checkbox">
-                </td>
-                <td class='br'>
-                  佛雷尔之光
-                </td>
-                <td class='br'>
-                  冰喉者
-                </td>
-                <td class='br'>
-                  50
-                </td>
-            </tr>
-            <tr class='trRow'>
-                <td class='br'>
-                  <input type="checkbox">
-                </td>
-                <td class='br'>
-                  佛雷尔之光
-                </td>
-                <td class='br'>
-                  冰喉者
-                </td>
-                <td class='br'>
-                  50
-                </td>
-            </tr>
+              </tr>
+              {% endfor %}
             </tbody>
           </table>
     </div>
+    <p style='margin-top: 5px;font-size: 13px;color: #ccc'>注意：一次最多只能删除三个分类~</p>
     <!-- 点击下一步 -->
     <div style='margin-top:20px'>
-      <button>下一步</button>
+      <button id='todo_delete'>下一步</button>
     </div>
-    <!-- 页码数 -->
-    <div class='page'>
-        <i class='iconfont icon icon-pageup disbale'></i> <span>1/20</span> <i class='iconfont icon icon-pagedown enable'></i>
+    {% include "./cover.html" %}
+    {% include './tip.html' %}
+    <div class='center free hidden' id='deleteClass'>
+        <div class='cover_title '>
+            您确定要删除以下分类吗
+        </div>
+        <div id='cSlot'>
+
+        </div>
+        <div class='cover_operate' style='text-align: center;padding-bottom: 10px'>
+          <button class='danger' id='class_toDel' style='margin-right: 10px'>删除</button>
+          <button class='return'>返回</button>
+        </div>
     </div>
   </div>
+<script>
+  $(()=>{
+    $('#class_toDel').click(()=>{
+
+    })
+    // $('.cover, #deleteClass').removeClass('hidden');
+    $('#todo_delete').click(()=>{
+      const pendingList = $('.classChoice:checked')
+      console.log(pendingList.length)
+      if (pendingList.length <=0 || pendingList.length> 3 ){
+        $('#tip,.cover').removeClass('hidden');
+        $('.cover_tip').text('单次删除的分类数量必须大于0小于3');
+      } else {
+        let dealHtml = ''
+        pendingList.each((index,item)=>{
+          const className = $(item).data('name')
+          const classDesc = $(item).data('desc')
+          const classNum = $(item).data('num')
+          console.log(classDesc)
+          dealHtml += `<div class='cover_content'>
+            <div class='className'>
+              <span>分类名称：</span>
+              <span>${className}</span>
+            </div>
+            <div class='classDesc'>
+              <span style='vertical-align: top'>分类概述:</span>
+              <div style="display: inline;">
+                  <textarea readonly cols="40" rows="3" >${classDesc}</textarea>
+              </div>
+            </div>
+            <div class='classNum' style='margin: 0'>
+                <span>包含博文:</span>
+                <span>${classNum}</span>
+            </div>
+        </div>`
+        })
+      $('#cSlot').html(dealHtml)
+      $('.cover, #deleteClass').removeClass('hidden');
+      }
+    })
+  })
+</script>
 <link rel="stylesheet" href="public/css/common.css" type='text/css'>
 {% endblock %}

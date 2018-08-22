@@ -1,5 +1,6 @@
 const express = require('express')
 const User = require('../../dbModel/user')
+const Class = require('../../dbModel/class')
 console.log('adminRouter is Ready')
 const router = express.Router()
 const pageMaxNum = 20
@@ -70,16 +71,31 @@ router.get('/user', function (req, res, next) {
   })
 })
 router.get('/class', function (req, res, next) {
-  res.render('class')
+  Class.find().then((data) => {
+    console.log(data)
+    return res.render('class', {
+      classList: data
+    })
+  })
 })
 router.get('/list', function (req, res, next) {
   res.render('articleList')
 })
 router.get('/addClass', function (req, res, next) {
-  res.render('class_add')
+  Class.find().then((data) => {
+    console.log(data)
+    return res.render('class_add', {
+      classList: data
+    })
+  })
 })
 router.get('/todo', function (req, res, next) {
-  res.render('todoList')
+  Class.find().then((data) => {
+    console.log(data)
+    return res.render('todoList', {
+      classList: data
+    })
+  })
 })
 router.get('/todo2', function (req, res, next) {
   res.render('todoList2')

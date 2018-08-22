@@ -1,6 +1,6 @@
 {% extends 'index.html' %}
 {% block main %}
-  <div style='position: relative;height:100%;padding: 20px;'>
+  <div style='padding: 20px;'>
     <!-- 标题页 -->
     <div style='padding-left: 10px;'>
       <i class='iconfont icon icon-jia' style='margin-right: 5px;font-size: 18px!important;color: #c5698e;'></i>
@@ -19,59 +19,44 @@
             <th  class='br'>
               创建者
             </th>
+            <th class='br'>
+              创建时间
+            </th>
             <th  class='br'>
               博文总数
             </th>
           </tr>
         </thead>
         <tbody>
+          {% for i,u in classList %}
           <tr class='trRow'>
             <td class='br'>
-              WEB前端
+              {{ u.className }}
             </td>
             <td class='br'>
-              本站作者
+              {{ u.classAuthor }}
+            </td>
+            <td class='br'>
+              {{ u.classDate|date('Y-m-d') }}
             </td>
             <td class='br'>
               200
             </td>
           </tr>
-          <tr class='trRow'>
-            <td class='br'>
-              JAVA
-            </td>
-            <td class='br'>
-              凤舞九天
-            </td>
-            <td class='br'>
-              10
-            </td>
-          </tr>
-          <tr class='trRow'>
-            <td class='br'>
-              生活琐事
-            </td>
-            <td class='br'>
-              蛋白质太多
-            </td>
-            <td class='br'>
-              2
-            </td>
-          </tr>
+          {% endfor %}
         </tbody>
       </table>
     </div>
     <!-- 添加分类 -->
     <div class='toAdd'>
-      <input type="text">
+      <input type="text" id='class_name'>
       <p class='add-description'>请输入你想新添加的分类名称</p>
-      <button>添加</button>
+      <textarea id="class_decri" cols="30" rows="10" style='margin-bottom: 5px'></textarea>
+      <p class='add-description'>请输入该分类的概述</p>
+      <button id='addBtn'>添加</button>
     </div>
-    <!-- 页码数 -->
-    <div class='page'>
-        <i class='iconfont icon icon-pageup disbale'></i> <span>1/20</span> <i class='iconfont icon icon-pagedown enable'></i>
-    </div>
-  </div>
+   {% include "./cover.html" %}
+   {% include './tip.html' %}
 <link rel="stylesheet" href="public/css/common.css" type='text/css'>
 <style>
   .toAdd {
@@ -79,7 +64,7 @@
   }
   input[type='text'] {
     width: 200px;
-    margin-bottom:10px; 
+    margin-bottom:10px;
   }
   .add-description {
     font-size: 13px;
@@ -87,4 +72,22 @@
     margin-bottom: 5px;
   }
 </style>
+<script>
+  $(() => {
+    $('#addBtn').click(() => {
+      if (!$('#class_name').val() || !$('#class_decri').val()){
+        $('#tip, .cover').removeClass('hidden');
+        $('.cover_tip').text('分类名字与分类概述不得漏填');
+        return;
+      }
+      $.post('/api/addClass',{
+        className:$('#class_name').val(),
+        classDesc:$('#class_decri').val()
+      },function(data) {
+          $('#tip, .cover').removeClass('hidden');
+          $('.cover_tip').text(data.message);
+      })
+    })
+  })
+</script>
 {% endblock %}
