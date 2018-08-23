@@ -326,7 +326,8 @@ router.post('/addClass', (req, res, next) => {
           className: postData.className,
           classDescription: postData.classDesc,
           classDate: new Date(),
-          classAuthor: cookieInfo.name
+          classAuthor: cookieInfo.name,
+          isShow: postData.isShow
         })
         return newClass.save().then(() => {
           res.json({
@@ -367,7 +368,8 @@ router.post('/changeClass', (req, res, next) => {
     if (data) {
       return Class.update({className: body.oClassName}, {
         className: body.className,
-        classDescription: body.classDesc
+        classDescription: body.classDesc,
+        isShow: body.isShow
       }).then(() => {
         res.json({
           code: 0,
@@ -382,6 +384,36 @@ router.post('/changeClass', (req, res, next) => {
 router.post('/deleteClassList', function (req, res, next) {
   const list = req.body.classList
   if (list.length > 0) {
+    return Class.remove({'className': {$in: list}}).then(() => {
+      res.json({
+        code: 0,
+        message: '这些分类已经被成功删除了'
+      })
+    })
+  } else {
+    return res.end()
+  }
+})
+router.post('/alertClassList', function (req, res, next) {
+  const list = req.body.datalist
+  if (list.length > 0) {
+    list.forEach((item, index) => {
+      console.log(item)
+      return Class.update({
+        className: item.oName
+      }, {
+        className: item.name,
+        classDescription: item.desc,
+        isShow: item.isShow
+      }).then(() => {
+        if (index === list.length - 1) {
+          res.json({
+            code: 0,
+            message: '这些分类的信息已经被成功更改'
+          })
+        }
+      })
+    })
     return Class.remove({'className': {$in: list}}).then(() => {
       res.json({
         code: 0,

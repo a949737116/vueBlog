@@ -72,7 +72,6 @@ router.get('/user', function (req, res, next) {
 })
 router.get('/class', function (req, res, next) {
   Class.find().then((data) => {
-    console.log(data)
     return res.render('class', {
       classList: data
     })
@@ -91,7 +90,13 @@ router.get('/addClass', function (req, res, next) {
 })
 router.get('/todo', function (req, res, next) {
   Class.find().then((data) => {
-    console.log(data)
+    return res.render('todo', {
+      classList: data
+    })
+  })
+})
+router.get('/todoList', function (req, res, next) {
+  Class.find().then((data) => {
     return res.render('todoList', {
       classList: data
     })
@@ -99,12 +104,6 @@ router.get('/todo', function (req, res, next) {
 })
 router.get('/todo2', function (req, res, next) {
   res.render('todoList2')
-})
-router.get('/tip', function (req, res, next) {
-  res.render('tips')
-})
-router.get('/mc', function (req, res, next) {
-  res.render('modifyClass')
 })
 router.get('/aBlog', function (req, res, next) {
   res.render('addBlog')

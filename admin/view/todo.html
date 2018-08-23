@@ -4,7 +4,7 @@
     <!-- 标题页 -->
     <div style='padding-left: 10px;'>
       <i class='iconfont icon icon-shezhi' style='margin-right: 5px;font-size: 18px!important;color: #ada824;'></i>
-      <span style='font-weight: 600;font-family: cursive;font-size:18px'>请选择单个或多个分类进行删除</span>
+      <span style='font-weight: 600;font-family: cursive;font-size:18px'>请选择单个或多个分类进行修改</span>
     </div>
     <!-- 彩条 -->
     <p class='colorStrip' style='background-color:#c9c66777'></p>
@@ -36,6 +36,7 @@
                    data-name='{{u.className}}'
                     data-desc='{{u.classDescription}}'
                     data-num='0'
+                    data-show='{{u.isShow}}'
                   >
                 </td>
                 <td class='br'>
@@ -52,7 +53,7 @@
             </tbody>
           </table>
     </div>
-    <p style='margin-top: 5px;font-size: 13px;color: #ccc'>注意：一次最多只能删除三个分类~</p>
+    <p style='margin-top: 5px;font-size: 13px;color: #ccc'>注意：一次最多只能修改三个分类~</p>
     <!-- 点击下一步 -->
     <div style='margin-top:20px'>
       <button id='todo_delete'>下一步</button>
@@ -61,13 +62,13 @@
     {% include './tip.html' %}
     <div class='center free hidden' id='deleteClass'>
         <div class='cover_title '>
-            您确定要删除以下分类吗
+            您将对下列分类进行修改
         </div>
         <div id='cSlot'>
 
         </div>
         <div class='cover_operate' style='text-align: center;padding-bottom: 10px'>
-          <button class='danger' id='class_toDel' style='margin-right: 10px'>删除</button>
+          <button class='danger' id='class_toDel' style='margin-right: 10px'>提交</button>
           <button class='return'>返回</button>
         </div>
     </div>
@@ -75,15 +76,22 @@
 <script>
   $(()=>{
     $('#class_toDel').click(()=>{
-      let classList = [];
-      $('.classStore').each((index,item) => {
-        const a = $(item).html()
-        classList.push(a)
-      });
-      if (classList.length>0 ) {
-        $.post("/api/deleteClassList",
+      const num = $('.cover_content').length;
+      let datalist = [];
+      for (let i = 0; i<num ; i++) {
+        let mdata = {
+          oName: $(`#cate${i}`).find('.classStore').data('name'),
+          name : $(`#cate${i}`).find('.classStore').val(),
+          desc : $(`#cate${i}`).find('textarea').val(),
+          isShow: $(`#cate${i}`).find('input:radio:checked').val()==='y'?'是':'否'
+        };
+        datalist.push(mdata)
+      }
+      console.log(datalist)
+      if (datalist.length>0 ) {
+        $.post("/api/alertClassList",
         {
-          classList
+          datalist
         },
         (data) => {
           console.log(data)
@@ -105,30 +113,36 @@
         $('.cover_tip').text('单次删除的分类数量必须大于0小于3');
       } else {
         $('#cSlot').html('');
-        let dealHtml = ''
         pendingList.each((index,item)=>{
           const className = $(item).data('name')
           const classDesc = $(item).data('desc')
           const classNum = $(item).data('num')
+          const isShow = $(item).data('show')==='是'?true:false
           console.log(classDesc)
-          dealHtml += `<div class='cover_content'>
+          const dealHtml = `<div class='cover_content' id='cate${index}'>
             <div class='className'>
               <span>分类名称：</span>
-              <span class='classStore'>${className}</span>
+              <input class='classStore' value='${className}' data-name='${className}'></input>
             </div>
             <div class='classDesc'>
               <span style='vertical-align: top'>分类概述:</span>
               <div style="display: inline;">
-                  <textarea readonly cols="40" rows="3" >${classDesc}</textarea>
+                  <textarea cols="40" rows="3" >${classDesc}</textarea>
               </div>
             </div>
-            <div class='classNum' style='margin: 0'>
-                <span>包含博文:</span>
-                <span>${classNum}</span>
-            </div>
-        </div>`
+            <div class='classShow'>
+              <span>是否显示：</span>
+              <label for='${className}showY'>是</label><input type='radio' name='isshow${className}' id='${className}showY' value='y'>
+              <label for='${className}showN'>否</label><input type='radio' name='isshow${className}' id='${className}showN' value='n'>
+            </div> 
+          </div>`
+          $('#cSlot').append(dealHtml)
+          if (isShow) {
+            $(`#${className}showY`).attr('checked',true)
+          } else {
+            $(`#${className}showN`).attr('checked',true)
+          }
         })
-      $('#cSlot').html(dealHtml)
       $('.cover, #deleteClass').removeClass('hidden');
       }
     })

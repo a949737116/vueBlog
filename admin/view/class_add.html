@@ -51,8 +51,13 @@
     <div class='toAdd'>
       <input type="text" id='class_name'>
       <p class='add-description'>请输入你想新添加的分类名称</p>
-      <textarea id="class_decri" cols="30" rows="10" style='margin-bottom: 5px'></textarea>
+      <textarea id="class_decri" cols="30" rows="10" style='margin-bottom: 8px'></textarea>
       <p class='add-description'>请输入该分类的概述</p>
+      <div class='classShow' style='margin-bottom: 5px;font-size: 14px'>
+        <span style='color: #999'>是否显示：</span>
+        <label for='showY'>是</label><input type='radio' name='isshow' id='showY' value='y'>
+        <label for='showN'>否</label><input type='radio' name='isshow' id='showN' value='n'>
+      </div> 
       <button id='addBtn'>添加</button>
     </div>
    {% include "./cover.html" %}
@@ -75,14 +80,15 @@
 <script>
   $(() => {
     $('#addBtn').click(() => {
-      if (!$('#class_name').val() || !$('#class_decri').val()){
+      if (!$('#class_name').val() || !$('#class_decri').val() || !$('input:radio:checked').val()){
         $('#tip, .cover').removeClass('hidden');
-        $('.cover_tip').text('分类名字与分类概述不得漏填');
+        $('.cover_tip').text('存在漏填项，请检查');
         return;
       }
       $.post('/api/addClass',{
         className:$('#class_name').val(),
-        classDesc:$('#class_decri').val()
+        classDesc:$('#class_decri').val(),
+        isShow:$('input:radio:checked').val()==='y'?'是':'否'
       },function(data) {
           $('#tip, .cover').removeClass('hidden');
           $('.cover_tip').text(data.message);
