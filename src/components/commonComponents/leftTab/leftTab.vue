@@ -3,7 +3,8 @@
       <el-menu
       class='leftt'
       text-color="#fff"
-      active-text-color="#000">
+      background-color="rgba(98, 109, 120, 0.24)"
+      active-text-color="#fff">
       <el-submenu index="1" style='padding:none'>
         <div slot="title" class='tabTitle' style='text-align:left'>
           <i class="el-icon-location"></i>
@@ -18,23 +19,23 @@
       <el-submenu index="2" style='padding:none'>
         <div slot="title" class='tabTitle' style='text-align:left;'>
           <i class="el-icon-location"></i>
-          <span>JAVA</span>
+          <span>我的生活</span>
         </div>
         <el-menu-item-group class='leftt'>
-          <el-menu-item index="2-1">JAVA文章1</el-menu-item>
-          <el-menu-item index="2-2">JAVA文章2</el-menu-item>
-          <el-menu-item index="2-3">JAVA文章3</el-menu-item>
+          <el-menu-item index="2-1">我的生活1</el-menu-item>
+          <el-menu-item index="2-2">我的生活2</el-menu-item>
+          <el-menu-item index="2-3">我的生活3</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
       <el-submenu index="3" style='padding:none'>
         <div slot="title" class='tabTitle' style='text-align:left'>
           <i class="el-icon-location"></i>
-          <span>数据库</span>
+          <span>其他</span>
         </div>
         <el-menu-item-group class='leftt'>
-          <el-menu-item index="3-1">芒果DB</el-menu-item>
-          <el-menu-item index="3-2">SQL</el-menu-item>
-          <el-menu-item index="3-3">MSQL</el-menu-item>
+          <el-menu-item index="3-1">其他1</el-menu-item>
+          <el-menu-item index="3-2">其他2</el-menu-item>
+          <el-menu-item index="3-3">其他3 </el-menu-item>
         </el-menu-item-group>
       </el-submenu>
     </el-menu>
@@ -42,7 +43,10 @@
 </template>
 <script>
 export default{
-  name: 'leftTab'
+  name: 'leftTab',
+  props: {
+    cate: Array
+  }
 }
 </script>
 <style scoped lang='less'>
@@ -51,8 +55,8 @@ export default{
   .leftt{
     width: 150px;
     font-family: Microsoft Yahei;
-    background-image: url('../../../assets/leftBg.png')!important;
-    background-repeat: repeat;
+    // background-image: url('../../../assets/leftBg.png')!important;
+    // background-repeat: repeat;
   }
   .tab {
     .title {

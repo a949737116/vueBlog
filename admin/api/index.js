@@ -414,14 +414,29 @@ router.post('/alertClassList', function (req, res, next) {
         }
       })
     })
-    return Class.remove({'className': {$in: list}}).then(() => {
-      res.json({
-        code: 0,
-        message: '这些分类已经被成功删除了'
-      })
-    })
   } else {
     return res.end()
   }
+})
+router.get('/view_ctae', function (req, res, next) {
+  let isAdmin = false
+  if (req.cookies.logInfo) {
+    isAdmin = req.cookies.logInfo.isAdmin
+  }
+  return Class.find().then((data) => {
+    let mdata = []
+    data.forEach((item) => {
+      mdata.push(
+        {
+          name: item.className,
+          show: item.isShow
+        }
+      )
+    })
+    res.json({
+      isAdmin,
+      classList: mdata
+    })
+  })
 })
 module.exports = router

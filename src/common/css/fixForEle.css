@@ -93,3 +93,7 @@
 #basicInfo .el-input__suffix {
   top: 7px;
 }
+#app .el-menu--horizontal,
+.el-menu--horizontal {
+  border-bottom: 0px;
+}

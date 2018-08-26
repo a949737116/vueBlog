@@ -13,32 +13,49 @@
     <form class='toAddBlog'>
       <div class='row'>
         <span>博文标题：</span>
-        <input type="text">
+        <input type="text" id='blog_title'>
       </div>
       <div class='row'>
         <span>请选择分类：</span>
-        <select name="class" id="cClass">
+        <select name="class" id="blog_class">
           <option value="1">大花水东哥</option>
         </select>
       </div>
       <div class='row'>
           <span style='vertical-align: top;padding-top: 2px'>引语：</span>
-          <textarea name="yinyu" id="quatation" cols="80" rows="3" maxlength=300></textarea>
+          <textarea name="yinyu" id="blog_qua" cols="80" rows="3" maxlength=300></textarea>
       </div>
       <div class='row'>
           <span>插图：</span>
-          <input type="file">
+          <div class='illRow'>
+            <input type="file" style='opacity: 0'
+             id='blog_ill' name='ill-img' 
+             onchange="changepic(this)"
+             accept="image/png, image/jpeg, image/gif, image/jpg">
+            <label for="blog_ill" class='ill_label'>上传图片</label>
+          </div>
+      </div>
+      <div class='row'>
+          <span style='vertical-align: top;padding-top: 2px'>预览图：</span>
+          <img src="" id="show" width="200" onerror='javascript:this.src="/data/timg.jpg"'>
       </div>
       <div class='row'>
         <span style='vertical-align: top;padding-top: 2px'>正文：</span>
-        <div id="editor" style='display:inline-block'>
+        <div id="editor" style='display:inline-block;' width='750px'>
 
         </div>
       </div>
       <div class='row'>
+        <span style='vertical-align: top;padding-top: 2px'>
+          预览内容：
+        </span>
+        <div id='preview'>
+          
+        </div>
+      </div>
+      <div class='row'>
         <span>写完了？</span>
-        <button class='danger hidden'>清空博文</button>
-        <button>提交博文</button>
+        <button id='submitBlog'>提交博文</button>
       </div>
     </div>
   </form>
@@ -65,6 +82,28 @@
   }
   #editor {
     background-color: #fff;
+  }
+  .illRow {
+    display: inline-block;
+    height: 28px;
+    line-height: 28px;
+  }
+  .ill_label{
+    float: left;
+    font-size: 13px;
+    padding: 0px 3px;
+    background-color: #42b342;
+    color: #fff;
+  }
+  #show {
+    max-height: 160px;
+  }
+  #preview {
+    width: 60%;
+    overflow-y: auto;
+    height: 300px;
+    display: inline-block;
+    background-color: #fff
   }
 </style>
 <script type="text/javascript" src="public/js/wangEditor.min.js"></script>
@@ -94,6 +133,34 @@
       'undo',  // 撤销
       'redo'  // 重复
   ];
+  myEdiotr.customConfig.onchange = function (html) {
+    // html 即编辑器中的内容
+    console.log('onchange', html)
+    $('#preview').html(html)
+  }
+  myEdiotr.customConfig.onChangeTimeoutc = 200
   myEdiotr.create();
+  $(()=>{
+    $('#submitBlog').click(()=>{
+       // 标题
+       $('#blog_title').val()
+       // 分类
+       $('#blog_class').val()
+       // 引语
+       $('#blog_qua').val()
+       // 插图
+       $('#blog_ill').
+       // 正文
+       myEdiotr.txt.html()
+    })
+  })
+  function changepic() {
+        var reads= new FileReader();
+        f=document.getElementById('blog_ill').files[0];
+        reads.readAsDataURL(f);
+        reads.onload=function (e) {
+            document.getElementById('show').src=this.result;
+        };
+    }
 </script>
 {% endblock %}

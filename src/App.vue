@@ -3,11 +3,11 @@
     <el-container>
       <el-header>
         <!-- 导航栏 -->
-         <tabBar></tabBar>
+         <tabBar :cate='cateList' :isAdmin='isAdmin'></tabBar>
       </el-header>
       <el-container>
         <el-aside width="150px" style='overflow:hidden'>
-            <leftTab></leftTab>
+            <leftTab :cate='cateList'></leftTab>
         </el-aside>
         <el-main>
             <router-view></router-view>
@@ -38,6 +38,8 @@ export default {
   name: 'App',
   data () {
     return {
+      isAdmin: false,
+      cateList: [],
       radio: '1',
       rightShowList: {
         // loginBoard
@@ -83,6 +85,14 @@ export default {
     pinfo,
     notice,
     loginBoard
+  },
+  created () {
+    let me = this
+    this.$http.get('/api/view_ctae').then((data) => {
+      console.log(data)
+      me.isAdmin = data.body.isAdmin
+      me.cateList = data.body.classList
+    })
   },
   methods: {
     receiveData (data) {
