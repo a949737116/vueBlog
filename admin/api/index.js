@@ -2,6 +2,9 @@ const Users = require('../../dbModel/user')
 const Class = require('../../dbModel/class')
 const express = require('express')
 const router = express.Router()
+const formidable = require('formidable')
+const path = require('path')
+const fs = require('fs')
 const defualtExtraOption = {
   icon_image: '/data/question.png',
   level: 0,
@@ -11,6 +14,13 @@ const defualtExtraOption = {
   adress: '',
   city: '',
   essayNum: ''
+}
+function formParser (maxSize, url) {
+  const form = new formidable.IncomingForm()
+  form.uploadDir = url || path.resolve(__dirname, '../../upLoads')
+  form.maxFileSize = maxSize || 1024 * 1024 * 5
+  form.keepExtensions = true
+  return form
 }
 router.post('/goToReg', function (req, res, next) {
   const data = req.body
@@ -436,6 +446,32 @@ router.get('/view_ctae', function (req, res, next) {
     res.json({
       isAdmin,
       classList: mdata
+    })
+  })
+})
+router.post('/addBlog', (req, res, next) => {
+  const from = formParser()
+  from.parse(req, (err, fields, files) => {
+    if (err) {
+    }
+  })
+})
+router.post('/addBlog_editor', (req, res, next) => {
+  const form = formParser()
+  return form.parse(req, (err, fields, files) => {
+    if (err) {
+      throw err
+    }
+    const oldPath = files.blogImg.path
+    const name = files.blogImg.name
+    const newPath = path.resolve(__dirname, `../../upLoads/${name}`)
+    console.log(newPath)
+    fs.rename(oldPath, newPath, (err) => {
+      if (err) {
+        throw err
+      } else {
+        return res.json({url: newPath})
+      }
     })
   })
 })

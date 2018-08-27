@@ -7,12 +7,11 @@
       @select="handleSelect"
       background-color="#3a8ee63d"
       text-color="#fff"
-      router=true
       active-text-color="#ffd04b">
-      <el-menu-item index="home">首页</el-menu-item>
-      <el-submenu>
+      <el-menu-item index="1">首页</el-menu-item>
+      <el-submenu index='2'>
         <template slot="title">博文分类</template>
-          <el-menu-item v-for='u in cate' :disabled='u.show ? false : true' :key='u.name'>
+          <el-menu-item v-for='(u, i) in cate' :index="'class' + i"  :disabled='u.show==="是" ? false : true' :key='u.name'>
             {{u.name}}
           </el-menu-item>
       </el-submenu>

@@ -10,10 +10,10 @@
     <!-- 彩条 -->
     <p class='colorStrip' style='background-color:#95648982'></p>
     <!-- 新增博文 -->
-    <form class='toAddBlog'>
+    <form class='toAddBlog' action='/api/addBlog' method='POST' enctype="multipart/form-data">
       <div class='row'>
         <span>博文标题：</span>
-        <input type="text" id='blog_title'>
+        <input type="text" id='blog_title' name='blog_title'>
       </div>
       <div class='row'>
         <span>请选择分类：</span>
@@ -41,21 +41,32 @@
       </div>
       <div class='row'>
         <span style='vertical-align: top;padding-top: 2px'>正文：</span>
-        <div id="editor" style='display:inline-block;' width='750px'>
+        <div style='display:inline-block;' class='editor'>
+          <div class='toolbar'>
 
+          </div>
+          <div id='editor'>
+
+          </div>
         </div>
       </div>
       <div class='row'>
         <span style='vertical-align: top;padding-top: 2px'>
           预览内容：
         </span>
-        <div id='preview'>
+        <div id='preview' class='w-e-text'>
           
         </div>
       </div>
+      <div class='row hidden'>
+        <textarea name="submitHtml" id="sumbitHtml" cols="50" rows="50"></textarea>
+      </div>
       <div class='row'>
         <span>写完了？</span>
-        <button id='submitBlog'>提交博文</button>
+        <button id='submitBlog' for='submit'>
+          提交
+        </button>
+        <input type="submit" value="提交" id='submit' style='visibility: hidden;'>
       </div>
     </div>
   </form>
@@ -99,19 +110,26 @@
     max-height: 160px;
   }
   #preview {
-    width: 60%;
+    width: 800px;
+    box-sizing: border-box;
     overflow-y: auto;
-    height: 300px;
+    min-height: 500px;
     display: inline-block;
     background-color: #fff
   }
+  .toolbar {
+    border: 1px solid #ccc;
+    width: 800px
+  }
+  #editor {
+    border: 1px solid #ccc;
+    height: 400px;
+    width: 800px;
+  }
 </style>
-<script type="text/javascript" src="public/js/wangEditor.min.js"></script>
-<script type="text/javascript" src="public/js/wangEditor.min.js"></script>
 <script type='text/javascript'>
   var editor = window.wangEditor;
-  var myEdiotr = new editor('#editor');
-  myEdiotr.customConfig.uploadImgShowBase64 = true;
+  var myEdiotr = new editor('.toolbar','#editor');
   myEdiotr.customConfig.menus = [
       'head',  // 标题
       'bold',  // 粗体
@@ -137,23 +155,13 @@
     // html 即编辑器中的内容
     console.log('onchange', html)
     $('#preview').html(html)
+    $('#sumbitHtml').val(html)
   }
-  myEdiotr.customConfig.onChangeTimeoutc = 200
+  myEdiotr.customConfig.uploadImgServer = '/api/addBlog_editor'
+  myEdiotr.customConfig.uploadImgMaxLength = 3
+  myEdiotr.customConfig.uploadImgMaxSize = 5 * 1024 * 1024
+  myEdiotr.customConfig.uploadFileName = 'blogImg'
   myEdiotr.create();
-  $(()=>{
-    $('#submitBlog').click(()=>{
-       // 标题
-       $('#blog_title').val()
-       // 分类
-       $('#blog_class').val()
-       // 引语
-       $('#blog_qua').val()
-       // 插图
-       $('#blog_ill').
-       // 正文
-       myEdiotr.txt.html()
-    })
-  })
   function changepic() {
         var reads= new FileReader();
         f=document.getElementById('blog_ill').files[0];
