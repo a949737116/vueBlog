@@ -1,5 +1,7 @@
 const mongoose = require('mongoose')
 const blogSchema = mongoose.Schema({
+  // 文章作者
+  blogAhtuor: String,
   // 文章标题
   blogTitle: String,
   // 文章分类

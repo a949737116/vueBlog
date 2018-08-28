@@ -14,12 +14,12 @@ export default new Router({
     //   component: HelloWorld
     // }
     {
-      path: '/',
+      path: '/2',
       name: 'home',
       component: essay
     },
     {
-      path: '/2',
+      path: '/',
       name: 'bc',
       component: contentHome
     },

@@ -128,6 +128,16 @@
 </template>
 <script>
 export default{
-  name: 'contentHome'
+  name: 'contentHome',
+  data () {
+    return {
+      blogArray: []
+    }
+  },
+  created () {
+    this.$https.get('/api/getBlogArray', (data) => {
+      console.log(data)
+    })
+  }
 }
 </script>

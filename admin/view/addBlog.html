@@ -29,7 +29,7 @@
           <span>插图：</span>
           <div class='illRow'>
             <input type="file" style='opacity: 0'
-             id='blog_ill' name='ill-img' 
+             id='blog_ill' name='illImg' 
              onchange="changepic(this)"
              accept="image/png, image/jpeg, image/gif, image/jpg">
             <label for="blog_ill" class='ill_label'>上传图片</label>
@@ -110,7 +110,7 @@
     max-height: 160px;
   }
   #preview {
-    width: 800px;
+    width: 80%;
     box-sizing: border-box;
     overflow-y: auto;
     min-height: 500px;
@@ -119,12 +119,12 @@
   }
   .toolbar {
     border: 1px solid #ccc;
-    width: 800px
+    width: 900px
   }
   #editor {
     border: 1px solid #ccc;
     height: 400px;
-    width: 800px;
+    width: 900px
   }
 </style>
 <script type='text/javascript'>
@@ -158,9 +158,15 @@
     $('#sumbitHtml').val(html)
   }
   myEdiotr.customConfig.uploadImgServer = '/api/addBlog_editor'
-  myEdiotr.customConfig.uploadImgMaxLength = 3
+  myEdiotr.customConfig.uploadImgMaxLength = 1
   myEdiotr.customConfig.uploadImgMaxSize = 5 * 1024 * 1024
   myEdiotr.customConfig.uploadFileName = 'blogImg'
+  myEdiotr.customConfig.uploadImgHooks = {
+    customInsert: (insertImg, result, editor) => {
+      console.log(result.data[0])
+      insertImg(result.data[0])
+    }
+  }
   myEdiotr.create();
   function changepic() {
         var reads= new FileReader();

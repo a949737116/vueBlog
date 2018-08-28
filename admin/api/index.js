@@ -1,5 +1,6 @@
 const Users = require('../../dbModel/user')
 const Class = require('../../dbModel/class')
+const Blog = require('../../dbModel/blog')
 const express = require('express')
 const router = express.Router()
 const formidable = require('formidable')
@@ -105,8 +106,6 @@ router.post('/goToLogin', function (req, res, next) {
             account: data.account,
             isAdmin: fData.isAdmin,
             name: fData.name
-          }, {
-            'maxAge': 1000000
           })
           res.json({
             status: 0,
@@ -451,28 +450,84 @@ router.get('/view_ctae', function (req, res, next) {
 })
 router.post('/addBlog', (req, res, next) => {
   const from = formParser()
+  let username = ''
+  if (!req.cookies.logInfo.isAdmin) {
+    return res.send('您没有管理员权限')
+  } else {
+    username = req.cookies.logInfo.name
+  }
   from.parse(req, (err, fields, files) => {
     if (err) {
+      throw err
     }
+    const oldPath = files.illImg.path
+    const name = files.illImg.name
+    const newPath = path.resolve(__dirname, `../../upLoads/${name}`)
+    fs.rename(oldPath, newPath, (err) => {
+      if (err) {
+        throw err
+      } else {
+        const rePath = `../../upLoads/${name}`
+        console.log(fields)
+        console.log(files)
+        const blogData = {
+          blogTitle: fields.blog_title,
+          blogTex: fields.yinyu,
+          blogEditor: fields.submitHtml,
+          blogClass: fields.class,
+          blogPic: rePath
+        }
+        const newBlog = new Blog({
+          // 文章作者
+          blogAhtuor: username,
+          // 文章标题
+          blogTitle: blogData.blogTitle,
+          // 文章分类
+          blogCate: blogData.blogClass,
+          // 引语
+          blogDesc: blogData.blogTex,
+          // 插图
+          illustration: blogData.blogPic,
+          // 正文
+          text: blogData.blogEditor
+        })
+        return newBlog.save().then(() => {
+          res.render('message', {
+            data: '恭喜您，博文保存成功'
+          })
+        })
+      }
+    })
   })
 })
 router.post('/addBlog_editor', (req, res, next) => {
   const form = formParser()
   return form.parse(req, (err, fields, files) => {
+    console.log('不对也')
     if (err) {
       throw err
     }
     const oldPath = files.blogImg.path
     const name = files.blogImg.name
     const newPath = path.resolve(__dirname, `../../upLoads/${name}`)
-    console.log(newPath)
     fs.rename(oldPath, newPath, (err) => {
       if (err) {
         throw err
       } else {
-        return res.json({url: newPath})
+        const rePath = `../../upLoads/${name}`
+        return res.send({
+          errno: 0,
+          data: [rePath]
+        })
       }
     })
   })
+})
+router.get('/getBlogArray', (req, res, next) => {
+  return Blog.find({}, 'blogAhtuor blogTitle blogDesc').then(
+    (data) => {
+      console.log(data)
+    }
+  )
 })
 module.exports = router
