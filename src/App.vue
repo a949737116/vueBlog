@@ -107,6 +107,7 @@ export default {
 @import 'common/css/common.less';
 @import 'common/css/fixForEle.less';
 @import 'common/css/icon.less';
+@import 'common/css/forEditor.less';
 /* 变量区 */
 @backgroundImg-src : './assets/background1.png';
 /* CSS区 */

@@ -35,7 +35,7 @@ router.get('/user', function (req, res, next) {
     // data是对象数组
     console.log('一共有' + length + '条数据')
     const Dpage = tools.dealWithPage(page, length)
-    console.log('正确的页码是' + Dpage + '最大页码是' + length)
+    console.log('正确的页码是' + Dpage + '最大页码是' + Math.ceil(length / pageMaxNum))
     return User.find().limit(pageMaxNum).skip((Dpage - 1) * pageMaxNum).then((data) => {
       if (data) {
         data.forEach((item) => {

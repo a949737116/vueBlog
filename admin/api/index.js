@@ -16,12 +16,43 @@ const defualtExtraOption = {
   city: '',
   essayNum: ''
 }
-function formParser (maxSize, url) {
-  const form = new formidable.IncomingForm()
-  form.uploadDir = url || path.resolve(__dirname, '../../upLoads')
-  form.maxFileSize = maxSize || 1024 * 1024 * 5
-  form.keepExtensions = true
-  return form
+const pageMaxNum = 10
+const tools = {
+  getUrl: function (req) {
+    const data = req.query
+    return data
+  },
+  getUrlPage: function (req) {
+    const data = req.query.page || 1
+    return data
+  },
+  dealWithPage: function (page, num) {
+    const dataNum = page * pageMaxNum
+    if (page <= 0) {
+      return 1
+    } else if (dataNum > num) {
+      const page2 = Math.ceil(num / pageMaxNum)
+      return page2
+    } else {
+      return page
+    }
+  },
+  formParser: function (maxSize, url) {
+    const form = new formidable.IncomingForm()
+    form.uploadDir = url || path.resolve(__dirname, '../../upLoads')
+    form.maxFileSize = maxSize || 1024 * 1024 * 5
+    form.keepExtensions = true
+    return form
+  },
+  timeParser: function (obj) {
+    var date = new Date(obj)
+    var y = 1900 + date.getYear()
+    var m = '0' + (date.getMonth() + 1)
+    var d = '0' + date.getDate()
+    var h = '0' + date.getHours()
+    var min = '0' + date.getMinutes()
+    return y + '-' + m.substring(m.length - 2, m.length) + '-' + d.substring(d.length - 2, d.length) + ' ' + h.substring(h.length - 2, h.length) + ':' + min.substring(min.length - 2, min.length)
+  }
 }
 router.post('/goToReg', function (req, res, next) {
   const data = req.body
@@ -449,7 +480,7 @@ router.get('/view_ctae', function (req, res, next) {
   })
 })
 router.post('/addBlog', (req, res, next) => {
-  const from = formParser()
+  const from = tools.formParser()
   let username = ''
   if (!req.cookies.logInfo.isAdmin) {
     return res.send('您没有管理员权限')
@@ -489,7 +520,9 @@ router.post('/addBlog', (req, res, next) => {
           // 插图
           illustration: blogData.blogPic,
           // 正文
-          text: blogData.blogEditor
+          text: blogData.blogEditor,
+          // 创作时间
+          blogDate: new Date().valueOf()
         })
         return newBlog.save().then(() => {
           res.render('message', {
@@ -501,7 +534,7 @@ router.post('/addBlog', (req, res, next) => {
   })
 })
 router.post('/addBlog_editor', (req, res, next) => {
-  const form = formParser()
+  const form = tools.formParser()
   return form.parse(req, (err, fields, files) => {
     console.log('不对也')
     if (err) {
@@ -524,10 +557,42 @@ router.post('/addBlog_editor', (req, res, next) => {
   })
 })
 router.get('/getBlogArray', (req, res, next) => {
-  return Blog.find({}, 'blogAhtuor blogTitle blogDesc').then(
-    (data) => {
-      console.log(data)
-    }
-  )
+  let page = tools.getUrlPage(req)
+  page = Number(page)
+  console.log(page)
+  Blog.countDocuments().then((length) => {
+    console.log('一共有' + length + '条数据')
+    const Dpage = tools.dealWithPage(page, length)
+    console.log('正确的页码是' + Dpage + '最大页码是' + Math.ceil(length / pageMaxNum))
+    return Blog.find({}, 'blogAhtuor blogTitle blogDesc blogDate _id').limit(pageMaxNum).skip((Dpage - 1) * pageMaxNum).then(
+      (data) => {
+        data.forEach((i) => {
+          i.blogDate = tools.timeParser(Number(i.blogDate))
+        })
+        // 页码处理
+        const pageData = {
+          Dpage: Dpage,
+          Tpage: Math.ceil(length / pageMaxNum),
+          rowNum: pageMaxNum
+        }
+        res.json({
+          code: 0,
+          data,
+          pageData: pageData
+        })
+      }
+    )
+  })
+})
+router.get('/getBlog', (req, res, next) => {
+  const id = req.query.contentId
+  Blog.find({_id: id}).then((data) => {
+    data.forEach((i) => {
+      i.blogDate = tools.timeParser(Number(i.blogDate))
+    })
+    res.json({
+      data
+    })
+  })
 })
 module.exports = router

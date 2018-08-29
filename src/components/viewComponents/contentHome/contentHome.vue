@@ -3,6 +3,7 @@
     background-color: #fff;
     border-radius: 5px;
     padding-bottom: 10px;
+    margin-bottom: 30px;
     .contentRow {
       .contentTop {
         padding: 20px 20px 4px;
@@ -27,7 +28,7 @@
             }
           }
           .artInfoRow{
-            color: #808080;
+            color: #a5a4a4;
             font-size: 13px;
             margin-bottom: 5px;
           }
@@ -38,8 +39,7 @@
             margin-bottom: 8px;
           }
           .articleRow{
-            line-height: 15px;
-            text-indent: 5px;
+            line-height: 18px;
             font-size: 13px;
             color: #333;
             font-weight: 400;
@@ -72,57 +72,76 @@
       }
     }
   }
+  .pageRow {
+    margin: 30px 0 5px 0;
+  }
 </style>
 <template>
-  <div class='contentList'>
-    <div class='contentRow'>
-      <div class='contentTop'>
-        <div class='topLeft'>
-          <!-- 头像栏 -->
-          <img src="@/assets/qqPic.jpg" class="image">
+  <div>
+    <div class='contentList' v-for='(u,i) in blogArray' :key='i'>
+      <div class='contentRow'>
+        <div class='contentTop'>
+          <div class='topLeft'>
+            <!-- 头像栏 -->
+            <img src="@/assets/qqPic.jpg" class="image">
+          </div>
+          <div class='topRight'>
+            <!-- 作者信息 -->
+            <div class='authorRow clear'>
+              <span class='name'>{{u.blogAhtuor}}</span>
+              <i class='icon_image icon_head'></i>
+              <i class='icon_image icon_vip6'></i>
+              <i class='icon_image icon_hot'></i>
+            </div>
+            <!-- 作品信息 -->
+            <div class='artInfoRow'>
+              {{u.blogDate}}
+            </div>
+            <!-- 作品标题 -->
+            <p class='title'>{{u.blogTitle}}</p>
+            <!-- 作品简介 -->
+            <div class='articleRow'>
+              {{u.blogDesc}}
+            </div>
+          </div>
         </div>
-        <div class='topRight'>
-          <!-- 作者信息 -->
-          <div class='authorRow clear'>
-            <span class='name'>本站作者</span>
-            <i class='icon_image icon_head'></i>
-            <i class='icon_image icon_vip6'></i>
-            <i class='icon_image icon_hot'></i>
-          </div>
-          <!-- 作品信息 -->
-          <div class='artInfoRow'>
-            2018-7-30 10:51
-          </div>
-          <!-- 作品标题 -->
-          <p class='title'>国际锐评：欧洲没胃口吃下被中国拒绝的美国大豆</p>
-          <!-- 作品简介 -->
-          <div class='articleRow'>
-            7月25日，美国总统特朗普与到访的欧盟主席容克在会谈两个多小时后宣布，美欧双方同意在继续磋商阶段不再新增惩罚性关税。这给大西洋两岸一触即发的贸易摩擦升级态势按下了暂停键。
-          </div>
+        <div class='contentBottom'>
+          <el-row>
+            <el-col :span="8">
+              <div>
+                <i class='icon-wenzhang1 icon iconfont'></i>
+                <span>全文</span>
+              </div>
+            </el-col>
+            <el-col :span="8">
+              <div>
+                <i class='icon-like icon iconfont'></i>
+                <span>30</span>
+              </div>
+            </el-col>
+            <el-col :span="8">
+              <div>
+                <i class='icon-linedesign-01 icon iconfont'></i>
+                <span>8</span>
+              </div>
+            </el-col>
+          </el-row>
         </div>
       </div>
-      <div class='contentBottom'>
-        <el-row>
-          <el-col :span="8">
-            <div>
-              <i class='icon-wenzhang1 icon iconfont'></i>
-              <span>全文</span>
-            </div>
-          </el-col>
-          <el-col :span="8">
-            <div>
-              <i class='icon-like icon iconfont'></i>
-              <span>30</span>
-            </div>
-          </el-col>
-          <el-col :span="8">
-            <div>
-              <i class='icon-linedesign-01 icon iconfont'></i>
-              <span>8</span>
-            </div>
-          </el-col>
-        </el-row>
-      </div>
+    </div>
+    <div class='pageRow'>
+          <el-pagination
+            ref='page'
+            background
+            layout="prev, pager, next"
+            :total= 'pageData.Tpage'
+            :page-size = 'pageData.rowNum'
+            :current-page = 'pageData.Dpage'
+            @prev-click = 'prevClick'
+            @next-click = 'nextClick'
+            @current-change = 'pageChange'
+          >
+          </el-pagination>
     </div>
   </div>
 </template>
@@ -131,12 +150,58 @@ export default{
   name: 'contentHome',
   data () {
     return {
-      blogArray: []
+      blogArray: [],
+      pageData: {
+        // Dpage
+        // Tpage
+        // rowNum
+      }
+    }
+  },
+  methods: {
+    prevClick () {
+      if (this.pageData.Dpage <= 1) {
+        this.$message({
+          message: '已无上一页',
+          type: 'warning',
+          showClose: true
+        })
+        return false
+      }
+      this.$http.get(`/api/getBlogArray?page=${this.pageData.Dpage - 1}`).then((data) => {
+        console.log(data.body.data)
+        this.pageData = data.body.pageData
+        this.blogArray = data.body.data
+      })
+    },
+    nextClick () {
+      if (this.pageData.Dpage >= this.pageData.Tpage) {
+        this.$message({
+          message: '已无下一页',
+          type: 'warning',
+          showClose: true
+        })
+        return false
+      }
+      this.$http.get(`/api/getBlogArray?page=${this.pageData.Dpage + 1}`).then((data) => {
+        console.log(data.body.data)
+        this.pageData = data.body.pageData
+        this.blogArray = data.body.data
+      })
+    },
+    pageChange () {
+      this.$http.get(`/api/getBlogArray?page=${this.$refs.page.internalCurrentPage}`).then((data) => {
+        console.log(data.body)
+        this.pageData = data.body.pageData
+        this.blogArray = data.body.data
+      })
     }
   },
   created () {
-    this.$https.get('/api/getBlogArray', (data) => {
-      console.log(data)
+    this.$http.get(`/api/getBlogArray?page=1`).then((data) => {
+      console.log(data.body)
+      this.pageData = data.body.pageData
+      this.blogArray = data.body.data
     })
   }
 }

@@ -1,0 +1,8 @@
+.editor h1 {
+  font-family: Microsoft YaHei;
+  font-size: 25px !important;
+}
+.editor .essayContent p {
+  text-align: left;
+  margin-bottom: 10px;
+}
