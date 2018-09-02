@@ -69,6 +69,14 @@
         i {
           display: inline-block
         }
+        a {
+          color:#808080;
+          text-decoration: none
+        }
+        a:hover{
+          cursor: pointer;
+          color:#b33023;
+        }
       }
     }
   }
@@ -109,8 +117,10 @@
           <el-row>
             <el-col :span="8">
               <div>
-                <i class='icon-wenzhang1 icon iconfont'></i>
-                <span>全文</span>
+                <a :href="'/blog?contentId='+u._id">
+                  <i class='icon-wenzhang1 icon iconfont'></i>
+                  <span>全文</span>
+                </a>
               </div>
             </el-col>
             <el-col :span="8">

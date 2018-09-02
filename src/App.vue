@@ -9,7 +9,7 @@
         <el-aside width="150px" style='overflow:hidden'>
             <leftTab :cate='cateList'></leftTab>
         </el-aside>
-        <el-main>
+        <el-main id='Vmain'>
             <router-view></router-view>
         </el-main>
         <el-aside width="250px">
@@ -34,6 +34,8 @@ import vfooter from '@components/commonComponents/footer/footer'
 import pinfo from '@components/viewComponents/pInfo/pInfo'
 import notice from '@components/viewComponents/notice/notice'
 import loginBoard from '@components/viewComponents/loginBoard/loginBoard'
+// import BScroller from 'better-scroll'
+// import bus from './eventBus'
 export default {
   name: 'App',
   data () {
@@ -88,11 +90,23 @@ export default {
   },
   created () {
     let me = this
+    // this.$nextTick(() => {
+    //   if (me.scroll) {
+    //     me.scroll.refresh()
+    //   } else {
+    //     me.scroll = new BScroller('#Vmain')
+    //   }
+    // })
     this.$http.get('/api/view_ctae').then((data) => {
       console.log(data)
       me.isAdmin = data.body.isAdmin
       me.cateList = data.body.classList
     })
+  },
+  mounted () {
+    // bus.$on('refrshDiv', () => {
+    //   this.scroll.refresh()
+    // })
   },
   methods: {
     receiveData (data) {
@@ -112,6 +126,7 @@ export default {
 @backgroundImg-src : './assets/background1.png';
 /* CSS区 */
 body {
+  height: 100%;
   position: relative;
   background-image: url(@backgroundImg-src);
   #app{
@@ -132,6 +147,9 @@ body {
       .el-main {
         color: #333;
         text-align: center;
+      }
+      #Vmain {
+        max-height:100%
       }
     }
   }

@@ -595,4 +595,14 @@ router.get('/getBlog', (req, res, next) => {
     })
   })
 })
+router.get('/delBlog', (req, res, next) => {
+  const blogId = req.query.blogId;
+  console.log(blogId)
+  return Blog.deleteOne({_id: blogId}).then(() => {
+    res.json({
+      code: 0,
+      message: '该博文已经被成功删除'
+    })
+  })
+})
 module.exports = router

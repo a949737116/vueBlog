@@ -1,6 +1,7 @@
 const express = require('express')
 const User = require('../../dbModel/user')
 const Class = require('../../dbModel/class')
+const Blog = require('../../dbModel/blog')
 console.log('adminRouter is Ready')
 const router = express.Router()
 const pageMaxNum = 20
@@ -23,6 +24,15 @@ const tools = {
     } else {
       return page
     }
+  },
+  timeParser: function (obj) {
+    var date = new Date(obj)
+    var y = 1900 + date.getYear()
+    var m = '0' + (date.getMonth() + 1)
+    var d = '0' + date.getDate()
+    var h = '0' + date.getHours()
+    var min = '0' + date.getMinutes()
+    return y + '-' + m.substring(m.length - 2, m.length) + '-' + d.substring(d.length - 2, d.length) + ' ' + h.substring(h.length - 2, h.length) + ':' + min.substring(min.length - 2, min.length)
   }
 }
 router.get('/', function (req, res, next) {
@@ -78,7 +88,16 @@ router.get('/class', function (req, res, next) {
   })
 })
 router.get('/list', function (req, res, next) {
-  res.render('articleList')
+  Blog.find({}, '_id blogTitle blogAhtuor blogCate blogDesc blogAhtuor blogDate').then((data) => {
+    data.forEach((u) => {
+      // u._id = JSON.parse(JSON.stringify(u._id))  
+      u.blogDate = tools.timeParser(Number(u.blogDate))
+      u.blogDesc = u.blogDesc.substring(0, 20) + '...'
+    })
+    return res.render('articleList', {
+      data
+    })
+  })
 })
 router.get('/addClass', function (req, res, next) {
   Class.find().then((data) => {

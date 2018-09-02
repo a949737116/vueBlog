@@ -35,6 +35,7 @@
 </template>
 <script>
 import pinglun from '@components/commonComponents/pinglun/pinglun'
+// import bus from '@/eventBus'
 export default{
   name: 'essay',
   data () {
@@ -46,7 +47,8 @@ export default{
     pinglun
   },
   created () {
-    this.$http.get('/api/getBlog?contentId=5b84f940002bf9337cccc8aa').then((data) => {
+    const cid = this.$route.query.contentId
+    this.$http.get(`/api/getBlog?contentId=${cid}`).then((data) => {
       console.log(data.body)
       if (data.body.data.length > 1) {
         console.log('数据获取出错')
@@ -54,6 +56,9 @@ export default{
         this.content = data.body.data[0]
       }
     })
+    // this.$nextTick(() => {
+    //   bus.$emit('refreshDiv')
+    // })
   }
 }
 </script>
