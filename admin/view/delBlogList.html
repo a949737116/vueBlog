@@ -67,19 +67,30 @@
     </div>
     {% include "./cover.html" %}
     {% include './tip.html' %}
-    {% include "./page.html" %}
   </div>
 <link rel="stylesheet" href="public/css/common.css" type='text/css'>
 <script>
   $(() => {
     $('#todo_blogChange').click(() => {
       const num = $('.blogChoice:checked').length;
-      if (num === 1){
-        const id = $('.blogChoice:checked').data('id');
-        window.location.href=`changeBlog?blogId=${id}`
+      if ( num <= 3 && num >=1){
+        const list = $('.blogChoice:checked');
+        const idList = []
+        list.each((i,a) => {
+           const b = $(a).data('id')
+           idList.push(b)
+        })
+        $.post('/api/delBlogList',{
+            list: idList
+        },(data) => {
+          console.log(data)
+          $('.cover').removeClass('hidden');
+          $('#tip').removeClass('hidden');
+          $('.cover_tip').text(data.message);
+        })
       } else {
         $('#tip,.cover').removeClass('hidden');
-        $('.cover_tip').text('每次只能选择一篇博文进行修改');
+        $('.cover_tip').text('每次只能选择一篇到三篇博文进行删除');
       }
     })
   })

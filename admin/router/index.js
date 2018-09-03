@@ -90,7 +90,7 @@ router.get('/class', function (req, res, next) {
 router.get('/list', function (req, res, next) {
   Blog.find({}, '_id blogTitle blogAhtuor blogCate blogDesc blogAhtuor blogDate').then((data) => {
     data.forEach((u) => {
-      // u._id = JSON.parse(JSON.stringify(u._id))  
+      u.id = JSON.parse(JSON.stringify(u._id))
       u.blogDate = tools.timeParser(Number(u.blogDate))
       u.blogDesc = u.blogDesc.substring(0, 20) + '...'
     })
@@ -122,9 +122,35 @@ router.get('/todoList', function (req, res, next) {
   })
 })
 router.get('/todo2', function (req, res, next) {
-  res.render('todoList2')
+  Blog.find({}, '_id blogTitle blogAhtuor blogCate').then((data) => {
+    data.forEach((u) => {
+      u.id = JSON.parse(JSON.stringify(u._id))
+    })
+    return res.render('todoList2', {
+      data
+    })
+  })
 })
 router.get('/aBlog', function (req, res, next) {
   res.render('addBlog')
+})
+router.get('/delBlogList', (req, res, next) => {
+  Blog.find({}, '_id blogTitle blogAhtuor blogCate').then((data) => {
+    data.forEach((u) => {
+      u.id = JSON.parse(JSON.stringify(u._id))
+    })
+    return res.render('delBlogList', {
+      data
+    })
+  })
+})
+router.get('/changeBlog', (req, res, next) => {
+  const id = req.query.blogId
+  Blog.findOne({_id: id}).then((data) => {
+    console.log(data)
+    return res.render('blogChange', {
+      blogData: data
+    })
+  })
 })
 module.exports = router

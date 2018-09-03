@@ -5,7 +5,7 @@
     <div style='padding-left: 10px;'>
       <i class='iconfont icon icon-jia' style='margin-right: 5px;font-size: 18px!important;color: #c5698e;'></i>
       <!-- <span style='font-weight: 600;font-family: cursive;font-size:18px'>写博文</span> -->
-      <span style='font-weight: 600;font-family: cursive;font-size:18px'>新增博文</span>
+      <span style='font-weight: 600;font-family: cursive;font-size:18px'>修改博文</span>
     </div>
     <!-- 彩条 -->
     <p class='colorStrip' style='background-color:#95648982'></p>
@@ -13,7 +13,7 @@
     <form class='toAddBlog' action='/api/addBlog' method='POST' enctype="multipart/form-data">
       <div class='row'>
         <span>博文标题：</span>
-        <input type="text" id='blog_title' name='blog_title'>
+        <input type="text" id='blog_title' name='blog_title' value={{blogData.blogTitle}}>
       </div>
       <div class='row'>
         <span>请选择分类：</span>
@@ -23,21 +23,19 @@
       </div>
       <div class='row'>
           <span style='vertical-align: top;padding-top: 2px'>引语：</span>
-          <textarea name="yinyu" id="blog_qua" cols="80" rows="3" maxlength=300></textarea>
+          <textarea name="yinyu" id="blog_qua" cols="80" rows="3" maxlength=300>{{blogData.blogDesc}}</textarea>
       </div>
       <div class='row'>
           <span>插图：</span>
           <div class='illRow'>
-            <input type="file" style='opacity: 0'
-             id='blog_ill' name='illImg' 
-             onchange="changepic(this)"
-             accept="image/png, image/jpeg, image/gif, image/jpg">
-            <label for="blog_ill" class='ill_label'>上传图片</label>
+            <button id='toChangeIll' class='danger'>如果你要修改插图，请点击这里</button>
           </div>
       </div>
       <div class='row'>
           <span style='vertical-align: top;padding-top: 2px'>预览图：</span>
-          <img src="" id="show" width="200" onerror='javascript:this.src="/data/timg.jpg"'>
+          <img src="" id="show" width="200"
+          data-src={{blogData.illustration}} 
+          onerror='javascript:this.src="/data/timg.jpg"'>
       </div>
       <div class='row'>
         <span style='vertical-align: top;padding-top: 2px'>正文：</span>
@@ -46,7 +44,9 @@
 
           </div>
           <div id='editor'>
-
+            {% autoescape %}
+              {{blogData.text}}
+            {% endautoescape %}
           </div>
         </div>
       </div>
@@ -175,6 +175,20 @@
         reads.onload=function (e) {
             document.getElementById('show').src=this.result;
         };
-    }
+  }
+  document.getElementById('show').src = $('#show').data('src')
+  $('#toChangeIll').click(() => {
+    $('.illRow').html(
+      `<input type='file' style='opacity: 0'
+      id='blog_ill' name='illImg' 
+      onchange='changepic(this)'
+      accept='image/png, image/jpeg, image/gif, image/jpg'>
+    <label for='blog_ill' class='ill_label' >上传图片</label>
+    <div class='returnIll'>不修改必须点这里</div>`
+    )
+  })
+  $('.returnIll').click(() => {
+    $('.illRow').html(`<button id='toChangeIll' class='danger'>如果你要修改插图，请点击这里</button>`)
+  })
 </script>
 {% endblock %}

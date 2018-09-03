@@ -51,7 +51,7 @@
                 data-title={{u.blogTitle}}
                 data-author={{u.blogAhtuor}}
                 data-class={{u.blogCate}}
-                data-id={{u._id}}
+                data-id={{u.id}}
             >
                 <td class='br'>
                   {{u.blogTitle}}
@@ -86,7 +86,7 @@
             data-title={{u.blogTitle}}
             data-author={{u.blogAhtuor}}
             data-class={{u.blogCate}}
-            data-id={{u._id}}
+            data-id={{u.id}}
             >
                 <td class='br'>
                   {{u.blogTitle}}
@@ -169,7 +169,6 @@
         })
         $('#deleteBtn').click((e) => {
             let id = $('#deleteBtn').data('id');
-            id = JSON.parse(JSON.stringify(id))
             $.get(`/api/delBlog?blogId=${id}`).then((data) => {
               console.log(data)
               if (data.code === 0){
