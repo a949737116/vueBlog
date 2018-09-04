@@ -148,6 +148,7 @@ router.get('/changeBlog', (req, res, next) => {
   const id = req.query.blogId
   Blog.findOne({_id: id}).then((data) => {
     console.log(data)
+    data.id = id
     return res.render('blogChange', {
       blogData: data
     })

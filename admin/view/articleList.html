@@ -124,7 +124,6 @@
       </table>
     </div>
     <!-- 页码数 -->
-    {% include "./page.html" %}
     {% include "./cover.html" %}
     {% include './tip.html' %}
     <div class='center m hidden' id='shanchu'>
@@ -154,7 +153,6 @@
       </div>
     </div>
   </div>
-<link rel="stylesheet" href="public/css/common.css" type='text/css'>
 <script>
     $(() => {
         $('.operateD').click((e)=>{
@@ -171,7 +169,7 @@
             let id = $('#deleteBtn').data('id');
             $.get(`/api/delBlog?blogId=${id}`).then((data) => {
               console.log(data)
-              if (data.code === 0){
+              if (data.code === 0)  {
                 $('#tip').removeClass('hidden');
                 $('#shanchu').addClass('hidden');
                 $('.cover_tip').text(data.message);

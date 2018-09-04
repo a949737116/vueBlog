@@ -1,5 +1,10 @@
 {% extends 'index.html' %}
 {% block main %}
+<style>
+  .hidden {
+    display: none
+  }
+</style>
   <div style='padding: 20px;'>
     <!-- 标题页 -->
     <div style='padding-left: 10px;'>
@@ -67,9 +72,7 @@
     </div>
     {% include "./cover.html" %}
     {% include './tip.html' %}
-    {% include "./page.html" %}
   </div>
-<link rel="stylesheet" href="public/css/common.css" type='text/css'>
 <script>
   $(() => {
     $('#todo_blogChange').click(() => {

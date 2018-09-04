@@ -10,10 +10,13 @@
     <!-- 彩条 -->
     <p class='colorStrip' style='background-color:#95648982'></p>
     <!-- 新增博文 -->
-    <form class='toAddBlog' action='/api/addBlog' method='POST' enctype="multipart/form-data">
+    <form class='toAddBlog' action='/api/changeBlog' method='POST' enctype="multipart/form-data">
       <div class='row'>
         <span>博文标题：</span>
         <input type="text" id='blog_title' name='blog_title' value={{blogData.blogTitle}}>
+      </div>
+      <div class='row hidden'>
+        <input type="text" readonly name='blog_id' value={{blogData.id}}>
       </div>
       <div class='row'>
         <span>请选择分类：</span>
@@ -71,7 +74,6 @@
     </div>
   </form>
 <script type="text/javascript" src="public/js/wangEditor.min.js"></script>
-<link rel="stylesheet" href="public/css/common.css" type='text/css'>
 <style>
   .toAddBlog {
     margin-top: 20px;
@@ -184,11 +186,11 @@
       onchange='changepic(this)'
       accept='image/png, image/jpeg, image/gif, image/jpg'>
     <label for='blog_ill' class='ill_label' >上传图片</label>
-    <div class='returnIll'>不修改必须点这里</div>`
+    <button class='returnIll'>不修改必须点这里</button>`
     )
-  })
-  $('.returnIll').click(() => {
-    $('.illRow').html(`<button id='toChangeIll' class='danger'>如果你要修改插图，请点击这里</button>`)
+    $('.returnIll').click(() => {
+      $('.illRow').html(`<button id='toChangeIll' class='danger'>如果你要修改插图，请点击这里</button>`)
+    })
   })
 </script>
 {% endblock %}

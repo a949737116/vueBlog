@@ -1,5 +1,60 @@
 {% extends 'index.html' %}
 {% block main %}
+<style>
+    .toAddBlog {
+      margin-top: 20px;
+      padding: 20px;
+      background-color: #e5e5ed;
+    }
+    .row {
+      margin-bottom: 10px;
+    }
+    .row>span {
+      display: inline-block;
+      width: 80px;
+      text-align: right;
+      font-size: 13px;
+    }
+    .row>select {
+      height: 25px;
+      line-height: 25px;
+    }
+    #editor {
+      background-color: #fff;
+    }
+    .illRow {
+      display: inline-block;
+      height: 28px;
+      line-height: 28px;
+    }
+    .ill_label{
+      float: left;
+      font-size: 13px;
+      padding: 0px 3px;
+      background-color: #42b342;
+      color: #fff;
+    }
+    #show {
+      max-height: 160px;
+    }
+    #preview {
+      width: 80%;
+      box-sizing: border-box;
+      overflow-y: auto;
+      min-height: 500px;
+      display: inline-block;
+      background-color: #fff
+    }
+    .toolbar {
+      border: 1px solid #ccc;
+      width: 900px
+    }
+    #editor {
+      border: 1px solid #ccc;
+      height: 400px;
+      width: 900px
+    }
+  </style>
   <div style='position: relative;overflow: hidden;padding: 20px;'>
     <!-- 标题页 -->
     <div style='padding-left: 10px;'>
@@ -71,62 +126,6 @@
     </div>
   </form>
 <script type="text/javascript" src="public/js/wangEditor.min.js"></script>
-<link rel="stylesheet" href="public/css/common.css" type='text/css'>
-<style>
-  .toAddBlog {
-    margin-top: 20px;
-    padding: 20px;
-    background-color: #e5e5ed;
-  }
-  .row {
-    margin-bottom: 10px;
-  }
-  .row>span {
-    display: inline-block;
-    width: 80px;
-    text-align: right;
-    font-size: 13px;
-  }
-  .row>select {
-    height: 25px;
-    line-height: 25px;
-  }
-  #editor {
-    background-color: #fff;
-  }
-  .illRow {
-    display: inline-block;
-    height: 28px;
-    line-height: 28px;
-  }
-  .ill_label{
-    float: left;
-    font-size: 13px;
-    padding: 0px 3px;
-    background-color: #42b342;
-    color: #fff;
-  }
-  #show {
-    max-height: 160px;
-  }
-  #preview {
-    width: 80%;
-    box-sizing: border-box;
-    overflow-y: auto;
-    min-height: 500px;
-    display: inline-block;
-    background-color: #fff
-  }
-  .toolbar {
-    border: 1px solid #ccc;
-    width: 900px
-  }
-  #editor {
-    border: 1px solid #ccc;
-    height: 400px;
-    width: 900px
-  }
-</style>
 <script type='text/javascript'>
   var editor = window.wangEditor;
   var myEdiotr = new editor('.toolbar','#editor');

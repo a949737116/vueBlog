@@ -7,6 +7,7 @@
   <title>博客后台管理系统</title>
   <link rel="stylesheet" href="../../static/css/cssReset.css" rel='stylesheet' type='text/css'>
   <link rel="stylesheet" href="../../static/css/iconFont/iconfont.css" rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="public/css/common.css" type='text/css'>
   <script src='./public/js/jquery-3.3.1.min.js'></script>
 </head>
 <body >
@@ -66,7 +67,7 @@
                     <a href="/admin/todo2">修改博文</a>
                 </li>
                 <li><i style='margin-right: 3px' class='icon iconfont icon-caret-right-circle'></i>
-                    <a href="/admin//delBlogList">删除博文</a>
+                    <a href="/admin/delBlogList">删除博文</a>
                 </li>
               </ul>
           </li>
@@ -268,6 +269,9 @@ html,body,#backStage,.content {
   height: 24.4px;
   transition: background 1s ; 
   text-indent: 29px;
+}
+.dropUl li a {
+  color: #000
 }
 .dropUl li:hover{
   background-color: #e3e398;

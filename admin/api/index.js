@@ -619,4 +619,85 @@ router.get('/delBlog', (req, res, next) => {
     })
   })
 })
+router.post('/changeBlog', (req, res, next) => {
+  const from = tools.formParser()
+  if (!req.cookies.logInfo.isAdmin) {
+    return res.send('您没有管理员权限')
+  }
+  from.parse(req, (err, fields, files) => {
+    if (err) {
+      console.log(err)
+    }
+    const blogData = {
+      blogTitle: fields.blog_title,
+      blogTex: fields.yinyu,
+      blogEditor: fields.submitHtml,
+      blogClass: fields.class
+    }
+    if (!files.illImg) {
+      console.log('插图无修改')
+      const changData = {
+        // 文章标题
+        blogTitle: blogData.blogTitle,
+        // 文章分类
+        blogCate: blogData.blogClass,
+        // 引语
+        blogDesc: blogData.blogTex,
+        // 正文
+        text: blogData.blogEditor
+      }
+      const id = fields.blog_id
+      return Blog.updateOne({_id: id}, changData).then(() => {
+        res.render('message', {
+          data: '恭喜您，博文修改成功'
+        })
+      })
+    } else {
+      const oldPath = files.illImg.path
+      const name = files.illImg.name
+      const newPath = path.resolve(__dirname, `../../upLoads/${name}`)
+      fs.rename(oldPath, newPath, (err) => {
+        if (err) {
+          throw err
+        } else {
+          const rePath = `../../upLoads/${name}`
+          blogData.blogPic = rePath
+          const changData = {
+            // 文章标题
+            blogTitle: blogData.blogTitle,
+            // 文章分类
+            blogCate: blogData.blogClass,
+            // 引语
+            blogDesc: blogData.blogTex,
+            // 正文
+            text: blogData.blogEditor,
+            illustration: blogData.blogPic
+          }
+          const id = fields.blog_id
+          return Blog.updateOne({_id: id}, changData).then(() => {
+            res.render('message', {
+              data: '恭喜您，博文修改成功'
+            })
+          })
+        }
+      })
+    }
+  })
+})
+router.get('/getUserInfo', (req, res, next) => {
+  if (req.cookies && req.cookies.logInfo) {
+    console.log(req.cookies.logInfo.account)
+    Users.findOne({account: req.cookies.logInfo.account}).then((data) => {
+      console.log(data)
+      return res.json({
+        code: 0,
+        data: data
+      })
+    })
+  } else {
+    return res.json({
+      code: -1
+    })
+  }
+})
 module.exports = router

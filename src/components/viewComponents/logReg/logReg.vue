@@ -270,6 +270,14 @@ export default{
           console.log('怎么跑到这里来了')
       }
     }
+  },
+  created () {
+    this.$http.get('/api/getUserInfo').then((fb) => {
+      console.log(fb)
+      this.$emit('lrCipher')
+      fb.body.data.Logined = true
+      this.$store.commit('enterLogin', fb.body.data)
+    })
   }
 }
 </script>
