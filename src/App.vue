@@ -1,11 +1,11 @@
 <template>
   <div id="app">
-    <el-container>
+    <el-container style='height:100%'>
       <el-header>
         <!-- 导航栏 -->
          <tabBar :cate='cateList' :isAdmin='isAdmin'></tabBar>
       </el-header>
-      <el-container>
+      <el-container style='padding-top:20px'>
         <el-aside width="150px" style='overflow:hidden'>
             <leftTab :cate='cateList'></leftTab>
         </el-aside>
@@ -13,17 +13,17 @@
             <router-view></router-view>
         </el-main>
         <el-aside width="250px">
-            <loginBoard :class='rightShowList.lbShow ? "" : "hidden"' :wd="lg01"></loginBoard>
+            <loginBoard :class='rightShowList.lbShow ? "" : "hidden"' :wd="lg01" @backToCriper='clearData'></loginBoard>
             <lreg :class='rightShowList.lrShow ? "" : "hidden"' @lrCipher="receiveData"></lreg>
             <pinfo :class='rightShowList.piShow ? "" : "hidden"' style='margin-top:20px' :wd="lg02"></pinfo>
             <notice :class='rightShowList.ntShow ? "" : "hidden"' style='margin-top:20px'></notice>
         </el-aside>
       </el-container>
-      <el-footer style='background-color: #000;height:auto'>
+    </el-container>
+     <el-footer id='efooter' style='background-color: #000;height:56px'>
         <!-- 脚部 -->
         <vfooter></vfooter>
       </el-footer>
-    </el-container>
   </div>
 </template>
 <script>
@@ -34,8 +34,8 @@ import vfooter from '@components/commonComponents/footer/footer'
 import pinfo from '@components/viewComponents/pInfo/pInfo'
 import notice from '@components/viewComponents/notice/notice'
 import loginBoard from '@components/viewComponents/loginBoard/loginBoard'
-// import BScroller from 'better-scroll'
-// import bus from './eventBus'
+import BScroller from 'better-scroll'
+import bus from './eventBus/index.js'
 export default {
   name: 'App',
   data () {
@@ -90,28 +90,44 @@ export default {
   },
   created () {
     let me = this
-    // this.$nextTick(() => {
-    //   if (me.scroll) {
-    //     me.scroll.refresh()
-    //   } else {
-    //     me.scroll = new BScroller('#Vmain')
-    //   }
-    // })
     this.$http.get('/api/view_ctae').then((data) => {
       console.log(data)
       me.isAdmin = data.body.isAdmin
       me.cateList = data.body.classList
     })
+    this.$nextTick(() => {
+      if (me.scroll) {
+        me.scroll.refresh()
+      } else {
+        me.scroll = new BScroller('#Vmain', {
+          scrollY: true,
+          click: true
+        })
+      }
+    })
   },
   mounted () {
-    // bus.$on('refrshDiv', () => {
-    //   this.scroll.refresh()
-    // })
+    const me = this
+    bus.$on('refrshDiv', () => {
+      debugger
+      if (!me.scroll) {
+        me.scroll = new BScroller('#Vmain', {
+          scrollY: true,
+          click: true
+        })
+      } else {
+        me.scroll.refresh()
+      }
+    })
   },
   methods: {
     receiveData (data) {
       this.rightShowList.lrShow = false
       this.rightShowList.lbShow = true
+    },
+    clearData () {
+      this.rightShowList.lrShow = true
+      this.rightShowList.lbShow = false
     }
   }
 }
@@ -130,6 +146,13 @@ body {
   position: relative;
   background-image: url(@backgroundImg-src);
   #app{
+    height: 100%;
+    #efooter {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%
+    }
     .el-container{
       .el-header, .el-footer {
       color: #333;
@@ -149,7 +172,9 @@ body {
         text-align: center;
       }
       #Vmain {
-        max-height:100%
+        overflow: hidden;
+        padding-top: 0px!important;
+        padding-bottom: 56px;
       }
     }
   }

@@ -36,6 +36,23 @@ export default new Vuex.Store({
         state.loginInfo.city = data.city
         state.loginInfo.essayNum = data.essayNum
       }
+    },
+    clearLogin (state) {
+      state.loginInfo = {
+        account: '',
+        name: '',
+        sex: '',
+        job: '',
+        icon_image: '',
+        level: 0,
+        isAdmin: false,
+        isLogin: false,
+        email: '',
+        tel: '',
+        adress: '',
+        city: '',
+        essayNum: 0
+      }
     }
   }
 })

@@ -12,13 +12,13 @@
       © Copyright - ZengHao
     </div>
     <div class='cplink'>
-      <el-button type="text" @click="openLink('wx')">
+      <el-button type="text" @click="openLink('wx')" style='padding:0'>
         <span class='icon iconfont icon-weixin wx'></span>
       </el-button>
-      <el-button type="text" @click="openLink('qq')">
+      <el-button type="text" @click="openLink('qq')" style='padding:0'>
         <span class='icon iconfont icon-qq-copy qq'></span>
       </el-button>
-      <el-button type="text" @click="openLink('git')">
+      <el-button type="text" @click="openLink('git')" style='padding:0'>
         <span class="icon iconfont icon-github git"></span>
       </el-button>
       <el-popover
@@ -63,6 +63,7 @@ export default{
     padding: 20px 0;
     .cpright{
       font-size: 14px;
+      padding-top: 9px;
       float: left;
       font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif
     }

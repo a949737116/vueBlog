@@ -2,7 +2,7 @@
   <div id='essay'>
     <div style='background-color:#fff' class='outermost editor'>
       <!-- 标题 -->
-      <h1>{{content.blogTitle}}</h1>
+      <h1 @click='refrshDiv'>{{content.blogTitle}}</h1>
       <!-- 文章信息 -->
       <div class='essayMessage'>
             <div>
@@ -35,7 +35,7 @@
 </template>
 <script>
 import pinglun from '@components/commonComponents/pinglun/pinglun'
-// import bus from '@/eventBus'
+import bus from '@/eventBus/index.js'
 export default{
   name: 'essay',
   data () {
@@ -54,11 +54,16 @@ export default{
         console.log('数据获取出错')
       } else {
         this.content = data.body.data[0]
+        this.$nextTick(() => {
+          bus.$emit('refrshDiv')
+        })
       }
     })
-    // this.$nextTick(() => {
-    //   bus.$emit('refreshDiv')
-    // })
+  },
+  methods: {
+    refrshDiv () {
+      bus.$emit('refrshDiv')
+    }
   }
 }
 </script>

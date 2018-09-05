@@ -51,7 +51,7 @@ export default{
 </script>
 <style scoped lang='less'>
 .leftTab{
-  padding: 20px 0;
+  padding: 0px 0;
   .leftt{
     width: 150px;
     font-family: Microsoft Yahei;

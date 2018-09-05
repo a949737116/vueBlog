@@ -12,8 +12,10 @@
       <a href=''>{{wd.name}}</a>
     </p>
     <div class='login_do'>
-      <div :class='wd.isAdmin?"":"disabled"' >后台管理</div>
-      <div>退出登录</div>
+      <div :class='wd.isAdmin?"":"disabled"' @click='openAdmin'>
+        后台管理
+      </div>
+      <div @click='quitLogin'>退出登录</div>
     </div>
   </div>
 </template>
@@ -22,12 +24,32 @@ export default {
   name: 'loginBoard',
   props: {
     wd: Object
+  },
+  methods: {
+    openAdmin () {
+      window.location.pathname = '/admin'
+    },
+    quitLogin () {
+      this.$http.get('/api/delCookies').then((data) => {
+        if (data.body.status === 0) {
+          this.openHint(data.body.message)
+          this.$emit('backToCriper')
+          this.$store.commit('clearLogin')
+        }
+      })
+    },
+    openHint (tip, type) {
+      type = type || 'success'
+      this.$message({
+        message: tip,
+        type: type
+      })
+    }
   }
 }
 </script>
 <style lang='less'>
   #loginBoard {
-    margin-top: 20px;
     background-image:url('../../../assets/colorBg.png');
     width: 250px;
     height: 156px;

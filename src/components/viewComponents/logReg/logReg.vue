@@ -273,17 +273,18 @@ export default{
   },
   created () {
     this.$http.get('/api/getUserInfo').then((fb) => {
-      console.log(fb)
-      this.$emit('lrCipher')
-      fb.body.data.Logined = true
-      this.$store.commit('enterLogin', fb.body.data)
+      if (fb.body.code === 0) {
+        console.log(fb)
+        this.$emit('lrCipher')
+        fb.body.data.Logined = true
+        this.$store.commit('enterLogin', fb.body.data)
+      }
     })
   }
 }
 </script>
 <style scoped lang='less'>
   #logReg{
-     padding-top:20px;
     .loginBox {
         padding: 5px;
         div:first-child {

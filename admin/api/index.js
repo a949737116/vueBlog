@@ -700,4 +700,11 @@ router.get('/getUserInfo', (req, res, next) => {
     })
   }
 })
+router.get('/delCookies', (req, res, next) => {
+  res.clearCookie('logInfo')
+  return res.json({
+    status: 0,
+    message: '您已成功退出登录'
+  })
+})
 module.exports = router
