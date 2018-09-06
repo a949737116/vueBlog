@@ -3,7 +3,7 @@
     <!-- 评论展示 -->
     <div>
       <!-- 单条 -->
-      <div class='pl-item hidden'>
+      <div class='pl-item'>
         <!-- 左边头像 -->
         <div class='pl-head'>
           <img src="@/assets/qqPic.jpg" class="image">
@@ -29,8 +29,15 @@
       </div>
       <!-- 输入评论 -->
       <div class='pl-commit pl-item'>
+        <div class='pl-cover' :class='loginerInfo.isLogin? "hidden" : ""'>
+          <div class='pl_cover'>
+            <div>
+              请先登录/注册你的账号才能发表评论。
+            </div>
+          </div>
+        </div>
         <div class='pl-head'>
-          <img src="@/assets/qqPic.jpg" class="image">
+          <img :src='loginerInfo.icon_image' class="image">
         </div>
         <div class='yourCommit'>
           <el-input
@@ -41,7 +48,7 @@
             placeholder="请发表您的精彩观点"
             v-model="textarea">
           </el-input>
-          <el-button type="primary" style='float:right;margin-top:10px' size='small'>发表</el-button>
+          <el-button type="primary" style='float:right;margin-top:10px' @click='submitComment' size='small'>发表</el-button>
         </div>
       </div>
     </div>
@@ -52,8 +59,29 @@ export default{
   name: 'pinglun',
   data () {
     return {
-      textarea: ''
+      textarea: '',
+      loginerInfo: {}
     }
+  },
+  methods: {
+    submitComment () {
+      console.log(this.textarea.replace(/(^\s*)|(\s*$)/g, ''))
+      if (!this.textarea.replace(/(^\s*)|(\s*$)/g, '')) {
+        this.$message.error('请不要提交空白评论哦')
+      } else {
+        this.$http.post('/api/submitComment', {
+
+        }).then(() => {
+          
+        })
+      }
+    }
+  },
+  created () {
+    const me = this
+    this.$nextTick(() => {
+      me.loginerInfo = me.$store.state.loginInfo
+    })
   }
 }
 </script>
@@ -106,6 +134,27 @@ export default{
   }
   .pl-commit {
     padding: 20px 35px 20px;
+    position: relative;
+    .pl-cover{
+      box-sizing: border-box;
+      padding: 15px 30px 15px;
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      z-index: 999;
+      height: 100%;
+      .pl_cover {
+        color: #fff;
+        background-color: #583e3e;
+        opacity: 0.8;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center
+      }
+    }
     .yourCommit{
       flex: auto 1 1;
        #commentData {

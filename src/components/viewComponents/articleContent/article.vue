@@ -2,7 +2,7 @@
   <div id='essay'>
     <div style='background-color:#fff' class='outermost editor'>
       <!-- 标题 -->
-      <h1 @click='refrshDiv'>{{content.blogTitle}}</h1>
+      <h1>{{content.blogTitle}}</h1>
       <!-- 文章信息 -->
       <div class='essayMessage'>
             <div>
@@ -28,7 +28,7 @@
       </div>
       <!-- 评论区 -->
     </div>
-    <div style='margin-top:50px'>
+    <div style='margin-top:30px'>
         <pinglun></pinglun>
     </div>
   </div>
@@ -46,6 +46,11 @@ export default{
   components: {
     pinglun
   },
+  mounted () {
+    window.onload = () => {
+      bus.$emit('refrshDiv')
+    }
+  },
   created () {
     const cid = this.$route.query.contentId
     this.$http.get(`/api/getBlog?contentId=${cid}`).then((data) => {
@@ -56,19 +61,25 @@ export default{
         this.content = data.body.data[0]
         this.$nextTick(() => {
           bus.$emit('refrshDiv')
+          this.$notify({
+            title: '温馨提醒',
+            message: '按住文章滑动即可实现上下滚动',
+            type: 'info',
+            position: 'bottom-left',
+            duration: 5000,
+            customClass: 'notifyMessage'
+          })
         })
       }
     })
   },
   methods: {
-    refrshDiv () {
-      bus.$emit('refrshDiv')
-    }
   }
 }
 </script>
 <style scoped lang='less'>
 #essay {
+  padding-bottom: 60px;
   .outermost {
     font-family: Microsoft Yahei;
     padding: 20px 35px;

@@ -109,7 +109,6 @@ export default {
   mounted () {
     const me = this
     bus.$on('refrshDiv', () => {
-      debugger
       if (!me.scroll) {
         me.scroll = new BScroller('#Vmain', {
           scrollY: true,
