@@ -536,7 +536,9 @@ router.post('/addBlog', (req, res, next) => {
           // 正文
           text: blogData.blogEditor,
           // 创作时间
-          blogDate: new Date().valueOf()
+          blogDate: new Date().valueOf(),
+          // 评论
+          blogComments: []
         })
         return newBlog.save().then(() => {
           res.render('message', {
@@ -603,6 +605,9 @@ router.get('/getBlog', (req, res, next) => {
   Blog.find({_id: id}).then((data) => {
     data.forEach((i) => {
       i.blogDate = tools.timeParser(Number(i.blogDate))
+      i.blogComments.forEach((ii) => {
+        ii.cTime = tools.timeParser(ii.cTime)
+      })
     })
     res.json({
       data
@@ -705,6 +710,42 @@ router.get('/delCookies', (req, res, next) => {
   return res.json({
     status: 0,
     message: '您已成功退出登录'
+  })
+})
+router.post('/submitComment', (req, res, next) => {
+  const data = req.body
+  console.log(data)
+  Blog.findOne({_id: data.blogId}).then((blog) => {
+    blog.blogComments.push(data.data)
+    data.data.cTime = new Date().valueOf()
+    blog.save().then((info) => {
+      console.log(info)
+      return res.json({
+        code: 0,
+        message: '发表评论成功'
+      })
+    })
+  })
+})
+router.get('/updateBlogComments', (req, res, next) => {
+  const bId = req.query.blogId
+  Blog.findOne({_id: bId}, 'blogComments').then((list) => {
+    list.blogComments.forEach((i) => {
+      i.cTime = tools.timeParser(i.cTime)
+    })
+    return res.json({
+      code: 0,
+      commentList: list
+    })
+  })
+})
+router.post('/updateIcon', (req, res, next) => {
+  const form = tools.formParser()
+  return form.parse(req, (err, fields, files) => {
+    if (err) {
+      throw err
+    }
+    console.log(files)
   })
 })
 module.exports = router

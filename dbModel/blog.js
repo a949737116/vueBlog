@@ -13,7 +13,9 @@ const blogSchema = mongoose.Schema({
   // 正文
   text: String,
   // 创作时间
-  blogDate: String
+  blogDate: String,
+  // 评论列表
+  blogComments: Array
 })
 const blogDb = mongoose.model('blogTable', blogSchema)
 module.exports = blogDb

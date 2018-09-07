@@ -12,7 +12,7 @@
         <el-main id='Vmain'>
             <router-view></router-view>
         </el-main>
-        <el-aside width="250px">
+        <el-aside width="250px" style='overflow:hidden'>
             <loginBoard :class='rightShowList.lbShow ? "" : "hidden"' :wd="lg01" @backToCriper='clearData'></loginBoard>
             <lreg :class='rightShowList.lrShow ? "" : "hidden"' @lrCipher="receiveData"></lreg>
             <pinfo :class='rightShowList.piShow ? "" : "hidden"' style='margin-top:20px' :wd="lg02"></pinfo>

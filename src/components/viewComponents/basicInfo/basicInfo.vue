@@ -5,11 +5,19 @@
       <p></p>
     </div>
     <div class='BI_row2'>
-      <div class="right" style='padding-right:5px'>
-        <div>
-          <img src="/data/question.png" width="80px" height='80px' alt="">
-        </div>
-        <el-button size="mini" type='primary'>修改头像</el-button>
+      <div class="right" style='padding-right:5px;text-align:center'>
+        <el-upload
+          class="avatar-uploader"
+          action="api/updateIcon"
+          :name= data.account
+          :before-upload='checkFile'
+          accept='image/png, image/jpeg, image/gif, image/jpg'
+          :show-file-list="false"
+          >
+          <img v-if="data.icon_image" :src="data.icon_image" class="avatar">
+          <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+        </el-upload>
+        <el-tag>图片大小不超过3M</el-tag>
       </div>
       <div>
         <span>我的账号：</span>
@@ -126,7 +134,7 @@ export default {
           city: this.data.city
         }
       }
-      this.$http.post('/api//supplement', sendData, {emulateJSON: true}).then(function (fb) {
+      this.$http.post('/api/supplement', sendData, {emulateJSON: true}).then(function (fb) {
         console.log(fb.body)
         if (fb.body.status === 0) {
           this.$alert(fb.body.tip, '提示', {
@@ -160,6 +168,24 @@ export default {
           city }
           }
         */
+    },
+    checkFile (file) {
+      console.log(file.type)
+      let ifType = false
+      let ifSize = true
+      if (file.type === 'image/png' || file.type === 'image/jpeg' || file.type === 'image/gif' || file.type === 'image/jpg') {
+        ifType = true
+      }
+      if (file.size / 1024 / 1024 > 3) {
+        ifSize = false
+      }
+      if (!ifType) {
+        this.$message.error('上传文件类型必须是图片类型')
+      }
+      if (!ifSize) {
+        this.$message.error('文件大小过大')
+      }
+      return ifType && ifSize
     }
   }
 }

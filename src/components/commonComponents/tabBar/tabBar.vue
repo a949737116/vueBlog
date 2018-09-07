@@ -17,6 +17,7 @@
       </el-submenu>
       <el-menu-item index="3" v-if='isAdmin'>管理面板</el-menu-item>
       <el-menu-item index="3" disabled v-else >管理面板</el-menu-item>
+      <el-menu-item index="4">个人网站</el-menu-item>
     </el-menu>
   </div>
 </template>

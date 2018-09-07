@@ -29,7 +29,7 @@
       <!-- 评论区 -->
     </div>
     <div style='margin-top:30px'>
-        <pinglun></pinglun>
+        <pinglun :aId = blogId :pinglun = content.blogComments></pinglun>
     </div>
   </div>
 </template>
@@ -40,19 +40,29 @@ export default{
   name: 'essay',
   data () {
     return {
-      content: {}
+      content: {},
+      blogId: ''
     }
   },
   components: {
     pinglun
   },
   mounted () {
+    const me = this
     window.onload = () => {
       bus.$emit('refrshDiv')
     }
+    bus.$on('upDateComments', () => {
+      me.$http.get(`/api/updateBlogComments?blogId=${me.blogId}`).then((cb) => {
+        if (cb.body.code === 0) {
+          me.content.blogComments = cb.body.commentList.blogComments
+        }
+      })
+    })
   },
   created () {
     const cid = this.$route.query.contentId
+    this.blogId = cid
     this.$http.get(`/api/getBlog?contentId=${cid}`).then((data) => {
       console.log(data.body)
       if (data.body.data.length > 1) {

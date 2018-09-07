@@ -3,27 +3,27 @@
     <!-- 评论展示 -->
     <div>
       <!-- 单条 -->
-      <div class='pl-item'>
+      <div class='pl-item' v-for='(u, i) in pinglun' :key='i'>
         <!-- 左边头像 -->
         <div class='pl-head'>
-          <img src="@/assets/qqPic.jpg" class="image">
+          <img :src="u.userImg" class="image">
         </div>
         <!-- 右边信息 -->
         <div class='pl-substance'>
           <!-- 名字加图标 -->
           <div class='comment'>
-            <span class='cm-name'>站长</span>
+            <span class='cm-name'>{{u.userName}}</span>
             <i class='icon_image icon_head'></i>
             <i class='icon_image icon_vip6'></i>
             <i class='icon_image icon_hot'></i>
             <span class='cm-name'>：</span>
             <span class='cn-comment'>
-              上联：贾在哭，万在笑，小璐在挨炮 。下联： 宋在操，马在叫，宝宝在咆哮。 横批：指璐为马。谢谢校长Share，宵夜可以加几个鸡腿了。我那边基本都是Dota粉丝，一开始看这个问题的人很少。本来我还想厚着脸皮跟你说围观我一下，幸亏没……
+              {{u.comment}}
             </span>
           </div>
           <!-- 回复时间 -->
           <p class='commit-date'>
-            2017-3-29 19:38
+            {{u.cTime}}
           </p>
         </div>
       </div>
@@ -55,33 +55,55 @@
   </div>
 </template>
 <script>
+import bus from '@/eventBus/index.js'
 export default{
   name: 'pinglun',
+  props: {
+    aId: String,
+    pinglun: Array
+  },
   data () {
     return {
-      textarea: '',
-      loginerInfo: {}
+      textarea: ''
     }
   },
   methods: {
+    checkLogin () {
+      if (!this.loginerInfo.isLogin || !this.loginerInfo.account || !this.loginerInfo.name) {
+        return false
+      } else {
+        return true
+      }
+    },
     submitComment () {
+      if (!this.checkLogin()) {
+        this.$message.error('请先登录')
+        return
+      }
       console.log(this.textarea.replace(/(^\s*)|(\s*$)/g, ''))
       if (!this.textarea.replace(/(^\s*)|(\s*$)/g, '')) {
         this.$message.error('请不要提交空白评论哦')
       } else {
         this.$http.post('/api/submitComment', {
-
-        }).then(() => {
-          
+          blogId: this.aId,
+          data: {
+            comment: this.textarea,
+            userName: this.loginerInfo.name,
+            userImg: this.loginerInfo.icon_image
+          }
+        }, {emulateJSON: true}).then((data) => {
+          if (data.body.code === 0) {
+            this.$message.success(data.body.message)
+            bus.$emit('upDateComments')
+          }
         })
       }
     }
   },
-  created () {
-    const me = this
-    this.$nextTick(() => {
-      me.loginerInfo = me.$store.state.loginInfo
-    })
+  computed: {
+    loginerInfo () {
+      return this.$store.state.loginInfo
+    }
   }
 }
 </script>
@@ -105,7 +127,7 @@ export default{
     .pl-substance {
       box-shadow: 1px 1px 6px #903232;
       border-radius: 4px;
-      padding: 5px 10px 10px;
+      padding: 5px 10px 5px 10px;
       background-color: #fff;
       .comment {
         text-align: left;
@@ -126,6 +148,7 @@ export default{
         }
       }
       .commit-date{
+        padding-top: 2px;
         text-align: right;
         font-size: 13px;
         color: #808080;
