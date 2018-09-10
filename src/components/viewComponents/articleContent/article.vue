@@ -1,5 +1,8 @@
 <template>
   <div id='essay'>
+    <div class='figure' v-if='content.illustration'>
+      <img :src="content.illustration" style='width:100%;height:auto'>
+    </div>
     <div style='background-color:#fff' class='outermost editor'>
       <!-- 标题 -->
       <h1>{{content.blogTitle}}</h1>
@@ -10,16 +13,16 @@
                 {{content.blogAhtuor}}</span>
             </div>
             <div>
-              <i class="el-icon-info type"></i><span id='class'>WEB前端</span>
+              <i class="el-icon-info type"></i><span id='class'>{{content.blogCate.className}}</span>
             </div>
             <div>
               <i class="el-icon-time time"></i><span>{{content.blogDate}}</span>
             </div>
             <div>
-              <i class="icon-wenzhang1 icon iconfont"></i><span>50</span>
+              <i class="icon-wenzhang1 icon iconfont"></i><span>{{content.blogComments.length}}</span>
             </div>
             <div>
-              <i class="icon-like icon iconfont"></i><span>2</span>
+              <i class="icon-like icon iconfont"></i><span>{{content.starList.length}}</span>
             </div>
       </div>
       <!-- 内容 -->

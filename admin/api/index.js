@@ -52,6 +52,18 @@ const tools = {
     var h = '0' + date.getHours()
     var min = '0' + date.getMinutes()
     return y + '-' + m.substring(m.length - 2, m.length) + '-' + d.substring(d.length - 2, d.length) + ' ' + h.substring(h.length - 2, h.length) + ':' + min.substring(min.length - 2, min.length)
+  },
+  dateParser: function (date) {
+    var y = 1900 + date.getYear()
+    var m = '0' + (date.getMonth() + 1)
+    var d = '0' + date.getDate()
+    return y + '-' + m.substring(m.length - 2, m.length) + '-' + d.substring(d.length - 2, d.length)
+  },
+  buildFs: function (dispath) {
+    if (!fs.existsSync(path.dirname(dispath))) {
+      this.buildFs(path.dirname(dispath))
+    }
+    fs.mkdirSync(dispath)
   }
 }
 router.post('/goToReg', function (req, res, next) {
@@ -232,7 +244,7 @@ router.get('/getProvince', function (req, res, next) {
         label: '海南省'
       },
       {
-        value: 'guizu',
+        value: 'guizhou',
         label: '贵州省'
       },
       {
@@ -367,7 +379,8 @@ router.post('/addClass', (req, res, next) => {
           classDescription: postData.classDesc,
           classDate: new Date(),
           classAuthor: cookieInfo.name,
-          isShow: postData.isShow
+          isShow: postData.isShow,
+          classId: postData.className + new Date().valueOf()
         })
         return newClass.save().then(() => {
           res.json({
@@ -507,12 +520,14 @@ router.post('/addBlog', (req, res, next) => {
     }
     const oldPath = files.illImg.path
     const name = files.illImg.name
-    const newPath = path.resolve(__dirname, `../../upLoads/${name}`)
+    const date = tools.dateParser(new Date())
+    const newPath = path.resolve(__dirname, `../../upLoads/blog/${date}/${name}`)
+    fs.existsSync(path.resolve(__dirname, `../../upLoads/blog/${date}`)) === false && tools.buildFs(path.resolve(__dirname, `../../upLoads/blog/${date}`))
     fs.rename(oldPath, newPath, (err) => {
       if (err) {
         throw err
       } else {
-        const rePath = `../../upLoads/${name}`
+        const rePath = `../../upLoads/blog/${date}/${name}`
         console.log(fields)
         console.log(files)
         const blogData = {
@@ -552,18 +567,19 @@ router.post('/addBlog', (req, res, next) => {
 router.post('/addBlog_editor', (req, res, next) => {
   const form = tools.formParser()
   return form.parse(req, (err, fields, files) => {
-    console.log('不对也')
     if (err) {
       throw err
     }
     const oldPath = files.blogImg.path
     const name = files.blogImg.name
-    const newPath = path.resolve(__dirname, `../../upLoads/${name}`)
+    const date = tools.dateParser(new Date())
+    const newPath = path.resolve(__dirname, `../../upLoads/blog/${date}/${name}`)
+    fs.existsSync(path.resolve(__dirname, `../../upLoads/blog/${date}`)) === false && tools.buildFs(path.resolve(__dirname, `../../upLoads/blog/${date}`))
     fs.rename(oldPath, newPath, (err) => {
       if (err) {
         throw err
       } else {
-        const rePath = `../../upLoads/${name}`
+        const rePath = `../../upLoads/blog/${date}/${name}`
         return res.send({
           errno: 0,
           data: [rePath]
@@ -580,7 +596,7 @@ router.get('/getBlogArray', (req, res, next) => {
     console.log('一共有' + length + '条数据')
     const Dpage = tools.dealWithPage(page, length)
     console.log('正确的页码是' + Dpage + '最大页码是' + Math.ceil(length / pageMaxNum))
-    return Blog.find({}, 'blogAhtuor blogTitle blogDesc blogDate _id').limit(pageMaxNum).skip((Dpage - 1) * pageMaxNum).then(
+    return Blog.find({}, 'blogAhtuor blogTitle blogDesc blogDate _id starList blogComments').limit(pageMaxNum).skip((Dpage - 1) * pageMaxNum).then(
       (data) => {
         data.forEach((i) => {
           i.blogDate = tools.timeParser(Number(i.blogDate))
@@ -602,7 +618,7 @@ router.get('/getBlogArray', (req, res, next) => {
 })
 router.get('/getBlog', (req, res, next) => {
   const id = req.query.contentId
-  Blog.find({_id: id}).then((data) => {
+  Blog.find({_id: id}).populate('blogCate').then((data) => {
     data.forEach((i) => {
       i.blogDate = tools.timeParser(Number(i.blogDate))
       i.blogComments.forEach((ii) => {
@@ -741,11 +757,65 @@ router.get('/updateBlogComments', (req, res, next) => {
 })
 router.post('/updateIcon', (req, res, next) => {
   const form = tools.formParser()
-  return form.parse(req, (err, fields, files) => {
-    if (err) {
-      throw err
+  if (!req.cookies.logInfo) {
+    return res.end('您没有登录！')
+  } else {
+    const account = req.cookies.logInfo.account
+    return form.parse(req, (err, fields, files) => {
+      if (err) {
+        throw err
+      }
+      const oldPath = files[account].path
+      console.log(oldPath)
+      const name = account + 'Icon.' + files[account].name.split('.')[1]
+      const newPath = path.resolve(__dirname, `../../upLoads/Icon/${name}`)
+      fs.rename(oldPath, newPath, (err) => {
+        if (err) {
+          throw err
+        } else {
+          const rePath = `../../upLoads/Icon/${name}`
+          return res.json({
+            code: 0,
+            path: rePath
+          })
+        }
+      })
+    })
+  }
+})
+router.get('/doLike', (req, res, next) => {
+  const account = req.query.account
+  const blogId = req.query.blogId
+  Blog.findOne({_id: blogId}).then((data) => {
+    const exists = data.starList.some((item) => {
+      return item === account
+    })
+    if (exists) {
+      return res.json({
+        code: -1,
+        message: '您已点过赞了'
+      })
+    } else {
+      data.starList.push(account)
+      data.save().then(() => {
+        return res.json({
+          code: 0,
+          message: '感谢您的点赞！'
+        })
+      })
     }
-    console.log(files)
+  })
+})
+router.get('/checkLike', (req, res, next) => {
+  const account = req.query.account
+  const blogId = req.query.blogId
+  Blog.findOne({_id: blogId}, 'starList').then((data) => {
+    const exists = data.starList.some((item) => {
+      return item === account
+    })
+    return res.json({
+      answer: exists
+    })
   })
 })
 module.exports = router

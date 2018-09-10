@@ -5,7 +5,10 @@ const blogSchema = mongoose.Schema({
   // 文章标题
   blogTitle: String,
   // 文章分类
-  blogCate: String,
+  blogCate: {
+    type: String,
+    ref: 'classTable'
+  },
   // 引语
   blogDesc: String,
   // 插图
@@ -15,7 +18,9 @@ const blogSchema = mongoose.Schema({
   // 创作时间
   blogDate: String,
   // 评论列表
-  blogComments: Array
+  blogComments: Array,
+  // 点赞列表
+  starList: Array
 })
 const blogDb = mongoose.model('blogTable', blogSchema)
 module.exports = blogDb

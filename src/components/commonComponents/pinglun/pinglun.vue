@@ -48,9 +48,15 @@
             placeholder="请发表您的精彩观点"
             v-model="textarea">
           </el-input>
-          <el-button type="primary" style='float:right;margin-top:10px' @click='submitComment' size='small'>发表</el-button>
+          <div>
+            <el-button type="primary" style='float:right;margin-top:10px' @click='submitComment' size='small' class='clear'>发表</el-button>
+          </div>
         </div>
       </div>
+       <div style='padding:0px 35px 30px;position: relative;text-align:right'>
+          <span style='font-size:13px;color:#ccc'>点个赞吧</span>
+          <el-button style='margin-top:10px' @click='doLike' :icon="like?'el-icon-check':'el-icon-star-off'" :type='like?"success":""' circle size='small'></el-button>
+        </div>
     </div>
   </div>
 </template>
@@ -64,7 +70,8 @@ export default{
   },
   data () {
     return {
-      textarea: ''
+      textarea: '',
+      like: false
     }
   },
   methods: {
@@ -98,7 +105,28 @@ export default{
           }
         })
       }
+    },
+    doLike () {
+      if (!this.loginerInfo.account) {
+        this.$message.error('请先登录才能点赞噢')
+      } else {
+        this.$http.get(`/api/doLike?account=${this.loginerInfo.account}&blogId=${this.aId}`).then((fb) => {
+          if (fb.body.code === 0) {
+            this.$message.success(fb.body.message)
+            this.like = true
+          } else {
+            this.$message.error(fb.body.message)
+          }
+        })
+      }
     }
+  },
+  created () {
+    this.$nextTick(() => {
+      this.$http.get(`/api/checkLike?account=${this.loginerInfo.account}&blogId=${this.aId}`).then((fb) => {
+        this.like = fb.body.answer
+      })
+    })
   },
   computed: {
     loginerInfo () {
@@ -156,11 +184,11 @@ export default{
     }
   }
   .pl-commit {
-    padding: 20px 35px 20px;
+    padding: 20px 35px 0px;
     position: relative;
     .pl-cover{
       box-sizing: border-box;
-      padding: 15px 30px 15px;
+      padding: 15px 30px 0px;
       position: absolute;
       left: 0;
       top: 0;

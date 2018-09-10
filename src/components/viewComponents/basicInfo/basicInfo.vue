@@ -11,6 +11,8 @@
           action="api/updateIcon"
           :name= data.account
           :before-upload='checkFile'
+          :on-success='upDateSuccess'
+          :on-error='upDateFail'
           accept='image/png, image/jpeg, image/gif, image/jpg'
           :show-file-list="false"
           >
@@ -109,7 +111,7 @@ export default {
   },
   computed: {
     data () {
-      return this.$store.state.loginInfo
+      return this.$store.state.loginInfoSumbit
     }
   },
   methods: {
@@ -144,6 +146,9 @@ export default {
             },
             type: 'success'
           })
+          setTimeout(function () {
+            window.location.reload()
+          }, 1000)
         } else {
           this.$alert(fb.body.tip, '提示', {
             confirmButtonText: '确定',
@@ -170,7 +175,7 @@ export default {
         */
     },
     checkFile (file) {
-      console.log(file.type)
+      console.log(file)
       let ifType = false
       let ifSize = true
       if (file.type === 'image/png' || file.type === 'image/jpeg' || file.type === 'image/gif' || file.type === 'image/jpg') {
@@ -186,6 +191,13 @@ export default {
         this.$message.error('文件大小过大')
       }
       return ifType && ifSize
+    },
+    upDateSuccess (result) {
+      console.log(result)
+      this.data.icon_image = result.path
+    },
+    upDateFail () {
+      this.$message.error('上传图片失败')
     }
   }
 }

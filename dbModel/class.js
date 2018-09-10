@@ -8,7 +8,10 @@ const classSchema = mongoose.Schema({
   classDate: Date,
   // 类的简介
   classDescription: String,
-  isShow: String
+  // 是否展示
+  isShow: String,
+  // 类的id
+  classId: String
 })
 let classData = mongoose.model('classTable', classSchema)
 module.exports = classData

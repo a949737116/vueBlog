@@ -17,6 +17,21 @@ export default new Vuex.Store({
       adress: '',
       city: '',
       essayNum: 0
+    },
+    loginInfoSumbit: {
+      account: '',
+      name: '',
+      sex: '',
+      job: '',
+      icon_image: '',
+      level: 0,
+      isAdmin: false,
+      isLogin: false,
+      email: '',
+      tel: '',
+      adress: '',
+      city: '',
+      essayNum: 0
     }
   },
   mutations: {
@@ -34,11 +49,39 @@ export default new Vuex.Store({
         state.loginInfo.tel = data.tel
         state.loginInfo.adress = data.adress
         state.loginInfo.city = data.city
-        state.loginInfo.essayNum = data.essayNum
+        state.loginInfoSumbit.essayNum = data.essayNum
+        state.loginInfoSumbit.account = data.account
+        state.loginInfoSumbit.name = data.name
+        state.loginInfoSumbit.sex = data.sex
+        state.loginInfoSumbit.job = data.job
+        state.loginInfoSumbit.icon_image = data.icon_image
+        state.loginInfoSumbit.level = data.level
+        state.loginInfoSumbit.isAdmin = data.isAdmin
+        state.loginInfoSumbit.isLogin = data.Logined
+        state.loginInfoSumbit.email = data.email
+        state.loginInfoSumbit.tel = data.tel
+        state.loginInfoSumbit.adress = data.adress
+        state.loginInfoSumbit.city = data.city
+        state.loginInfoSumbit.essayNum = data.essayNum
       }
     },
     clearLogin (state) {
       state.loginInfo = {
+        account: '',
+        name: '',
+        sex: '',
+        job: '',
+        icon_image: '',
+        level: 0,
+        isAdmin: false,
+        isLogin: false,
+        email: '',
+        tel: '',
+        adress: '',
+        city: '',
+        essayNum: 0
+      }
+      state.loginInfoSumbit = {
         account: '',
         name: '',
         sex: '',

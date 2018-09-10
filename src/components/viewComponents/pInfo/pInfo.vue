@@ -20,7 +20,7 @@
           </p>
           <div class='position'>
             <i class='icon-position icon iconfont' style='color:#6666bd;vertical-align: middle;'></i>
-            <span>中国 · ？？</span>
+            <span>中国 · {{wd.city}}</span>
           </div>
           <div class='otherInfo'>
             <i class='icon_image' :class='wd.sex==="女"?"icon_woman":"icon_man"'></i>

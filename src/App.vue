@@ -36,6 +36,32 @@ import notice from '@components/viewComponents/notice/notice'
 import loginBoard from '@components/viewComponents/loginBoard/loginBoard'
 import BScroller from 'better-scroll'
 import bus from './eventBus/index.js'
+const provinceObject = {
+  hebei: '河北省',
+  liaoning: '辽宁省',
+  heilongjiang: '黑龙江省',
+  zhejiang: '浙江省',
+  fujian: '福建省',
+  shandong: '山东省',
+  guangdong: '广东省',
+  hubei: '湖北省',
+  sichuang: '四川省',
+  yunnan: '云南省',
+  gangsu: '甘肃省',
+  taiwang: '台湾省',
+  shanxi: '山西省',
+  jilin: '吉林省',
+  jiangsu: '江苏省',
+  anhui: '安徽省',
+  jiangxi: '江西省',
+  henan: '河南省',
+  hunan: '湖南省',
+  hainan: '海南省',
+  guizhou: '贵州省',
+  xiaxi: '陕西省',
+  qinghai: '青海省',
+  zizhiqu: '中国自治区'
+}
 export default {
   name: 'App',
   data () {
@@ -74,7 +100,8 @@ export default {
       info = {
         name: data.name,
         sex: data.sexCN,
-        imgUrl: data.icon_image
+        imgUrl: data.icon_image,
+        city: provinceObject[data.city]
       }
       return info
     }

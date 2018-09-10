@@ -132,7 +132,15 @@ router.get('/todo2', function (req, res, next) {
   })
 })
 router.get('/aBlog', function (req, res, next) {
-  res.render('addBlog')
+  Class.find({}, 'className _id').then((pram) => {
+    console.log(pram)
+    pram.forEach((u) => {
+      u.id = JSON.parse(JSON.stringify(u._id))
+    })
+    return res.render('addBlog', {
+      classList: pram
+    })
+  })
 })
 router.get('/delBlogList', (req, res, next) => {
   Blog.find({}, '_id blogTitle blogAhtuor blogCate').then((data) => {

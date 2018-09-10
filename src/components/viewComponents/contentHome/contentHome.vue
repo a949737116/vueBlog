@@ -2,7 +2,6 @@
   .contentList {
     background-color: #fff;
     border-radius: 5px;
-    padding-bottom: 10px;
     margin-bottom: 30px;
     .contentRow {
       .contentTop {
@@ -56,6 +55,8 @@
         vertical-align: top;
         color: #808080;
         div {
+          height: 20px;
+          line-height: 20px;
           border-color: #d9d9d9;
           border-left-width: 1px;
           border-left-style: solid;
@@ -125,14 +126,14 @@
             </el-col>
             <el-col :span="8">
               <div>
-                <i class='icon-like icon iconfont'></i>
-                <span>30</span>
+                <!-- <i class='icon-like icon iconfont'></i> -->
+                <span>点赞数：{{u.starList.length}}</span>
               </div>
             </el-col>
             <el-col :span="8">
               <div>
-                <i class='icon-linedesign-01 icon iconfont'></i>
-                <span>8</span>
+                <!-- <i class='icon-linedesign-01 icon iconfont'></i> -->
+                <span>评论数：{{u.blogComments.length}}</span>
               </div>
             </el-col>
           </el-row>

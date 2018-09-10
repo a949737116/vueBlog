@@ -65,11 +65,11 @@ export default{
       }
   }
   .image{
-    width: 100%;
+    min-width: 200px;
     height: auto;
   }
   .join{
-    margin-top: -20px
+    margin-top: 20px
   }
   .wxjoin{
     height: 40px;

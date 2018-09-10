@@ -73,7 +73,9 @@
       <div class='row'>
         <span>请选择分类：</span>
         <select name="class" id="blog_class">
-          <option value="1">大花水东哥</option>
+          {% for u in classList %}
+          <option value={{u.id}}>{{u.className}}</option>
+          {% endfor %}
         </select>
       </div>
       <div class='row'>
