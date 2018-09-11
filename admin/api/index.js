@@ -596,7 +596,7 @@ router.get('/getBlogArray', (req, res, next) => {
     console.log('一共有' + length + '条数据')
     const Dpage = tools.dealWithPage(page, length)
     console.log('正确的页码是' + Dpage + '最大页码是' + Math.ceil(length / pageMaxNum))
-    return Blog.find({}, 'blogAhtuor blogTitle blogDesc blogDate _id starList blogComments').limit(pageMaxNum).skip((Dpage - 1) * pageMaxNum).then(
+    return Blog.find({}, 'blogAhtuor blogTitle blogDesc blogDate _id starList blogComments').limit(pageMaxNum).skip((Dpage - 1) * pageMaxNum).sort({'blogDate': -1}).then(
       (data) => {
         data.forEach((i) => {
           i.blogDate = tools.timeParser(Number(i.blogDate))
@@ -816,6 +816,20 @@ router.get('/checkLike', (req, res, next) => {
     return res.json({
       answer: exists
     })
+  })
+})
+router.get('/cateBlog', (req, res, next) => {
+  // Class.find({}, '_id').then((data) => {
+  //   console.log(data)
+  //   let idList = data.map((u) => {
+  //     return u._id
+  //   })
+  //   Blog.distinct('blogTitle,blogCate', {blogCate: {$in: idList}}).then((data) => {
+  //     console.log(data)
+  //   })
+  // })
+  Blog.aggregate({
+    $group
   })
 })
 module.exports = router

@@ -13,16 +13,16 @@
                 {{content.blogAhtuor}}</span>
             </div>
             <div>
-              <i class="el-icon-info type"></i><span id='class'>{{content.blogCate.className}}</span>
+              <i class="el-icon-info type"></i><span id='class' v-if='content.blogCate'>{{content.blogCate.className}}</span>
             </div>
             <div>
               <i class="el-icon-time time"></i><span>{{content.blogDate}}</span>
             </div>
             <div>
-              <i class="icon-wenzhang1 icon iconfont"></i><span>{{content.blogComments.length}}</span>
+              <i class="icon-wenzhang1 icon iconfont"></i><span v-if='content.blogComments'>{{content.blogComments.length}}</span>
             </div>
             <div>
-              <i class="icon-like icon iconfont"></i><span>{{content.starList.length}}</span>
+              <i class="icon-like icon iconfont"></i><span v-if='content.starList'>{{content.starList.length}}</span>
             </div>
       </div>
       <!-- 内容 -->

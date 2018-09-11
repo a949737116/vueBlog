@@ -16,36 +16,26 @@
           <el-menu-item index="1-3">前端文章3</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
-      <el-submenu index="2" style='padding:none'>
-        <div slot="title" class='tabTitle' style='text-align:left;'>
-          <i class="el-icon-location"></i>
-          <span>我的生活</span>
-        </div>
-        <el-menu-item-group class='leftt'>
-          <el-menu-item index="2-1">我的生活1</el-menu-item>
-          <el-menu-item index="2-2">我的生活2</el-menu-item>
-          <el-menu-item index="2-3">我的生活3</el-menu-item>
-        </el-menu-item-group>
-      </el-submenu>
-      <el-submenu index="3" style='padding:none'>
-        <div slot="title" class='tabTitle' style='text-align:left'>
-          <i class="el-icon-location"></i>
-          <span>其他</span>
-        </div>
-        <el-menu-item-group class='leftt'>
-          <el-menu-item index="3-1">其他1</el-menu-item>
-          <el-menu-item index="3-2">其他2</el-menu-item>
-          <el-menu-item index="3-3">其他3 </el-menu-item>
-        </el-menu-item-group>
-      </el-submenu>
     </el-menu>
   </div>
 </template>
 <script>
 export default{
   name: 'leftTab',
+  data () {
+    return {
+      cateBlog: {}
+    }
+  },
   props: {
     cate: Array
+  },
+  mounted () {
+    this.$http.get('/api/cateBlog').then((data) => {
+      if (data.body.code === 0) {
+        this.cateBlog = data.body.cateBlog
+      }
+    })
   }
 }
 </script>

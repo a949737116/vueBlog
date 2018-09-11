@@ -5,18 +5,24 @@
         <!-- 导航栏 -->
          <tabBar :cate='cateList' :isAdmin='isAdmin'></tabBar>
       </el-header>
-      <el-container style='padding-top:20px'>
+      <el-container style='padding:20px 0 56px 0'>
         <el-aside width="150px" style='overflow:hidden'>
+          <div class='scroller'>
             <leftTab :cate='cateList'></leftTab>
+          </div>
         </el-aside>
         <el-main id='Vmain'>
             <router-view></router-view>
         </el-main>
-        <el-aside width="250px" style='overflow:hidden'>
-            <loginBoard :class='rightShowList.lbShow ? "" : "hidden"' :wd="lg01" @backToCriper='clearData'></loginBoard>
-            <lreg :class='rightShowList.lrShow ? "" : "hidden"' @lrCipher="receiveData"></lreg>
-            <pinfo :class='rightShowList.piShow ? "" : "hidden"' style='margin-top:20px' :wd="lg02"></pinfo>
-            <notice :class='rightShowList.ntShow ? "" : "hidden"' style='margin-top:20px'></notice>
+        <el-aside width="250px">
+          <div class='scroller'>
+            <div>
+               <loginBoard :class='rightShowList.lbShow ? "" : "hidden"' :wd="lg01" @backToCriper='clearData'></loginBoard>
+              <lreg :class='rightShowList.lrShow ? "" : "hidden"' @lrCipher="receiveData"></lreg>
+              <pinfo :class='rightShowList.piShow ? "" : "hidden"' style='margin-top:20px' :wd="lg02"></pinfo>
+              <notice :class='rightShowList.ntShow ? "" : "hidden"' style='margin:20px 0px'></notice>
+            </div>
+          </div>
         </el-aside>
       </el-container>
     </el-container>
@@ -190,8 +196,19 @@ body {
       width: 1224px;
       margin: 0 auto;
       .el-aside {
+        width: 280px;
+        overflow: hidden;
         color: #333;
         text-align: center;
+        .scroller {
+          height: 100%;
+          width: 300px;
+          overflow-y: scroll;
+          &>div {
+            width: 250px;
+            position: relative;
+          }
+        }
       }
       .el-main {
         color: #333;
