@@ -64,29 +64,38 @@ export default{
     })
   },
   created () {
-    const cid = this.$route.query.contentId
-    this.blogId = cid
-    this.$http.get(`/api/getBlog?contentId=${cid}`).then((data) => {
-      console.log(data.body)
-      if (data.body.data.length > 1) {
-        console.log('数据获取出错')
-      } else {
-        this.content = data.body.data[0]
-        this.$nextTick(() => {
-          bus.$emit('refrshDiv')
-          this.$notify({
-            title: '温馨提醒',
-            message: '按住文章滑动即可实现上下滚动',
-            type: 'info',
-            position: 'bottom-left',
-            duration: 5000,
-            customClass: 'notifyMessage'
-          })
-        })
-      }
-    })
+    this.getContent()
   },
   methods: {
+    getContent () {
+      const cid = this.$route.query.contentId
+      this.blogId = cid
+      this.$http.get(`/api/getBlog?contentId=${cid}`).then((data) => {
+        console.log(data.body)
+        if (data.body.data.length > 1) {
+          console.log('数据获取出错')
+        } else {
+          this.content = data.body.data[0]
+          this.$nextTick(() => {
+            bus.$emit('refrshDiv')
+            this.$notify({
+              title: '温馨提醒',
+              message: '按住文章滑动即可实现上下滚动',
+              type: 'info',
+              position: 'bottom-left',
+              duration: 5000,
+              customClass: 'notifyMessage'
+            })
+          })
+        }
+      })
+    }
+  },
+  watch: {
+    $route: {
+      handler: 'getContent',
+      deep: true
+    }
   }
 }
 </script>

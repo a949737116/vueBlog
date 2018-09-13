@@ -206,14 +206,24 @@ export default{
         this.pageData = data.body.pageData
         this.blogArray = data.body.data
       })
+    },
+    getBlogArray () {
+      const cateId = this.$route.query.cateId || 0
+      this.$http.get(`/api/getBlogArray?page=1&cateId=${cateId}`).then((data) => {
+        console.log(data.body)
+        this.pageData = data.body.pageData
+        this.blogArray = data.body.data
+      })
     }
   },
   created () {
-    this.$http.get(`/api/getBlogArray?page=1`).then((data) => {
-      console.log(data.body)
-      this.pageData = data.body.pageData
-      this.blogArray = data.body.data
-    })
+    this.getBlogArray()
+  },
+  watch: {
+    $route: {
+      deep: true,
+      handler: 'getBlogArray'
+    }
   }
 }
 </script>

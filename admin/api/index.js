@@ -496,7 +496,8 @@ router.get('/view_ctae', function (req, res, next) {
       mdata.push(
         {
           name: item.className,
-          show: item.isShow
+          show: item.isShow,
+          classId: item._id
         }
       )
     })
@@ -590,13 +591,16 @@ router.post('/addBlog_editor', (req, res, next) => {
 })
 router.get('/getBlogArray', (req, res, next) => {
   let page = tools.getUrlPage(req)
+  console.log(req.query.cateId)
+  const searchCate = req.query.cateId !== '0' ? {blogCate: req.query.cateId} : {}
+  console.log(searchCate)
   page = Number(page)
   console.log(page)
-  Blog.countDocuments().then((length) => {
+  Blog.countDocuments(searchCate).then((length) => {
     console.log('一共有' + length + '条数据')
     const Dpage = tools.dealWithPage(page, length)
     console.log('正确的页码是' + Dpage + '最大页码是' + Math.ceil(length / pageMaxNum))
-    return Blog.find({}, 'blogAhtuor blogTitle blogDesc blogDate _id starList blogComments').limit(pageMaxNum).skip((Dpage - 1) * pageMaxNum).sort({'blogDate': -1}).then(
+    return Blog.find(searchCate, 'blogAhtuor blogTitle blogDesc blogDate _id starList blogComments').limit(pageMaxNum).skip((Dpage - 1) * pageMaxNum).sort({'blogDate': -1}).then(
       (data) => {
         data.forEach((i) => {
           i.blogDate = tools.timeParser(Number(i.blogDate))
@@ -819,17 +823,20 @@ router.get('/checkLike', (req, res, next) => {
   })
 })
 router.get('/cateBlog', (req, res, next) => {
-  // Class.find({}, '_id').then((data) => {
-  //   console.log(data)
-  //   let idList = data.map((u) => {
-  //     return u._id
-  //   })
-  //   Blog.distinct('blogTitle,blogCate', {blogCate: {$in: idList}}).then((data) => {
-  //     console.log(data)
-  //   })
-  // })
-  Blog.aggregate({
-    $group
+  Class.find({}, '_id className cateIcon').then((data) => {
+    let idList = data.map((u) => {
+      return u._id
+    })
+    let promiss = idList.map((uu) => {
+      return Blog.find({blogCate: uu}, 'blogTitle _id').populate('blogCate')
+    })
+    return Promise.all(promiss).then((pdata) => {
+      res.json({
+        code: 0,
+        cateBlog: pdata,
+        cate: data
+      })
+    })
   })
 })
 module.exports = router
