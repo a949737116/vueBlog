@@ -8,6 +8,7 @@ const path = require('path')
 const fs = require('fs')
 const defualtExtraOption = {
   icon_image: '/data/question.png',
+  hornor: [],
   level: 0,
   isAdmin: false,
   email: '',
@@ -148,7 +149,8 @@ router.post('/goToLogin', function (req, res, next) {
           res.cookie('logInfo', {
             account: data.account,
             isAdmin: fData.isAdmin,
-            name: fData.name
+            name: fData.name,
+            userId: fData._id
           })
           res.json({
             status: 0,
@@ -510,10 +512,12 @@ router.get('/view_ctae', function (req, res, next) {
 router.post('/addBlog', (req, res, next) => {
   const from = tools.formParser()
   let username = ''
+  let userId = ''
   if (!req.cookies.logInfo.isAdmin) {
     return res.send('您没有管理员权限')
   } else {
     username = req.cookies.logInfo.name
+    userId = req.cookies.logInfo.userId
   }
   from.parse(req, (err, fields, files) => {
     if (err) {
@@ -529,8 +533,6 @@ router.post('/addBlog', (req, res, next) => {
         throw err
       } else {
         const rePath = `../../upLoads/blog/${date}/${name}`
-        console.log(fields)
-        console.log(files)
         const blogData = {
           blogTitle: fields.blog_title,
           blogTex: fields.yinyu,
@@ -539,6 +541,8 @@ router.post('/addBlog', (req, res, next) => {
           blogPic: rePath
         }
         const newBlog = new Blog({
+          // 作者ID
+          blogAhtuorId: userId,
           // 文章作者
           blogAhtuor: username,
           // 文章标题
@@ -600,9 +604,17 @@ router.get('/getBlogArray', (req, res, next) => {
     console.log('一共有' + length + '条数据')
     const Dpage = tools.dealWithPage(page, length)
     console.log('正确的页码是' + Dpage + '最大页码是' + Math.ceil(length / pageMaxNum))
-    return Blog.find(searchCate, 'blogAhtuor blogTitle blogDesc blogDate _id starList blogComments').limit(pageMaxNum).skip((Dpage - 1) * pageMaxNum).sort({'blogDate': -1}).then(
+    return Blog.find(searchCate, 'blogAhtuorId blogAhtuor blogTitle blogDesc blogDate _id starList blogComments').populate('blogAhtuorId', '_id icon_image name isAdmin level hornor').limit(pageMaxNum).skip((Dpage - 1) * pageMaxNum).sort({'blogDate': -1}).then(
       (data) => {
+        console.log(data)
         data.forEach((i) => {
+          // if (i.blogAhtuorId) {
+          //   mdata.push({
+          //     icon: i.blogAhtuorId.icon_image,
+          //     level: i.blogAhtuorId.level,
+          //     horor: i.blogAhtuorId.hornor
+          //   })
+          // }
           i.blogDate = tools.timeParser(Number(i.blogDate))
         })
         // 页码处理

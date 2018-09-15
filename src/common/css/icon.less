@@ -1,22 +1,31 @@
 .icon_image{
   margin-right: -4px;
-  background-size: 18px 18px;
+  background-size: auto 18px;
   width: 18px;
   height: 18px;
   display: inline-block;
   background-repeat: no-repeat;
-  &.icon_head{
-    background-image:url('../../assets/home.png');
+  &.icon_level{
+    background-image:url('../../assets/level.png');
   }
-  &.icon_vip6{
-    background-image:url('../../assets/vip6.png');
+  &.icon_level.lv0 {
+    background-position: 0,0
   }
-  &.icon_hot{
-    background-image:url('../../assets/hot.png');
+  &.icon_level.lv1 {
+    background-position: -29px,0
+  }
+  &.icon_level.lv2 {
+    background-position: -58px,0
   }  
-  &.icon_max{
-    background-image:url('../../assets/maxlv.png');
-  }
+  &.icon_level.lv3 {
+    background-position: -87px,0
+  } 
+  &.icon_new{
+    background-image:url('../../assets/new.png');
+  } 
+  &.icon_admin{
+    background-image:url('../../assets/admin.png');
+  } 
   &.icon_man{
     background-image:url('../../assets/man.png');
   } 

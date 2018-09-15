@@ -9,7 +9,7 @@
     </p>
     <p>
       <span class='cg cgAnimation'>欢迎，</span>
-      <a href=''>{{wd.name}}</a>
+      <router-link to='/myBasicInfo'>{{wd.name}}</router-link>
     </p>
     <div class='login_do'>
       <div :class='wd.isAdmin?"":"disabled"' @click='openAdmin'>

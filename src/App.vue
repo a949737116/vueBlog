@@ -107,7 +107,10 @@ export default {
         name: data.name,
         sex: data.sexCN,
         imgUrl: data.icon_image,
-        city: provinceObject[data.city]
+        city: provinceObject[data.city],
+        level: data.level,
+        hornor: data.hornor,
+        isAdmin: data.isAdmin
       }
       return info
     }

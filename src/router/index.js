@@ -24,7 +24,7 @@ export default new Router({
       component: contentHome
     },
     {
-      path: '/3',
+      path: '/myBasicInfo',
       name: 'basic',
       component: basicInfo
     }

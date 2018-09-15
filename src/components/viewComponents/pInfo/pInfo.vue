@@ -8,19 +8,33 @@
         <!-- 简单资料 -->
         <div class='ziliao'>
           <p>
-            <a href="">
-              <span>{{wd.name || '？？？'}}</span>
-            </a>
-            <el-tooltip content="站主" placement='top' effect="light">
-              <i class='icon_head icon_image'></i>
+            <router-link to='/myBasicInfo' v-if='wd.name'>{{wd.name}}</router-link>
+            <span v-else>？？？</span>
+            <el-tooltip :content="`会员等级${wd.level}`" placement='top' effect="light">
+              <i :class='`icon_image icon_level lv${wd.level}`'></i>
             </el-tooltip>
-            <el-tooltip content="Lv:999" placement='top' effect="light">
-              <i class='icon_max icon_image'></i>
+            <el-tooltip content="管理员" placement='top' effect="light" v-if='wd.isAdmin'>
+              <i class='icon_image icon_admin'></i>
+            </el-tooltip>
+            <el-tooltip v-if='wd.hornor.length>0' v-for='(u, i) in wd.hornor' v-bind:key='i' :content="title[u]" placement='top' effect="light">
+              <i :class='`icon_image icon_${u}`'></i>
             </el-tooltip>
           </p>
+          <div v-if='wd.level<3' class='levelRow'>
+            <el-tooltip :content='`当前${wd.level}级`' placement="bottom">
+              <i :class='`icon_image icon_level lv${wd.level}`'></i>
+            </el-tooltip>
+            <i class='icon_image el-icon-caret-right' style='vertical-align:text-top'></i>
+            <el-tooltip :content='`下一等级${wd.level + 1}`' placement="bottom">
+              <i :class='`icon_image icon_level lv${wd.level + 1}`'></i>
+            </el-tooltip>
+          </div>
+          <div class='levelRow' v-else>
+            <img src="@assets/maxlevel.png" alt="">
+          </div>
           <div class='position'>
             <i class='icon-position icon iconfont' style='color:#6666bd;vertical-align: middle;'></i>
-            <span>中国 · {{wd.city}}</span>
+            <span>中国 · {{wd.city || '??'}}</span>
           </div>
           <div class='otherInfo'>
             <i class='icon_image' :class='wd.sex==="女"?"icon_woman":"icon_man"'></i>
@@ -37,6 +51,13 @@ export default{
   name: 'pInfo',
   props: {
     wd: Object
+  },
+  data () {
+    return {
+      title: {
+        'new': '新注册的用户'
+      }
+    }
   }
 }
 </script>
@@ -58,6 +79,11 @@ export default{
   }
   .ziliao{
     padding: 10px;
+    .levelRow {
+      font-size: 12px;
+      padding-top: 10px;
+      text-align: center;
+    }
     i {
       margin-left: 5px;
     }

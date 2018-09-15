@@ -1,5 +1,7 @@
 const mongoose = require('mongoose')
 const userSchema = mongoose.Schema({
+  // 头衔
+  hornor: Array,
   // 账号
   account: String,
   // 密码

@@ -1,0 +1,53 @@
+.icon_image {
+  margin-right: -4px;
+  background-size: auto 18px;
+  width: 18px;
+  height: 18px;
+  display: inline-block;
+  background-repeat: no-repeat;
+}
+.icon_image.icon_level {
+  background-image: url('../../assets/level.png');
+}
+.icon_image.icon_level.lv0 {
+  background-position: 0, 0;
+}
+.icon_image.icon_level.lv1 {
+  background-position: -29px, 0;
+}
+.icon_image.icon_level.lv2 {
+  background-position: -58px, 0;
+}
+.icon_image.icon_level.lv3 {
+  background-position: -87px, 0;
+}
+.icon_image.icon_new {
+  background-image: url('../../assets/new.png');
+}
+.icon_image.icon_admin {
+  background-image: url('../../assets/admin.png');
+}
+.icon_image.icon_man {
+  background-image: url('../../assets/man.png');
+}
+.icon_image.icon_woman {
+  background-image: url('../../assets/woman.png');
+}
+.icon_image.icon_avatar {
+  background-image: url('../../assets/avatar.png');
+}
+.icon_image.icon_hiring {
+  background-image: url('../../assets/hiring.png');
+}
+.icon_image.icon_gender {
+  background-image: url('../../assets/gender.png');
+}
+.icon_image.icon_id-card {
+  background-image: url('../../assets/id-card.png');
+}
+.icon_image.icon_key {
+  background-image: url('../../assets/key.png');
+}
+.icon_image.icon_promotion {
+  background-image: url('../../assets/promotion.png');
+}

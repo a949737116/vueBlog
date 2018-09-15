@@ -16,7 +16,8 @@ export default new Vuex.Store({
       tel: '',
       adress: '',
       city: '',
-      essayNum: 0
+      essayNum: 0,
+      hornor: []
     },
     loginInfoSumbit: {
       account: '',
@@ -31,7 +32,8 @@ export default new Vuex.Store({
       tel: '',
       adress: '',
       city: '',
-      essayNum: 0
+      essayNum: 0,
+      hornor: []
     }
   },
   mutations: {
@@ -49,6 +51,7 @@ export default new Vuex.Store({
         state.loginInfo.tel = data.tel
         state.loginInfo.adress = data.adress
         state.loginInfo.city = data.city
+        state.loginInfo.hornor = data.hornor
         state.loginInfoSumbit.essayNum = data.essayNum
         state.loginInfoSumbit.account = data.account
         state.loginInfoSumbit.name = data.name
@@ -63,6 +66,7 @@ export default new Vuex.Store({
         state.loginInfoSumbit.adress = data.adress
         state.loginInfoSumbit.city = data.city
         state.loginInfoSumbit.essayNum = data.essayNum
+        state.loginInfoSumbit.hornor = data.hornor
       }
     },
     clearLogin (state) {
@@ -79,7 +83,8 @@ export default new Vuex.Store({
         tel: '',
         adress: '',
         city: '',
-        essayNum: 0
+        essayNum: 0,
+        hornor: []
       }
       state.loginInfoSumbit = {
         account: '',
@@ -94,7 +99,8 @@ export default new Vuex.Store({
         tel: '',
         adress: '',
         city: '',
-        essayNum: 0
+        essayNum: 0,
+        hornor: []
       }
     }
   }

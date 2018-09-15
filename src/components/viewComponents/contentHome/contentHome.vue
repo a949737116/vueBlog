@@ -25,6 +25,9 @@
               color: #333;
               font-weight: 700;
             }
+            i {
+              margin-right: 2px
+            }
           }
           .artInfoRow{
             color: #a5a4a4;
@@ -92,15 +95,15 @@
         <div class='contentTop'>
           <div class='topLeft'>
             <!-- 头像栏 -->
-            <img src="@/assets/qqPic.jpg" class="image">
+            <img :src="u.blogAhtuorId.icon_image" class="image">
           </div>
           <div class='topRight'>
             <!-- 作者信息 -->
             <div class='authorRow clear'>
-              <span class='name'>{{u.blogAhtuor}}</span>
-              <i class='icon_image icon_head'></i>
-              <i class='icon_image icon_vip6'></i>
-              <i class='icon_image icon_hot'></i>
+              <span class='name'>{{u.blogAhtuorId.name}}</span>
+              <i :class='`icon_image icon_level lv${u.blogAhtuorId.level}`'></i>
+              <i v-if='u.blogAhtuorId.isAdmin' class='icon_image icon_admin'></i>
+              <i v-if='u.blogAhtuorId.hornor.length>0' v-for='(t, n) in u.blogAhtuorId.hornor' :key='n' :class='`icon_image icon_${t}`'></i>
             </div>
             <!-- 作品信息 -->
             <div class='artInfoRow'>
