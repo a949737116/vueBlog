@@ -160,6 +160,7 @@
   </div>
 </template>
 <script>
+import bus from '../../../eventBus/index.js'
 export default{
   name: 'contentHome',
   data () {
@@ -182,7 +183,9 @@ export default{
         })
         return false
       }
+      bus.$emit('toload', true)
       this.$http.get(`/api/getBlogArray?page=${this.pageData.Dpage - 1}`).then((data) => {
+        bus.$emit('toload', false)
         console.log(data.body.data)
         this.pageData = data.body.pageData
         this.blogArray = data.body.data
@@ -197,22 +200,28 @@ export default{
         })
         return false
       }
+      bus.$emit('toload', true)
       this.$http.get(`/api/getBlogArray?page=${this.pageData.Dpage + 1}`).then((data) => {
+        bus.$emit('toload', false)
         console.log(data.body.data)
         this.pageData = data.body.pageData
         this.blogArray = data.body.data
       })
     },
     pageChange () {
+      bus.$emit('toload', true)
       this.$http.get(`/api/getBlogArray?page=${this.$refs.page.internalCurrentPage}`).then((data) => {
         console.log(data.body)
+        bus.$emit('toload', false)
         this.pageData = data.body.pageData
         this.blogArray = data.body.data
       })
     },
     getBlogArray () {
       const cateId = this.$route.query.cateId || 0
+      bus.$emit('toload', true)
       this.$http.get(`/api/getBlogArray?page=1&cateId=${cateId}`).then((data) => {
+        bus.$emit('toload', false)
         console.log(data.body)
         this.pageData = data.body.pageData
         this.blogArray = data.body.data

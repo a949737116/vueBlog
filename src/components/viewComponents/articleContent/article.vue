@@ -56,7 +56,9 @@ export default{
       bus.$emit('refrshDiv')
     }
     bus.$on('upDateComments', () => {
+      bus.$emit('toload', true)
       me.$http.get(`/api/updateBlogComments?blogId=${me.blogId}`).then((cb) => {
+        bus.$emit('toload', false)
         if (cb.body.code === 0) {
           me.content.blogComments = cb.body.commentList.blogComments
         }
@@ -70,7 +72,9 @@ export default{
     getContent () {
       const cid = this.$route.query.contentId
       this.blogId = cid
+      bus.$emit('toload', true)
       this.$http.get(`/api/getBlog?contentId=${cid}`).then((data) => {
+        bus.$emit('toload', false)
         console.log(data.body)
         if (data.body.data.length > 1) {
           console.log('数据获取出错')

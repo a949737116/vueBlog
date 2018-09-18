@@ -91,6 +91,7 @@ export default{
       if (!this.textarea.replace(/(^\s*)|(\s*$)/g, '')) {
         this.$message.error('请不要提交空白评论哦')
       } else {
+        bus.$emit('toload', true)
         this.$http.post('/api/submitComment', {
           blogId: this.aId,
           data: {
@@ -99,6 +100,7 @@ export default{
             userImg: this.loginerInfo.icon_image
           }
         }, {emulateJSON: true}).then((data) => {
+          bus.$emit('toload', false)
           if (data.body.code === 0) {
             this.$message.success(data.body.message)
             bus.$emit('upDateComments')
@@ -110,7 +112,9 @@ export default{
       if (!this.loginerInfo.account) {
         this.$message.error('请先登录才能点赞噢')
       } else {
+        bus.$emit('toload', true)
         this.$http.get(`/api/doLike?account=${this.loginerInfo.account}&blogId=${this.aId}`).then((fb) => {
+          bus.$emit('toload', false)
           if (fb.body.code === 0) {
             this.$message.success(fb.body.message)
             this.like = true
@@ -123,7 +127,9 @@ export default{
   },
   created () {
     this.$nextTick(() => {
+      bus.$emit('toload', true)
       this.$http.get(`/api/checkLike?account=${this.loginerInfo.account}&blogId=${this.aId}`).then((fb) => {
+        bus.$emit('toload', false)
         this.like = fb.body.answer
       })
     })

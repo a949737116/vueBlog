@@ -8,7 +8,7 @@ const path = require('path')
 const fs = require('fs')
 const defualtExtraOption = {
   icon_image: '/data/question.png',
-  hornor: [],
+  hornor: ['new'],
   level: 0,
   isAdmin: false,
   email: '',
@@ -835,7 +835,7 @@ router.get('/checkLike', (req, res, next) => {
   })
 })
 router.get('/cateBlog', (req, res, next) => {
-  Class.find({}, '_id className cateIcon').then((data) => {
+  Class.find({}, '_id className cateIcon isShow').then((data) => {
     let idList = data.map((u) => {
       return u._id
     })

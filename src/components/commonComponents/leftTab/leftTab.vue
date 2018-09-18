@@ -5,7 +5,7 @@
       text-color="#fff"
       background-color="rgba(98, 109, 120, 0.24)"
       active-text-color="#fff">
-      <el-submenu  :index='i.toString()' style='padding:none' v-for='(u,i) in cate' :key='i'>
+      <el-submenu  :index='i.toString()' style='padding:none' v-for='(u,i) in cate' :key='i' v-if='u.isShow==="是"'>
         <div slot="title" class='tabTitle' style='text-align:left'>
           <i><img :src="u.cateIcon"  width=20 height=20 style='vertical-align:text-bottom'></i>
           <span style='font-size:15px'>{{u.className}}</span>
@@ -21,6 +21,7 @@
   </div>
 </template>
 <script>
+import bus from '../../../eventBus/index.js'
 export default{
   name: 'leftTab',
   data () {
@@ -30,7 +31,9 @@ export default{
     }
   },
   created () {
+    bus.$emit('toload', true)
     this.$http.get('/api/cateBlog').then((data) => {
+      bus.$emit('toload', false)
       console.log(data)
       if (data.body.code === 0) {
         this.cateBlog = data.body.cateBlog

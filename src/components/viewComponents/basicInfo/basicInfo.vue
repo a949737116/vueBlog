@@ -78,6 +78,7 @@
   </div>
 </template>
 <script>
+import bus from '../../../eventBus/index.js'
 export default {
   name: 'basicInfo',
   data () {
@@ -104,7 +105,9 @@ export default {
     }
   },
   created () {
+    bus.$emit('toload', true)
     this.$http.get('/api/getProvince').then(function (pdata) {
+      bus.$emit('toload', false)
       console.log(pdata.body.provinceList)
       this.options2 = pdata.body.provinceList
     })
@@ -116,7 +119,9 @@ export default {
   },
   methods: {
     refreshStore (number) {
+      bus.$emit('toload', true)
       this.$http.get('/api/getPersonalData', {params: {account: number}}).then(function (fb) {
+        bus.$emit('toload', false)
         console.log(fb)
         this.$store.commit('enterLogin', fb.body.info)
       })
@@ -136,7 +141,9 @@ export default {
           city: this.data.city
         }
       }
+      bus.$emit('toload', true)
       this.$http.post('/api/supplement', sendData, {emulateJSON: true}).then(function (fb) {
+        bus.$emit('toload', false)
         console.log(fb.body)
         if (fb.body.status === 0) {
           this.$alert(fb.body.tip, '提示', {

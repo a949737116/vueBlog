@@ -100,6 +100,7 @@
   </div>
 </template>
 <script>
+import bus from '../../../eventBus/index.js'
 export default{
   name: 'logReg',
   data () {
@@ -148,7 +149,9 @@ export default{
         let sendData = this.loginInfo
         sendData.inspected = true
       }
+      bus.$emit('toload', true)
       this.$http.post('/api/goToLogin', this.loginInfo, {emulateJSON: true}).then(function (fb) {
+        bus.$emit('toload', false)
         console.log(fb.body)
         if (fb.body.status === -1) {
           me.openAlert(fb.body.tip, 'error')
@@ -212,8 +215,10 @@ export default{
     },
     sumbitReg (data) {
       const me = this
+      bus.$emit('toload', true)
       this.$http.post('/api/goToReg', data, {emulateJSON: true}).then(function (fb) {
         console.log(fb.body)
+        bus.$emit('toload', false)
         if (fb.body.status === -1) {
           me.openAlert(fb.body.tip, 'error')
         } else if (fb.body.status === 0) {
@@ -224,6 +229,7 @@ export default{
           }, 1000)
         }
       }).then(function (error) {
+        bus.$emit('toload', false)
         console.log(error)
       })
     },
@@ -272,7 +278,9 @@ export default{
     }
   },
   created () {
+    bus.$emit('toload', true)
     this.$http.get('/api/getUserInfo').then((fb) => {
+      bus.$emit('toload', false)
       if (fb.body.code === 0) {
         console.log(fb)
         this.$emit('lrCipher')

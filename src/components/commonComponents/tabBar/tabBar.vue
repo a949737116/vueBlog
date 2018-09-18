@@ -17,8 +17,10 @@
             <router-link :to='`/?cateId=${u.classId}`' style='font-szie:13px;text-decoration:none;color:inherit;width:100%;display:inline-block'>{{u.name}}</router-link>
           </el-menu-item>
       </el-submenu>
-      <el-menu-item index="3" v-if='isAdmin'><a href='/admin' style='font-szie:13px;text-decoration:none;color:inherit;width:100%;display:inline-block'>管理面板</a></el-menu-item>
-      <el-menu-item index="3" disabled v-else >管理面板</el-menu-item>
+      <el-menu-item index="3" v-if='isAdmin'><a href='/admin' target='blank' style='font-szie:13px;text-decoration:none;color:inherit;width:100%;display:inline-block'>管理面板</a></el-menu-item>
+      <el-menu-item index="3" disabled v-else >
+        管理面板
+      </el-menu-item>
       <el-menu-item index="4">个人网站</el-menu-item>
     </el-menu>
   </div>

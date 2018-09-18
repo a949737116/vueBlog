@@ -1,5 +1,10 @@
 <template>
-  <div id="app">
+  <div id="app"
+   v-loading.fullscreen.lock = 'ifLoad'
+   element-loading-text="正在努力加载..."
+  element-loading-spinner="el-icon-loading"
+  element-loading-background="rgba(0, 0, 0, 0.8)"
+  >
     <el-container style='height:100%'>
       <el-header>
         <!-- 导航栏 -->
@@ -72,7 +77,7 @@ export default {
   name: 'App',
   data () {
     return {
-      isAdmin: false,
+      ifLoad: false,
       cateList: [],
       radio: '1',
       rightShowList: {
@@ -113,6 +118,9 @@ export default {
         isAdmin: data.isAdmin
       }
       return info
+    },
+    isAdmin () {
+      return this.$store.state.loginInfo.isAdmin
     }
   },
   components: {
@@ -125,13 +133,14 @@ export default {
     loginBoard
   },
   created () {
+    debugger
     let me = this
-    this.$http.get('/api/view_ctae').then((data) => {
-      console.log(data)
-      me.isAdmin = data.body.isAdmin
-      me.cateList = data.body.classList
-    })
     this.$nextTick(() => {
+      this.$http.get('/api/view_ctae').then((data) => {
+        console.log(data)
+        me.cateList = data.body.classList
+        me.ifLoad = false
+      })
       if (me.scroll) {
         me.scroll.refresh()
       } else {
@@ -144,6 +153,9 @@ export default {
   },
   mounted () {
     const me = this
+    bus.$on('toload', (value) => {
+      me.ifLoad = value
+    })
     bus.$on('refrshDiv', () => {
       if (!me.scroll) {
         me.scroll = new BScroller('#Vmain', {

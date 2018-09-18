@@ -1,4 +1,4 @@
-'use strict'
+  'use strict'
 const utils = require('./utils')
 const webpack = require('webpack')
 const config = require('../config')
@@ -91,7 +91,15 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     //请求头JSON格式解析
     const bodyParser = require('body-parser');
     app.use(bodyParser.urlencoded({extended:true,limit:'20000kb'}));
-    app.use('/admin',require('../admin/router'));
+    // app.use('/admin',require('../admin/router'));
+    app.use('/admin', function(req, res, next){
+      if (req.cookies.logInfo && req.cookies.logInfo.isAdmin){
+        console.log('你是管理员')
+        next();
+      } else {
+        res.send('你没有管理权限，请退出')
+      }
+    }, require('../admin/router'))
     app.use('/api',require('../admin/api'));
   }
 //=======================================================================

@@ -1,7 +1,7 @@
 <template>
   <el-card
   shadow="hover"
-  :body-style= "{padding:'5px 15px'}"
+  :body-style= "{padding:'7px 15px'}"
   id="notice"
   >
   <div slot='header' class='notice_header'>

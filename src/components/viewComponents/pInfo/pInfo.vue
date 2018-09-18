@@ -10,17 +10,17 @@
           <p>
             <router-link to='/myBasicInfo' v-if='wd.name'>{{wd.name}}</router-link>
             <span v-else>？？？</span>
-            <el-tooltip :content="`会员等级${wd.level}`" placement='top' effect="light">
+            <el-tooltip :content="`会员等级${wd.level}`" placement='top' effect="light"  v-if='wd.name'>
               <i :class='`icon_image icon_level lv${wd.level}`'></i>
             </el-tooltip>
             <el-tooltip content="管理员" placement='top' effect="light" v-if='wd.isAdmin'>
               <i class='icon_image icon_admin'></i>
             </el-tooltip>
-            <el-tooltip v-if='wd.hornor.length>0' v-for='(u, i) in wd.hornor' v-bind:key='i' :content="title[u]" placement='top' effect="light">
+            <el-tooltip v-if='wd.hornor.length>0'  v-for='(u, i) in wd.hornor' v-bind:key='i' :content="title[u]" placement='top' effect="light">
               <i :class='`icon_image icon_${u}`'></i>
             </el-tooltip>
           </p>
-          <div v-if='wd.level<3' class='levelRow'>
+          <div v-if='wd.name && wd.level<3' class='levelRow'>
             <el-tooltip :content='`当前${wd.level}级`' placement="bottom">
               <i :class='`icon_image icon_level lv${wd.level}`'></i>
             </el-tooltip>
@@ -29,7 +29,7 @@
               <i :class='`icon_image icon_level lv${wd.level + 1}`'></i>
             </el-tooltip>
           </div>
-          <div class='levelRow' v-else>
+          <div class='levelRow' v-else-if='wd.name'>
             <img src="@assets/maxlevel.png" alt="">
           </div>
           <div class='position'>

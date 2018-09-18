@@ -20,6 +20,7 @@
   </div>
 </template>
 <script>
+import bus from '../../../eventBus/index.js'
 export default {
   name: 'loginBoard',
   props: {
@@ -30,7 +31,9 @@ export default {
       window.location.pathname = '/admin'
     },
     quitLogin () {
+      bus.$emit('toload', true)
       this.$http.get('/api/delCookies').then((data) => {
+        bus.$emit('toload', false)
         if (data.body.status === 0) {
           this.openHint(data.body.message)
           this.$emit('backToCriper')
