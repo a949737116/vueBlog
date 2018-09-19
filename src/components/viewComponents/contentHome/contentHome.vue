@@ -95,7 +95,7 @@
         <div class='contentTop'>
           <div class='topLeft'>
             <!-- 头像栏 -->
-            <img :src="u.blogAhtuorId.icon_image" class="image">
+            <img :src="u.blogAhtuorId.icon_image" class="image" width='50' height='50'>
           </div>
           <div class='topRight'>
             <!-- 作者信息 -->
@@ -121,10 +121,10 @@
           <el-row>
             <el-col :span="8">
               <div>
-                <a :href="'/blog?contentId='+u._id">
+                <router-link :to="'/blog?contentId='+u._id">
                   <i class='icon-wenzhang1 icon iconfont'></i>
                   <span>全文</span>
-                </a>
+                </router-link>
               </div>
             </el-col>
             <el-col :span="8">

@@ -17,7 +17,9 @@
           </div>
         </el-aside>
         <el-main id='Vmain'>
+          <transition name='slide'>
             <router-view></router-view>
+          </transition>
         </el-main>
         <el-aside width="250px">
           <div class='scroller'>
@@ -133,7 +135,6 @@ export default {
     loginBoard
   },
   created () {
-    debugger
     let me = this
     this.$nextTick(() => {
       this.$http.get('/api/view_ctae').then((data) => {
@@ -157,6 +158,7 @@ export default {
       me.ifLoad = value
     })
     bus.$on('refrshDiv', () => {
+      console.log(scroll)
       if (!me.scroll) {
         me.scroll = new BScroller('#Vmain', {
           scrollY: true,

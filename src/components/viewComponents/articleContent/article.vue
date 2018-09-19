@@ -52,9 +52,6 @@ export default{
   },
   mounted () {
     const me = this
-    window.onload = () => {
-      bus.$emit('refrshDiv')
-    }
     bus.$on('upDateComments', () => {
       bus.$emit('toload', true)
       me.$http.get(`/api/updateBlogComments?blogId=${me.blogId}`).then((cb) => {
@@ -81,7 +78,23 @@ export default{
         } else {
           this.content = data.body.data[0]
           this.$nextTick(() => {
-            bus.$emit('refrshDiv')
+            let imgs = document.getElementsByTagName('img')
+            console.log(imgs)
+            for (var i = 0; i < imgs.length; i++) {
+              imgs[i].onload = function () {
+                bus.$emit('refrshDiv')
+              }
+            }
+            // imgs.forEach(element => {
+            //   element.onload = function () {
+            //     debugger
+            //     bus.$emit('refrshDiv')
+            //   }
+            // })
+            // window.onload = () => {
+            //   debugger
+            //   bus.$emit('refrshDiv')
+            // }
             this.$notify({
               title: '温馨提醒',
               message: '按住文章滑动即可实现上下滚动',

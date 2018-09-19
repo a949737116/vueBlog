@@ -6,7 +6,7 @@
       <div class='pl-item' v-for='(u, i) in pinglun' :key='i'>
         <!-- 左边头像 -->
         <div class='pl-head'>
-          <img :src="u.userImg" class="image">
+          <img :src="u.userImg" class="image" width='50' height='50'>
         </div>
         <!-- 右边信息 -->
         <div class='pl-substance'>
@@ -37,7 +37,7 @@
           </div>
         </div>
         <div class='pl-head'>
-          <img :src='loginerInfo.icon_image' class="image">
+          <img :src='loginerInfo.icon_image' class="image" witdh='50' height='50'>
         </div>
         <div class='yourCommit'>
           <el-input
