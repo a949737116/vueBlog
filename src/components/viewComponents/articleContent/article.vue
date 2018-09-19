@@ -37,6 +37,7 @@
   </div>
 </template>
 <script>
+import BScroller from 'better-scroll'
 import pinglun from '@components/commonComponents/pinglun/pinglun'
 import bus from '@/eventBus/index.js'
 export default{
@@ -67,6 +68,7 @@ export default{
   },
   methods: {
     getContent () {
+      const me = this
       const cid = this.$route.query.contentId
       this.blogId = cid
       bus.$emit('toload', true)
@@ -77,32 +79,28 @@ export default{
           console.log('数据获取出错')
         } else {
           this.content = data.body.data[0]
+          this.$notify({
+            title: '温馨提醒',
+            message: '按住文章滑动即可实现上下滚动',
+            type: 'info',
+            position: 'bottom-left',
+            duration: 5000,
+            customClass: 'notifyMessage'
+          })
           this.$nextTick(() => {
             let imgs = document.getElementsByTagName('img')
-            console.log(imgs)
             for (var i = 0; i < imgs.length; i++) {
               imgs[i].onload = function () {
-                bus.$emit('refrshDiv')
+                if (me.scroll) {
+                  me.scroll.refresh()
+                } else {
+                  me.scroll = new BScroller('#Vmain', {
+                    scrollY: true,
+                    click: true
+                  })
+                }
               }
             }
-            // imgs.forEach(element => {
-            //   element.onload = function () {
-            //     debugger
-            //     bus.$emit('refrshDiv')
-            //   }
-            // })
-            // window.onload = () => {
-            //   debugger
-            //   bus.$emit('refrshDiv')
-            // }
-            this.$notify({
-              title: '温馨提醒',
-              message: '按住文章滑动即可实现上下滚动',
-              type: 'info',
-              position: 'bottom-left',
-              duration: 5000,
-              customClass: 'notifyMessage'
-            })
           })
         }
       })

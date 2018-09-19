@@ -158,7 +158,6 @@ export default {
       me.ifLoad = value
     })
     bus.$on('refrshDiv', () => {
-      console.log(scroll)
       if (!me.scroll) {
         me.scroll = new BScroller('#Vmain', {
           scrollY: true,
