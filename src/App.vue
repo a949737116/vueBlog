@@ -17,9 +17,7 @@
           </div>
         </el-aside>
         <el-main id='Vmain'>
-          <transition name='slide'>
-            <router-view></router-view>
-          </transition>
+          <router-view></router-view>
         </el-main>
         <el-aside width="250px">
           <div class='scroller'>
@@ -47,7 +45,6 @@ import vfooter from '@components/commonComponents/footer/footer'
 import pinfo from '@components/viewComponents/pInfo/pInfo'
 import notice from '@components/viewComponents/notice/notice'
 import loginBoard from '@components/viewComponents/loginBoard/loginBoard'
-import BScroller from 'better-scroll'
 import bus from './eventBus/index.js'
 const provinceObject = {
   hebei: '河北省',
@@ -79,7 +76,7 @@ export default {
   name: 'App',
   data () {
     return {
-      ifLoad: false,
+      ifLoad: true,
       cateList: [],
       radio: '1',
       rightShowList: {
@@ -142,30 +139,12 @@ export default {
         me.cateList = data.body.classList
         me.ifLoad = false
       })
-      if (me.scroll) {
-        me.scroll.refresh()
-      } else {
-        me.scroll = new BScroller('#Vmain', {
-          scrollY: true,
-          click: true
-        })
-      }
     })
   },
   mounted () {
     const me = this
     bus.$on('toload', (value) => {
       me.ifLoad = value
-    })
-    bus.$on('refrshDiv', () => {
-      if (!me.scroll) {
-        me.scroll = new BScroller('#Vmain', {
-          scrollY: true,
-          click: true
-        })
-      } else {
-        me.scroll.refresh()
-      }
     })
   },
   methods: {
@@ -180,7 +159,6 @@ export default {
   }
 }
 </script>
-
 <style lang='less'>
 @import 'common/css/common.less';
 @import 'common/css/fixForEle.less';

@@ -160,6 +160,7 @@
   </div>
 </template>
 <script>
+import BScroller from 'better-scroll'
 import bus from '../../../eventBus/index.js'
 export default{
   name: 'contentHome',
@@ -218,18 +219,33 @@ export default{
       })
     },
     getBlogArray () {
+      const me = this
       const cateId = this.$route.query.cateId || 0
+      if (!me.scroll) {
+        me.scroll = new BScroller('#Vmain', {
+          scrollY: true,
+          click: true
+        })
+      }
       bus.$emit('toload', true)
       this.$http.get(`/api/getBlogArray?page=1&cateId=${cateId}`).then((data) => {
-        bus.$emit('toload', false)
         console.log(data.body)
         this.pageData = data.body.pageData
         this.blogArray = data.body.data
+        this.$nextTick(() => {
+          me.scroll.refresh()
+          me.scroll.scrollTo(0, 0, 2000)
+          bus.$emit('toload', false)
+        })
       })
     }
   },
-  created () {
-    this.getBlogArray()
+  mounted () {
+    const me = this
+    this.$nextTick(() => {
+      console.log(123)
+      me.getBlogArray()
+    })
   },
   watch: {
     $route: {

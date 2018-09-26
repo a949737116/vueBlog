@@ -88,11 +88,21 @@ export default{
             customClass: 'notifyMessage'
           })
           this.$nextTick(() => {
+            if (me.scroll) {
+              me.scroll.refresh()
+              me.scroll.scrollTo(0, 0, 2000)
+            } else {
+              me.scroll = new BScroller('#Vmain', {
+                scrollY: true,
+                click: true
+              })
+            }
             let imgs = document.getElementsByTagName('img')
             for (var i = 0; i < imgs.length; i++) {
               imgs[i].onload = function () {
                 if (me.scroll) {
                   me.scroll.refresh()
+                  me.scroll.scrollTo(0, 0, 2000)
                 } else {
                   me.scroll = new BScroller('#Vmain', {
                     scrollY: true,

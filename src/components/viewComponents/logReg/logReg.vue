@@ -182,7 +182,7 @@ export default{
       }
     },
     isTest (text) {
-      const reg = /^[a-zA-Z0-9]{6,10}$/
+      const reg = /^[a-zA-Z0-9]{6,20}$/
       return reg.test(text)
     },
     checkout () {
