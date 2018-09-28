@@ -150,12 +150,12 @@ export default {
             confirmButtonText: '确定',
             callback: action => {
               me.refreshStore(this.data.account)
+              setTimeout(function () {
+                window.location.reload()
+              }, 1000)
             },
             type: 'success'
           })
-          setTimeout(function () {
-            window.location.reload()
-          }, 1000)
         } else {
           this.$alert(fb.body.tip, '提示', {
             confirmButtonText: '确定',

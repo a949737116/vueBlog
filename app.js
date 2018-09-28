@@ -35,17 +35,21 @@ app.use('/admin', function(req, res, next){
   }
 }, require('./admin/router'))
 app.use('/api',require('./admin/api'));
+app.use('/*', function(req, res, next) {
+  return res.redirect('/')
+})
 //数据库
 const mongoose = require('mongoose');
 //monogooseDB防止数据库报错
 mongoose.Promise = global.Promise;
 //连接数据库
-mongoose.connect("mongodb://localhost:27020/Blog_dev", { useNewUrlParser: true },function(err){
+mongoose.connect("mongodb://localhost:27032/Blog_pro", { useNewUrlParser: true },function(err){
   if (err) {
     console.log('数据库链接失败')
   }else{
     console.log('数据库已经链接成功了')
-    app.listen(9000); 
+    app.listen(8032);
+    console.log('项目跑在8032端口') 
   }
 })
 const dbStatus = mongoose.connection;

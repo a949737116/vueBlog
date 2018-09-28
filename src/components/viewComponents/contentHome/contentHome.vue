@@ -236,6 +236,14 @@ export default{
           me.scroll.refresh()
           me.scroll.scrollTo(0, 0, 2000)
           bus.$emit('toload', false)
+          this.$notify({
+            title: '温馨提醒',
+            message: '按住列表滑动即可实现上下滚动',
+            type: 'info',
+            position: 'bottom-left',
+            duration: 5000,
+            customClass: 'notifyMessage'
+          })
         })
       })
     }

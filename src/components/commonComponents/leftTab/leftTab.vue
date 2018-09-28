@@ -13,7 +13,7 @@
         <el-menu-item-group class='leftt'>
           <el-menu-item :index='`${i}-${ii}`' v-for='(uu, ii) in cateBlog[i]' :key='ii'>
             <!-- blog?contentId=${uu._id} -->
-            <router-link :to="`/blog?contentId=${uu._id}`"  style='font-szie:13px;text-decoration:none;color:#fff;width:100%;display:inline-block'>{{uu.blogTitle.length>5?uu.blogTitle.substring(0,5) + '..' : uu.blogTitle}}</router-link>
+            <router-link :to="`/blog?contentId=${uu._id}`"  style='font-szie:13px;text-decoration:none;color:#fff;width:100%;display:inline-block'>{{uu.blogTitle.length>5?uu.blogTitle.substring(0,7) + '..' : uu.blogTitle}}</router-link>
           </el-menu-item>
         </el-menu-item-group>
       </el-submenu>

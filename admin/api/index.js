@@ -783,13 +783,14 @@ router.post('/updateIcon', (req, res, next) => {
       }
       const oldPath = files[account].path
       console.log(oldPath)
-      const name = account + 'Icon.' + files[account].name.split('.')[1]
+      const name = account + new Date().valueOf() + 'Icon.' + files[account].name.split('.')[1]
       const newPath = path.resolve(__dirname, `../../upLoads/Icon/${name}`)
       fs.rename(oldPath, newPath, (err) => {
         if (err) {
           throw err
         } else {
           const rePath = `../../upLoads/Icon/${name}`
+          console.log(rePath)
           return res.json({
             code: 0,
             path: rePath

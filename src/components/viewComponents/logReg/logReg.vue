@@ -8,7 +8,7 @@
               placeholder="请输入账号"
               suffix-icon="icon-login_user"
               class='icon iconfont'
-              maxlength=12
+              maxlength=20
               auto-complete = 'off'
               v-model='loginInfo.account'
               >
