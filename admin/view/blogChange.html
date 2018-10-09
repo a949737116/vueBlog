@@ -21,7 +21,13 @@
       <div class='row'>
         <span>请选择分类：</span>
         <select name="class" id="blog_class">
-          <option value="1">大花水东哥</option>
+          {% for u in classList %}
+            {% if u.id === blogData.blogCate %}
+              <option value={{u.id}} selected>{{u.className}}</option>
+            {% else %}
+              <option value={{u.id}}>{{u.className}}</option>
+            {% endif %}
+          {% endfor %}
         </select>
       </div>
       <div class='row'>
@@ -58,11 +64,12 @@
           预览内容：
         </span>
         <div id='preview' class='w-e-text'>
-          
         </div>
       </div>
       <div class='row hidden'>
-        <textarea name="submitHtml" id="sumbitHtml" cols="50" rows="50"></textarea>
+        <textarea name="submitHtml" id="sumbitHtml" cols="50" rows="50">
+          {{blogData.text}}
+        </textarea>
       </div>
       <div class='row'>
         <span>写完了？</span>

@@ -80,7 +80,6 @@ router.post('/goToReg', function (req, res, next) {
       account: data.account
     }).then(function (fData) {
       if (fData) {
-        console.log('已存在该账号')
         res.json({
           status: -1,
           tip: '该账号已经被注册'
@@ -91,7 +90,6 @@ router.post('/goToReg', function (req, res, next) {
         const mdata = Object.assign({}, defualtExtraOption, data)
         var userInfo = new Users(mdata)
         userInfo.save().then(function (feedBack) {
-          console.log(feedBack)
           res.json({
             status: 0,
             tip: '恭喜您，您已注册成功'
@@ -122,7 +120,6 @@ router.post('/goToReg', function (req, res, next) {
 })
 router.post('/goToLogin', function (req, res, next) {
   const data = req.body
-  console.log(data)
   if (!data.inspected) {
     res.json({
       status: -1,
@@ -139,7 +136,6 @@ router.post('/goToLogin', function (req, res, next) {
           tip: '该账号不存在，请检查您的账号信息'
         })
       } else {
-        console.log(fData)
         if (data.password !== fData.password || data.password !== fData.rPassword) {
           res.json({
             status: -1,
@@ -267,7 +263,6 @@ router.get('/getProvince', function (req, res, next) {
 })
 router.post('/supplement', function (req, res, next) {
   const data = req.body
-  console.log(data)
   if (data.verifier) {
     Users.findOne({
       account: data.account
@@ -312,7 +307,6 @@ router.post('/supplement', function (req, res, next) {
   }
 })
 router.get('/getPersonalData', function (req, res, next) {
-  console.log(req.query.account)
   const account = req.query.account
   Users.findOne({account: account}).then(function (data) {
     res.json(
@@ -324,7 +318,6 @@ router.get('/getPersonalData', function (req, res, next) {
   })
 })
 router.get('/deleteAccount', function (req, res, next) {
-  console.log(req.query.account)
   Users.deleteOne({account: req.query.account}).then(function (data) {
     res.json({
       code: 0,
@@ -451,7 +444,6 @@ router.post('/deleteClassList', function (req, res, next) {
 })
 router.post('/delBlogList', function (req, res, next) {
   const list = req.body.list
-  console.log(list)
   if (list.length > 0) {
     return Blog.remove({'_id': {$in: list}}).then(() => {
       res.json({
@@ -467,7 +459,6 @@ router.post('/alertClassList', function (req, res, next) {
   const list = req.body.datalist
   if (list.length > 0) {
     list.forEach((item, index) => {
-      console.log(item)
       return Class.update({
         className: item.oName
       }, {
@@ -505,7 +496,8 @@ router.get('/view_ctae', function (req, res, next) {
     })
     res.json({
       isAdmin,
-      classList: mdata
+      classList: mdata,
+      bugId: data._id
     })
   })
 })
@@ -595,18 +587,14 @@ router.post('/addBlog_editor', (req, res, next) => {
 })
 router.get('/getBlogArray', (req, res, next) => {
   let page = tools.getUrlPage(req)
-  console.log(req.query.cateId)
   const searchCate = req.query.cateId !== '0' ? {blogCate: req.query.cateId} : {}
-  console.log(searchCate)
   page = Number(page)
-  console.log(page)
   Blog.countDocuments(searchCate).then((length) => {
     console.log('一共有' + length + '条数据')
     const Dpage = tools.dealWithPage(page, length)
     console.log('正确的页码是' + Dpage + '最大页码是' + Math.ceil(length / pageMaxNum))
     return Blog.find(searchCate, 'blogAhtuorId blogAhtuor blogTitle blogDesc blogDate _id starList blogComments').populate('blogAhtuorId', '_id icon_image name isAdmin level hornor').limit(pageMaxNum).skip((Dpage - 1) * pageMaxNum).sort({'blogDate': -1}).then(
       (data) => {
-        console.log(data)
         data.forEach((i) => {
           // if (i.blogAhtuorId) {
           //   mdata.push({
@@ -648,7 +636,6 @@ router.get('/getBlog', (req, res, next) => {
 })
 router.get('/delBlog', (req, res, next) => {
   const blogId = req.query.blogId
-  console.log(blogId)
   return Blog.deleteOne({_id: blogId}).then(() => {
     res.json({
       code: 0,
@@ -723,9 +710,7 @@ router.post('/changeBlog', (req, res, next) => {
 })
 router.get('/getUserInfo', (req, res, next) => {
   if (req.cookies && req.cookies.logInfo) {
-    console.log(req.cookies.logInfo.account)
     Users.findOne({account: req.cookies.logInfo.account}).then((data) => {
-      console.log(data)
       return res.json({
         code: 0,
         data: data
@@ -746,12 +731,10 @@ router.get('/delCookies', (req, res, next) => {
 })
 router.post('/submitComment', (req, res, next) => {
   const data = req.body
-  console.log(data)
   Blog.findOne({_id: data.blogId}).then((blog) => {
     blog.blogComments.push(data.data)
     data.data.cTime = new Date().valueOf()
     blog.save().then((info) => {
-      console.log(info)
       return res.json({
         code: 0,
         message: '发表评论成功'
@@ -782,7 +765,6 @@ router.post('/updateIcon', (req, res, next) => {
         throw err
       }
       const oldPath = files[account].path
-      console.log(oldPath)
       const name = account + new Date().valueOf() + 'Icon.' + files[account].name.split('.')[1]
       const newPath = path.resolve(__dirname, `../../upLoads/Icon/${name}`)
       fs.rename(oldPath, newPath, (err) => {
@@ -790,7 +772,6 @@ router.post('/updateIcon', (req, res, next) => {
           throw err
         } else {
           const rePath = `../../upLoads/Icon/${name}`
-          console.log(rePath)
           return res.json({
             code: 0,
             path: rePath
@@ -844,10 +825,19 @@ router.get('/cateBlog', (req, res, next) => {
       return Blog.find({blogCate: uu}, 'blogTitle _id').populate('blogCate')
     })
     return Promise.all(promiss).then((pdata) => {
-      res.json({
-        code: 0,
-        cateBlog: pdata,
-        cate: data
+      Blog.findOne({blogTitle: '博客的bug反馈与后续更新计划'}).then((bug) => {
+        console.log('查找bug反馈入口')
+        if (bug) {
+          console.log(bug._id)
+          res.json({
+            code: 0,
+            cateBlog: pdata,
+            cate: data,
+            bugId: bug._id
+          })
+        } else {
+          res.end('初始化失败，请建立bug反馈渠道')
+        }
       })
     })
   })

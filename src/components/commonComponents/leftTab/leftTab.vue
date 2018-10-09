@@ -17,6 +17,14 @@
           </el-menu-item>
         </el-menu-item-group>
       </el-submenu>
+      <el-menu-item :index='(cate.length + 1).toString()'>
+        <div class='tabTitle' style='text-align:left;padding-left:5px'>
+          <i><img src='../../../../upLoads/cateIcon/bug.png' width=20 height=20 style='vertical-align:text-bottom'></i>
+          <router-link :to='`/blog?contentId=${bugId}`' style='text-decoration:none;color:#fff'>
+              BUG反馈与更新
+          </router-link>
+        </div>
+      </el-menu-item>
     </el-menu>
   </div>
 </template>
@@ -27,17 +35,18 @@ export default{
   data () {
     return {
       cateBlog: [],
-      cate: []
+      cate: [],
+      bugId: ''
     }
   },
   created () {
     bus.$emit('toload', true)
     this.$http.get('/api/cateBlog').then((data) => {
       bus.$emit('toload', false)
-      console.log(data)
       if (data.body.code === 0) {
         this.cateBlog = data.body.cateBlog
         this.cate = data.body.cate
+        this.bugId = data.body.bugId
       }
     })
   }

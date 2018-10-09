@@ -160,7 +160,7 @@
   }
   myEdiotr.customConfig.uploadImgServer = '/api/addBlog_editor'
   myEdiotr.customConfig.uploadImgMaxLength = 1
-  myEdiotr.customConfig.uploadImgMaxSize = 5 * 1024 * 1024
+  myEdiotr.customConfig.uploadImgMaxSize = 3 * 1024 * 1024
   myEdiotr.customConfig.uploadFileName = 'blogImg'
   myEdiotr.customConfig.uploadImgHooks = {
     customInsert: (insertImg, result, editor) => {
@@ -172,10 +172,17 @@
   function changepic() {
         var reads= new FileReader();
         f=document.getElementById('blog_ill').files[0];
-        reads.readAsDataURL(f);
-        reads.onload=function (e) {
-            document.getElementById('show').src=this.result;
-        };
+        // image/png, image/jpeg, image/gif, image/jpg
+        if (f.size/1024/1024 > 1.5) {
+          alert('文件大小过大')
+        }else if(f.type === 'image/png' || f.type === 'image/jpeg' || f.type === 'image/gif' || f.type === 'image/jpg') {
+          reads.readAsDataURL(f);
+          reads.onload=function () {
+              document.getElementById('show').src=this.result;
+          };
+        }else {
+          alert('文件类型错误')
+        }
     }
 </script>
 {% endblock %}

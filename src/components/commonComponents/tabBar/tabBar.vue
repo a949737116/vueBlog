@@ -13,7 +13,7 @@
       </el-menu-item>
       <el-submenu index='2'>
         <template slot="title">博文分类</template>
-          <el-menu-item v-for='(u, i) in cate' :index="'class' + i"  :disabled='u.show==="是" ? false : true' :key='u.name'>
+          <el-menu-item v-for='(u, i) in cate' :index="'class' + i"  v-if='u.show==="是" ? true : false' :key='u.name'>
             <router-link :to='`/?cateId=${u.classId}`' style='font-szie:13px;text-decoration:none;color:inherit;width:100%;display:inline-block'>{{u.name}}</router-link>
           </el-menu-item>
       </el-submenu>

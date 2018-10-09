@@ -62,5 +62,7 @@ pre code {
   background-color: #f1f1f1;
   border-radius: 3px;
   padding: 3px 5px;
-  margin: 0 3px;
+	margin: 0 3px;
+	font-family: sans-serif;
+	font-size: 13px;
 }

@@ -157,8 +157,15 @@ router.get('/changeBlog', (req, res, next) => {
   Blog.findOne({_id: id}).then((data) => {
     console.log(data)
     data.id = id
-    return res.render('blogChange', {
-      blogData: data
+    Class.find({}, 'className _id').then((pram) => {
+      console.log(pram)
+      pram.forEach((u) => {
+        u.id = JSON.parse(JSON.stringify(u._id))
+      })
+      return res.render('blogChange', {
+        classList: pram,
+        blogData: data
+      })
     })
   })
 })

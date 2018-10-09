@@ -19,7 +19,7 @@
           <img v-if="data.icon_image" :src="data.icon_image" class="avatar">
           <i v-else class="el-icon-plus avatar-uploader-icon"></i>
         </el-upload>
-        <el-tag>图片大小不超过3M</el-tag>
+        <el-tag>图片大小不超过1M</el-tag>
       </div>
       <div>
         <span>我的账号：</span>
@@ -188,7 +188,7 @@ export default {
       if (file.type === 'image/png' || file.type === 'image/jpeg' || file.type === 'image/gif' || file.type === 'image/jpg') {
         ifType = true
       }
-      if (file.size / 1024 / 1024 > 3) {
+      if (file.size / 1024 / 1024 > 1) {
         ifSize = false
       }
       if (!ifType) {

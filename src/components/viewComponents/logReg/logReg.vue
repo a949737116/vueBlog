@@ -160,6 +160,7 @@ export default{
           this.$emit('lrCipher')
           fb.body.info.Logined = true
           this.$store.commit('enterLogin', fb.body.info)
+          me.openMessage('点击你的昵称可以修改个人信息哦', 'success')
         }
       })
     },
@@ -253,7 +254,7 @@ export default{
         message,
         type,
         position: 'bottom-left',
-        duration: 2000,
+        duration: 5000,
         customClass: 'notifyMessage'
       })
     },
@@ -264,13 +265,13 @@ export default{
           me.openMessage('用户名长度不得超过十二位', 'warning')
           break
         case 'pw1' :
-          me.openMessage('密码由英文和数字组成，不得包含中文和特殊符号', 'warning')
+          me.openMessage('密码由6-20位英文和数字组成，不得包含中文和特殊符号', 'warning')
           break
         case 'pw2' :
           me.openMessage('请重新输入您刚刚输入的密码', 'info')
           break
         case 'account' :
-          me.openMessage('账号由英文和数字组成，不得包含中文和特殊符号', 'warning')
+          me.openMessage('账号由6-20位英文和数字组成，不得包含中文和特殊符号', 'warning')
           break
         default :
           console.log('怎么跑到这里来了')
@@ -278,6 +279,7 @@ export default{
     }
   },
   created () {
+    const me = this
     bus.$emit('toload', true)
     this.$http.get('/api/getUserInfo').then((fb) => {
       bus.$emit('toload', false)
@@ -286,6 +288,7 @@ export default{
         this.$emit('lrCipher')
         fb.body.data.Logined = true
         this.$store.commit('enterLogin', fb.body.data)
+        me.openMessage('点击你的昵称可以修改个人信息哦', 'success')
       }
     })
   }
