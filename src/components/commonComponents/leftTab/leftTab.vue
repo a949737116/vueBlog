@@ -8,7 +8,7 @@
       <el-submenu  :index='i.toString()' style='padding:none' v-for='(u,i) in cate' :key='i' v-if='u.isShow==="是"'>
         <div slot="title" class='tabTitle' style='text-align:left'>
           <i><img :src="u.cateIcon"  width=20 height=20 style='vertical-align:text-bottom'></i>
-          <span style='font-size:15px'>{{u.className}}</span>
+          <router-link :to='`/?cateId=${u._id}`' style='font-szie:13px;text-decoration:none;color:inherit;width:100%;display:inline-block'>{{u.className}}</router-link>
         </div>
         <el-menu-item-group class='leftt'>
           <el-menu-item :index='`${i}-${ii}`' v-for='(uu, ii) in cateBlog[i]' :key='ii'>

@@ -6,11 +6,11 @@
   element-loading-background="rgba(0, 0, 0, 0.8)"
   >
     <el-container style='height:100%'>
-      <el-header>
+      <el-header style='height:60px'>
         <!-- 导航栏 -->
          <tabBar :cate='cateList' :isAdmin='isAdmin'></tabBar>
       </el-header>
-      <el-container style='padding:20px 0 56px 0'>
+      <el-container style='padding:20px 0 56px 0' class='containerFix'>
         <el-aside width="150px" style='overflow:hidden'>
           <div class='scroller'>
             <leftTab :cate='cateList'></leftTab>
@@ -178,6 +178,9 @@ body {
       bottom: 0;
       left: 0;
       width: 100%
+    }
+    .containerFix {
+      height: calc(100% - 60px);
     }
     .el-container{
       .el-header, .el-footer {

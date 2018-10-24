@@ -57,12 +57,22 @@ pre {
   line-height: 1.5;
 }
 pre code {
+	font-family: 'codeFont','Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   text-align: left;
   display: block;
   background-color: #f1f1f1;
   border-radius: 3px;
   padding: 3px 5px;
 	margin: 0 3px;
-	font-family: sans-serif;
 	font-size: 13px;
+	color: #4b3f62
 }
+/* 匹配火狐和IE无法正常定义容器宽度导致滑动失效的BUG */
+/* @-moz-document url-prefix() {
+	.containerFix {
+		height: calc(100% - 60px);
+	}
+}
+.containerFix {
+	height: calc(100% - 60px);
+} */
