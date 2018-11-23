@@ -38,6 +38,7 @@ export default {
           this.openHint(data.body.message)
           this.$emit('backToCriper')
           this.$store.commit('clearLogin')
+          window.localStorage.removeItem('lzhBlogOnceVisit')
         }
       })
     },

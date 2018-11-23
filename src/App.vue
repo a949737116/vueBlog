@@ -5,6 +5,18 @@
   element-loading-spinner="el-icon-loading"
   element-loading-background="rgba(0, 0, 0, 0.8)"
   >
+    <div id='cover' v-if='!onceVisit'>
+      <div class='scrollGuider'>
+        <img src="./assets/lesson.gif" width='800' height='593'>
+      </div>
+      <div class='mouse'>
+        <img src="./assets/mouse.png" id='mouse' width='200' height='200'>
+      </div>
+      <div class='coverClose'>
+        <span>关闭教程→</span>
+        <i class='el-icon-circle-close-outline' @click='addOnceVisit'></i>
+      </div>
+    </div>
     <el-container style='height:100%'>
       <el-header style='height:60px'>
         <!-- 导航栏 -->
@@ -76,6 +88,7 @@ export default {
   name: 'App',
   data () {
     return {
+      onceVisit: false,
       ifLoad: true,
       cateList: [],
       radio: '1',
@@ -133,6 +146,9 @@ export default {
   },
   created () {
     let me = this
+    if (window.localStorage.getItem('lzhBlogOnceVisit')) {
+      this.onceVisit = true
+    }
     this.$nextTick(() => {
       this.$http.get('/api/view_ctae').then((data) => {
         console.log(data)
@@ -155,6 +171,10 @@ export default {
     clearData () {
       this.rightShowList.lrShow = true
       this.rightShowList.lbShow = false
+    },
+    addOnceVisit () {
+      this.onceVisit = true
+      window.localStorage.setItem('lzhBlogOnceVisit', true)
     }
   }
 }
@@ -173,6 +193,41 @@ body {
   background-image: url(@backgroundImg-src);
   #app{
     height: 100%;
+    #cover {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(21,14,16,0.78);
+      z-index: 999;
+      .scrollGuider {
+        position: absolute;
+        top: calc(50% - 296px);
+        left: calc(48% - 400px);
+      }
+      .mouse {
+        position: absolute;
+        top: calc(50% - 100px);
+        left: calc(50% - 100px);
+      }
+      .coverClose {
+        position: absolute;
+        top: 20px;
+        right: 30px;
+        span {
+          font-size: 50px;
+          color: #8a9eb0;
+        }
+        i {
+          font-size: 50px;
+          color: #83a5c9
+        }
+        i:hover{
+          cursor: pointer;
+        }
+      }
+    }
     #efooter {
       position: absolute;
       bottom: 0;
