@@ -148,7 +148,8 @@
             ref='page'
             background
             layout="prev, pager, next"
-            :total= 'pageData.Tpage'
+            pager-count = 5
+            :page-count= 'pageData.Tpage'
             :page-size = 'pageData.rowNum'
             :current-page = 'pageData.Dpage'
             @prev-click = 'prevClick'
@@ -184,12 +185,15 @@ export default{
         })
         return false
       }
+      const cateId = this.$route.query.cateId || 0
       bus.$emit('toload', true)
-      this.$http.get(`/api/getBlogArray?page=${this.pageData.Dpage - 1}`).then((data) => {
+      this.scroll.scrollTo(0, 0, 0)
+      this.$http.get(`/api/getBlogArray?page=${this.pageData.Dpage - 1}&cateId=${cateId}`).then((data) => {
         bus.$emit('toload', false)
         console.log(data.body.data)
         this.pageData = data.body.pageData
         this.blogArray = data.body.data
+        this.scroll.refresh()
       })
     },
     nextClick () {
@@ -201,21 +205,27 @@ export default{
         })
         return false
       }
+      const cateId = this.$route.query.cateId || 0
       bus.$emit('toload', true)
-      this.$http.get(`/api/getBlogArray?page=${this.pageData.Dpage + 1}`).then((data) => {
+      this.scroll.scrollTo(0, 0, 0)
+      this.$http.get(`/api/getBlogArray?page=${this.pageData.Dpage + 1}&cateId=${cateId}`).then((data) => {
         bus.$emit('toload', false)
         console.log(data.body.data)
         this.pageData = data.body.pageData
         this.blogArray = data.body.data
+        this.scroll.refresh()
       })
     },
     pageChange () {
       bus.$emit('toload', true)
-      this.$http.get(`/api/getBlogArray?page=${this.$refs.page.internalCurrentPage}`).then((data) => {
+      this.scroll.scrollTo(0, 0, 0)
+      const cateId = this.$route.query.cateId || 0
+      this.$http.get(`/api/getBlogArray?cateId=${cateId}&page=${this.$refs.page.internalCurrentPage}`).then((data) => {
         console.log(data.body)
         bus.$emit('toload', false)
         this.pageData = data.body.pageData
         this.blogArray = data.body.data
+        this.scroll.refresh()
       })
     },
     getBlogArray () {
@@ -236,21 +246,21 @@ export default{
           me.scroll.refresh()
           me.scroll.scrollTo(0, 0, 2000)
           bus.$emit('toload', false)
-          this.$message({
-            message: '浏览器兼容问题正在解决中，建议您使用谷歌浏览器进行访问，多谢理解！',
-            type: 'warning',
-            duration: 10000,
-            showClose: true,
-            center: true
-          })
-          this.$notify({
-            title: '温馨提醒',
-            message: '按住列表滑动即可实现上下滚动',
-            type: 'info',
-            position: 'bottom-left',
-            duration: 10000,
-            customClass: 'notifyMessage'
-          })
+          // this.$message({
+          //   message: '浏览器兼容问题正在解决中，建议您使用谷歌浏览器进行访问，多谢理解！',
+          //   type: 'warning',
+          //   duration: 10000,
+          //   showClose: true,
+          //   center: true
+          // })
+          // this.$notify({
+          //   title: '温馨提醒',
+          //   message: '按住列表滑动即可实现上下滚动',
+          //   type: 'info',
+          //   position: 'bottom-left',
+          //   duration: 10000,
+          //   customClass: 'notifyMessage'
+          // })
         })
       })
     }

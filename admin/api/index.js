@@ -587,8 +587,11 @@ router.post('/addBlog_editor', (req, res, next) => {
 })
 router.get('/getBlogArray', (req, res, next) => {
   let page = tools.getUrlPage(req)
+  console.log(req.query.cateId)
   const searchCate = req.query.cateId !== '0' ? {blogCate: req.query.cateId} : {}
   page = Number(page)
+  console.log('接收到的参数是' + page)
+  console.log(searchCate)
   Blog.countDocuments(searchCate).then((length) => {
     console.log('一共有' + length + '条数据')
     const Dpage = tools.dealWithPage(page, length)
@@ -822,7 +825,7 @@ router.get('/cateBlog', (req, res, next) => {
       return u._id
     })
     let promiss = idList.map((uu) => {
-      return Blog.find({blogCate: uu}, 'blogTitle _id').populate('blogCate')
+      return Blog.find({blogCate: uu}, 'blogTitle _id').sort({'blogDate': -1}).populate('blogCate')
     })
     return Promise.all(promiss).then((pdata) => {
       Blog.findOne({blogTitle: '博客的bug反馈与后续更新计划'}).then((bug) => {
