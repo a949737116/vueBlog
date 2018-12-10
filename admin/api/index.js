@@ -822,7 +822,7 @@ router.get('/cateBlog', (req, res, next) => {
       return u._id
     })
     let promiss = idList.map((uu) => {
-      return Blog.find({blogCate: uu}, 'blogTitle _id').populate('blogCate')
+      return Blog.find({blogCate: uu}, 'blogTitle _id').sort({'blogDate': -1}).populate('blogCate')
     })
     return Promise.all(promiss).then((pdata) => {
       Blog.findOne({blogTitle: '博客的bug反馈与后续更新计划'}).then((bug) => {

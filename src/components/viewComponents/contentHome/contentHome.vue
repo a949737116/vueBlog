@@ -236,21 +236,21 @@ export default{
           me.scroll.refresh()
           me.scroll.scrollTo(0, 0, 2000)
           bus.$emit('toload', false)
-          this.$message({
-            message: '浏览器兼容问题正在解决中，建议您使用谷歌浏览器进行访问，多谢理解！',
-            type: 'warning',
-            duration: 10000,
-            showClose: true,
-            center: true
-          })
-          this.$notify({
-            title: '温馨提醒',
-            message: '按住列表滑动即可实现上下滚动',
-            type: 'info',
-            position: 'bottom-left',
-            duration: 10000,
-            customClass: 'notifyMessage'
-          })
+          // this.$message({
+          //   message: '浏览器兼容问题正在解决中，建议您使用谷歌浏览器进行访问，多谢理解！',
+          //   type: 'warning',
+          //   duration: 10000,
+          //   showClose: true,
+          //   center: true
+          // })
+          // this.$notify({
+          //   title: '温馨提醒',
+          //   message: '按住列表滑动即可实现上下滚动',
+          //   type: 'info',
+          //   position: 'bottom-left',
+          //   duration: 10000,
+          //   customClass: 'notifyMessage'
+          // })
         })
       })
     }

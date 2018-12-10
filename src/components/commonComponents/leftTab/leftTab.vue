@@ -13,7 +13,11 @@
         <el-menu-item-group class='leftt'>
           <el-menu-item :index='`${i}-${ii}`' v-for='(uu, ii) in cateBlog[i]' :key='ii'>
             <!-- blog?contentId=${uu._id} -->
-            <router-link :to="`/blog?contentId=${uu._id}`"  style='font-szie:13px;text-decoration:none;color:#fff;width:100%;display:inline-block'>{{uu.blogTitle.length>5?uu.blogTitle.substring(0,7) + '..' : uu.blogTitle}}</router-link>
+            <el-tooltip :content="uu.blogTitle" placement="left" hide-after=3000>
+              <router-link :to="`/blog?contentId=${uu._id}`"  style='font-szie:13px;text-decoration:none;color:#fff;width:100%;display:inline-block'>
+                  {{uu.blogTitle.length>5?uu.blogTitle.substring(0,7) + '..' : uu.blogTitle}}
+              </router-link>
+            </el-tooltip>
           </el-menu-item>
         </el-menu-item-group>
       </el-submenu>
@@ -44,7 +48,11 @@ export default{
     this.$http.get('/api/cateBlog').then((data) => {
       bus.$emit('toload', false)
       if (data.body.code === 0) {
+        // 对日期进行反向排序
         this.cateBlog = data.body.cateBlog
+        this.cateBlog.forEach(function (item) {
+          console.log(item)
+        })
         this.cate = data.body.cate
         this.bugId = data.body.bugId
       }

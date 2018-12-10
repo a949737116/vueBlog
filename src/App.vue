@@ -1,11 +1,16 @@
 <template>
-  <div id="app"
-   v-loading.fullscreen.lock = 'ifLoad'
-   element-loading-text="正在努力加载..."
-  element-loading-spinner="el-icon-loading"
-  element-loading-background="rgba(0, 0, 0, 0.8)"
-  >
-    <div id='cover' v-if='!onceVisit'>
+  <div
+    id="app"
+    v-loading.fullscreen.lock = 'ifLoad'
+    element-loading-text="正在努力加载..."
+    element-loading-spinner="el-icon-loading"
+    element-loading-background="rgba(0, 0, 0, 0.8)">
+    <div class='cover loader' v-if='imgload'>
+      <span>
+        <img src="./assets/loading.gif" >
+      </span>
+    </div>
+    <div class='cover' v-if='!onceVisit'>
       <div class='scrollGuider'>
         <img src="./assets/lesson.gif" width='800' height='593'>
       </div>
@@ -89,6 +94,7 @@ export default {
   data () {
     return {
       onceVisit: false,
+      imgload: true,
       ifLoad: true,
       cateList: [],
       radio: '1',
@@ -153,7 +159,6 @@ export default {
       this.$http.get('/api/view_ctae').then((data) => {
         console.log(data)
         me.cateList = data.body.classList
-        me.ifLoad = false
       })
     })
   },
@@ -162,6 +167,9 @@ export default {
     bus.$on('toload', (value) => {
       me.ifLoad = value
     })
+    window.onload = function () {
+      me.imgload = false
+    }
   },
   methods: {
     receiveData (data) {
@@ -191,16 +199,17 @@ body {
   height: 100%;
   position: relative;
   background-image: url(@backgroundImg-src);
+  background-repeat: repeat;
   #app{
     height: 100%;
-    #cover {
+    .cover {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
       background-color: rgba(21,14,16,0.78);
-      z-index: 999;
+      z-index:9;
       .scrollGuider {
         position: absolute;
         top: calc(50% - 296px);
@@ -228,6 +237,27 @@ body {
         }
       }
     }
+    .cover.loader {
+      background-color: #000;
+      z-index: 99;
+      text-align: center;
+      display: table;
+      vertical-align: middle;
+      span {
+        display: table-cell;
+        vertical-align: middle
+      }
+    }
+    //  .cover.loader {
+    //   background-color: #000;
+    //   z-index: 99;
+    //   display: flex;
+    //   justify-content: center;
+    //   align-items: center;
+    //   span {
+    //     vertical-align: middle
+    //   }
+    // }
     #efooter {
       position: absolute;
       bottom: 0;
