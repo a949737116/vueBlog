@@ -1,11 +1,7 @@
 <template>
   <div
-    id="app"
-    v-loading.fullscreen.lock = 'ifLoad'
-    element-loading-text="正在努力加载..."
-    element-loading-spinner="el-icon-loading"
-    element-loading-background="rgba(0, 0, 0, 0.8)">
-    <div class='cover loader' v-if='imgload'>
+    id="app">
+    <!-- <div class='cover loader' v-if='imgload'>
       <span>
         <img src="./assets/loading.gif" >
       </span>
@@ -21,13 +17,32 @@
         <span>关闭教程→</span>
         <i class='el-icon-circle-close-outline' @click='addOnceVisit'></i>
       </div>
-    </div>
+    </div> -->
     <el-container style='height:100%'>
-      <el-header style='height:60px'>
-        <!-- 导航栏 -->
-         <tabBar :cate='cateList' :isAdmin='isAdmin'></tabBar>
+      <!-- 导航栏 -->
+      <el-header class='hidden-xs-only'>
+         <tabBar :cate='cateList' :isAdmin='isAdmin' style='height:60px'></tabBar>
       </el-header>
-      <el-container style='padding:20px 0 56px 0' class='containerFix'>
+      <div class='mobile-tarbar hidden-sm-and-up'>
+        <mtbar :options='cateList' :isAdmin='isAdmin'></mtbar>
+      </div>
+      <p class='mobile-title hidden-sm-and-up'>
+        欢迎来到我的博客
+      </p>
+      <el-main>
+        <el-row>
+          <el-col :xs="0" :md="5">
+            1
+          </el-col>
+          <el-col :xs="24"  :md="14">
+            <router-view></router-view>
+          </el-col>
+          <el-col :xs="0"  :md="5">
+            3
+          </el-col>
+        </el-row>
+      </el-main>
+      <!-- <el-container class='containerFix'>
         <el-aside width="150px" style='overflow:hidden'>
           <div class='scroller'>
             <leftTab :cate='cateList'></leftTab>
@@ -46,12 +61,11 @@
             </div>
           </div>
         </el-aside>
-      </el-container>
+      </el-container> -->
     </el-container>
-     <el-footer id='efooter' style='background-color: #000;height:56px'>
-        <!-- 脚部 -->
+     <!-- <el-footer id='efooter' style='background-color: #000;height:56px'>
         <vfooter></vfooter>
-      </el-footer>
+      </el-footer> -->
   </div>
 </template>
 <script>
@@ -63,6 +77,7 @@ import pinfo from '@components/viewComponents/pInfo/pInfo'
 import notice from '@components/viewComponents/notice/notice'
 import loginBoard from '@components/viewComponents/loginBoard/loginBoard'
 import bus from './eventBus/index.js'
+import mtbar from '@components/mobileComponents/tarbar'
 const provinceObject = {
   hebei: '河北省',
   liaoning: '辽宁省',
@@ -148,7 +163,8 @@ export default {
     vfooter,
     pinfo,
     notice,
-    loginBoard
+    loginBoard,
+    mtbar
   },
   created () {
     let me = this
@@ -192,14 +208,12 @@ export default {
 @import 'common/css/fixForEle.less';
 @import 'common/css/icon.less';
 @import 'common/css/forEditor.less';
-/* 变量区 */
-@backgroundImg-src : './assets/background1.png';
 /* CSS区 */
 body {
   height: 100%;
   position: relative;
-  background-image: url(@backgroundImg-src);
   background-repeat: repeat;
+  background-color: #000;
   #app{
     height: 100%;
     .cover {
@@ -266,6 +280,20 @@ body {
     }
     .containerFix {
       height: calc(100% - 60px);
+    }
+    .mobile-tarbar {
+      position: absolute;
+      top: 30px;
+      right: 10px;
+    }
+    .mobile-title {
+      margin-top: 30px;
+      font-size: 18px;
+      height: 50px;
+      line-height: 50px;
+      text-indent: 20px;
+      color: #fff;
+      font-weight: bolder;
     }
     .el-container{
       .el-header, .el-footer {

@@ -1,168 +1,235 @@
 <style lang='less' scoped>
-  .contentList {
+  @import url('../../../less/wall.less');
+  .contentLi {
     background-color: #fff;
-    border-radius: 5px;
     margin-bottom: 30px;
-    .contentRow {
-      .contentTop {
-        padding: 20px 20px 4px;
-        display: flex;
-        flex-direction: row;
-        margin-bottom: 5px;
-        .topLeft{
-          flex: 50px 0 0;
-          width: 50px;
-          height: 50px;
+    position: relative;
+    z-index: 1;
+    .articel {
+      padding: 20px;
+      padding-left: 70px;
+      text-align: left;
+      position: relative;
+      overflow: hidden;
+    .ribbon {
+      position: absolute;
+      top: 12px;
+      left: -30px;
+      width: 120px;
+      text-align: center;
+      height: 35px;
+      background-color: red;
+      transform:rotate(-45deg);
+      span {
+        color: #ffffff;
+        font-size: 13px;
+        vertical-align: sub;
+        vertical-align: -webkit-baseline-middle;
+      }
+    }
+      .articel-title {
+        .title {font-size: 20px;}
+      }
+      p,.articel-desc {
+        margin-top: 10px;
+        padding-left: 5px;
+      }
+    }
+    .blogWall {
+      text-align: left;
+      height: 5px;
+      position: relative;
+      img {
+        position: absolute;
+      }
+    }
+    .author {
+      display: flex;
+      flex-direction: row;
+      padding: 15px;
+      .author-head {
+        flex: 0 0 60px;
+        height: 70  px;
+        position: relative;
+        padding-top: 15px;
+        box-sizing: border-box;
+        text-align: left;
+        img {
+           border-radius: 50%;
+           display: inline-block;
         }
-        .topRight{
-          text-align: left;
-          margin-left: 10px;
-          .authorRow{
-            margin-bottom: 7px;
-            .name{
-              vertical-align: top;
-              font-size: 18px;
-              color: #333;
-              font-weight: 700;
-            }
-            i {
-              margin-right: 2px
-            }
-          }
-          .artInfoRow{
-            color: #a5a4a4;
-            font-size: 13px;
-            margin-bottom: 5px;
-          }
-          .title {
-            color: #aa4343;
-            font-family: STHeiti;
-            font-weight: 600;
-            margin-bottom: 8px;
-          }
-          .articleRow{
-            line-height: 18px;
-            font-size: 13px;
-            color: #333;
-            font-weight: 400;
-            font-family: Microsoft Yahei
-          }
+        .author-circle{
+          position: absolute;
+          bottom: 0px;
+          left: -10px;
         }
       }
-      .contentBottom{
-        border-top-width: 1px;
-        border-top-style: solid;
-        border-color: #f2f2f5;
-        padding: 7px;
-        font-size: 12px;
-        vertical-align: top;
-        color: #808080;
-        div {
-          height: 20px;
-          line-height: 20px;
-          border-color: #d9d9d9;
-          border-left-width: 1px;
-          border-left-style: solid;
-          &:first-child {
-            border: none
+      .author-info {
+        flex: 1;
+        padding-top: 10px;
+        p {
+          text-align: right;
+          padding: 3px 15px 3px 0;
+          i {
+            margin-right: 2px;
           }
         }
-        span {
-          margin-left: 2px;
+        .info-date {
+          font-size: 12px;
         }
-        i {
-          display: inline-block
-        }
-        a {
-          color:#808080;
-          text-decoration: none
-        }
-        a:hover{
-          cursor: pointer;
-          color:#b33023;
+        .info-name {
+          font-weight: bold;
+          font-size: 17px;
         }
       }
+    }
+  }
+  .mobile-contentLi {
+    background-color: #fff;
+    padding: 10px;
+    margin-bottom:20px;
+    border-radius: 10px;
+    .graBg(right, #60abcd, #9c74a3);
+    // .graBg(left, #2C3E50, #4CA1AF);
+    .mTitle {
+      font-size: 18px;
+      color: #ffffff;
+      margin-bottom: 20px;
+    }
+    .mAuthor {
+      font-size: 13px;
+      span {
+        color: #cddc39
+      }
+    }
+    .iconfont {
+      display: inline-block;
+      font-size: 15px;
+      margin-left: 5px;
     }
   }
   .pageRow {
     margin: 30px 0 5px 0;
   }
+  .mobileTip {
+    text-align: center;
+    .tip-content {
+      display: inline-block;
+      width: 200px;
+      padding: 8px;
+      background-color: #fff;
+      border: 2px solid #000;
+      border-radius: 10px;
+      text-align: center;
+      font-size: 14px;
+      font-family: monospace;
+    }
+  }
 </style>
 <template>
   <div>
-    <div class='contentList' v-for='(u,i) in blogArray' :key='i'>
-      <div class='contentRow'>
-        <div class='contentTop'>
-          <div class='topLeft'>
-            <!-- 头像栏 -->
-            <img :src="u.blogAhtuorId.icon_image" class="image" width='50' height='50'>
-          </div>
-          <div class='topRight'>
-            <!-- 作者信息 -->
-            <div class='authorRow clear'>
-              <span class='name'>{{u.blogAhtuorId.name}}</span>
-              <i :class='`icon_image icon_level lv${u.blogAhtuorId.level}`'></i>
-              <i v-if='u.blogAhtuorId.isAdmin' class='icon_image icon_admin'></i>
-              <i v-if='u.blogAhtuorId.hornor.length>0' v-for='(t, n) in u.blogAhtuorId.hornor' :key='n' :class='`icon_image icon_${t}`'></i>
+    <div :class='customBg[randomIndex(i)].color' class='contentLi hidden-xs-only'  v-for='(u,i) in blogArray' :key='i'>
+      <el-row class='contentRow'>
+        <el-col :span='13'>
+          <div class='articel'>
+            <div class='ribbon'>
+              <span>技术</span>
             </div>
-            <!-- 作品信息 -->
-            <div class='artInfoRow'>
-              {{u.blogDate}}
+            <div class='articel-head'>
+              <div class='articel-title'>
+                <span class='title'>
+                  {{u.blogTitle}}
+                </span>
+              </div>
             </div>
-            <!-- 作品标题 -->
-            <p class='title'>{{u.blogTitle}}</p>
-            <!-- 作品简介 -->
-            <div class='articleRow'>
+            <div class='articel-desc'>
               {{u.blogDesc}}
             </div>
-          </div>
+            <p>
+              <span>
+                <i class='icon-like icon iconfont'></i>
+                {{u.starList.length}}
+              </span>
+              <span>
+                <i class='icon-linedesign-01 icon iconfont'></i>
+                {{u.blogComments.length}}
+              </span>
+            </p>
         </div>
-        <div class='contentBottom'>
-          <el-row>
-            <el-col :span="8">
-              <div>
-                <router-link :to="'/blog?contentId='+u._id">
-                  <i class='icon-wenzhang1 icon iconfont'></i>
-                  <span>全文</span>
-                </router-link>
+        </el-col>
+        <el-col :span='4'>
+           <div class='blogWall'>
+            <img :src='customBg[randomIndex(i)].dressUrl' alt="" width="150" height="150">
+          </div>
+        </el-col>
+        <el-col :span='7'>
+          <div class='author'>
+            <div class='author-info'>
+              <p class='info-name'>{{u.blogAhtuorId.name}}</p>
+              <p> <i :class='`icon_image icon_level lv${u.blogAhtuorId.level}`'></i>
+              <i v-if='u.blogAhtuorId.isAdmin' class='icon_image icon_admin'></i>
+              <i v-if='u.blogAhtuorId.hornor.length>0' v-for='(t, n) in u.blogAhtuorId.hornor' :key='n' :class='`icon_image icon_${t}`'></i></p>
+              <p class='info-date'>
+                {{u.blogDate}}
+              </p>
+            </div>
+            <div class='author-head'>
+              <img :src="u.blogAhtuorId.icon_image" class="image" width='50' height='50' alt='作者头像'>
+              <div class='author-circle'>
+                <img :src="customBg[randomIndex(i)].frameUrl" width='70' >
               </div>
-            </el-col>
-            <el-col :span="8">
-              <div>
-                <!-- <i class='icon-like icon iconfont'></i> -->
-                <span>点赞数：{{u.starList.length}}</span>
-              </div>
-            </el-col>
-            <el-col :span="8">
-              <div>
-                <!-- <i class='icon-linedesign-01 icon iconfont'></i> -->
-                <span>评论数：{{u.blogComments.length}}</span>
-              </div>
-            </el-col>
-          </el-row>
+            </div>
+         </div>
+        </el-col>
+      </el-row>
+    </div>
+    <div class='hidden-sm-and-up mobile-contentLi' v-for='(u,i) in blogArray' :key='"abc" + i'>
+      <div class='contentRow'>
+        <div class='mTitle'>
+          {{u.blogTitle}}
+        </div>
+        <div class='mAuthor'>
+          <i class='icon-yonghu icon iconfont'></i>
+          <span>
+            {{u.blogAhtuorId.name}}
+          </span>
+           <i class='icon-like icon iconfont'></i>
+           <span>
+              {{u.starList.length}}
+           </span>
+          <i class='icon-linedesign-01 icon iconfont'></i>
+          <span>
+            {{u.blogComments.length}}
+          </span>
         </div>
       </div>
     </div>
-    <div class='pageRow'>
-          <el-pagination
-            ref='page'
-            background
-            layout="prev, pager, next"
-            pager-count = 5
-            :page-count= 'pageData.Tpage'
-            :page-size = 'pageData.rowNum'
-            :current-page = 'pageData.Dpage'
-            @prev-click = 'prevClick'
-            @next-click = 'nextClick'
-            @current-change = 'pageChange'
-          >
-          </el-pagination>
+    <div class='hidden-sm-and-up mobileTip'>
+      <div class='tip-content'>
+        tip:左右滑动屏幕进行翻页
+      </div>
     </div>
+    <!-- <div class='pageRow'>
+      <el-pagination
+        ref='page'
+        background
+        layout="prev, pager, next"
+        pager-count = 5
+        :page-count= 'pageData.Tpage'
+        :page-size = 'pageData.rowNum'
+        :current-page = 'pageData.Dpage'
+        @prev-click = 'prevClick'
+        @next-click = 'nextClick'
+        @current-change = 'pageChange'
+      >
+      </el-pagination>
+    </div> -->
   </div>
 </template>
 <script>
-import BScroller from 'better-scroll'
+// import BScroller from 'better-scroll'
 import bus from '../../../eventBus/index.js'
+import ts from '../../../common/js/touchEvent.js'
 export default{
   name: 'contentHome',
   data () {
@@ -172,7 +239,25 @@ export default{
         // Dpage
         // Tpage
         // rowNum
-      }
+      },
+      customBg:[
+        {color: 'wallYellow',
+         dressUrl: '/data/yellow.png',
+         frameUrl: '/data/yellowPane.png'
+        },
+        {color: 'wallPink',
+         dressUrl: '/data/pink.png',
+         frameUrl: '/data/pinkPane.png'
+        },
+        {color: 'wallBlue',
+         dressUrl: '/data/blue.png',
+         frameUrl: '/data/bluePane.png'
+        },
+         {color: 'wallRed',
+         dressUrl: '/data/red.png',
+         frameUrl: '/data/redPane.png'
+        }
+      ]
     }
   },
   methods: {
@@ -187,13 +272,13 @@ export default{
       }
       const cateId = this.$route.query.cateId || 0
       bus.$emit('toload', true)
-      this.scroll.scrollTo(0, 0, 0)
+      // this.scroll.scrollTo(0, 0, 0)
       this.$http.get(`/api/getBlogArray?page=${this.pageData.Dpage - 1}&cateId=${cateId}`).then((data) => {
         bus.$emit('toload', false)
         console.log(data.body.data)
         this.pageData = data.body.pageData
         this.blogArray = data.body.data
-        this.scroll.refresh()
+        // this.scroll.refresh()
       })
     },
     nextClick () {
@@ -207,44 +292,44 @@ export default{
       }
       const cateId = this.$route.query.cateId || 0
       bus.$emit('toload', true)
-      this.scroll.scrollTo(0, 0, 0)
+      // this.scroll.scrollTo(0, 0, 0)
       this.$http.get(`/api/getBlogArray?page=${this.pageData.Dpage + 1}&cateId=${cateId}`).then((data) => {
         bus.$emit('toload', false)
         console.log(data.body.data)
         this.pageData = data.body.pageData
         this.blogArray = data.body.data
-        this.scroll.refresh()
+        // this.scroll.refresh()
       })
     },
     pageChange () {
       bus.$emit('toload', true)
-      this.scroll.scrollTo(0, 0, 0)
+      // this.scroll.scrollTo(0, 0, 0)
       const cateId = this.$route.query.cateId || 0
       this.$http.get(`/api/getBlogArray?cateId=${cateId}&page=${this.$refs.page.internalCurrentPage}`).then((data) => {
         console.log(data.body)
         bus.$emit('toload', false)
         this.pageData = data.body.pageData
         this.blogArray = data.body.data
-        this.scroll.refresh()
+        // this.scroll.refresh()
       })
     },
     getBlogArray () {
-      const me = this
+      // const me = this
       const cateId = this.$route.query.cateId || 0
-      if (!me.scroll) {
-        me.scroll = new BScroller('#Vmain', {
-          scrollY: true,
-          click: true
-        })
-      }
+      // if (!me.scroll) {
+      //   me.scroll = new BScroller('#Vmain', {
+      //     scrollY: true,
+      //     click: true
+      //   })
+      // }
       bus.$emit('toload', true)
       this.$http.get(`/api/getBlogArray?page=1&cateId=${cateId}`).then((data) => {
         console.log(data.body)
         this.pageData = data.body.pageData
         this.blogArray = data.body.data
         this.$nextTick(() => {
-          me.scroll.refresh()
-          me.scroll.scrollTo(0, 0, 2000)
+          // me.scroll.refresh()
+          // me.scroll.scrollTo(0, 0, 2000)
           bus.$emit('toload', false)
           // this.$message({
           //   message: '浏览器兼容问题正在解决中，建议您使用谷歌浏览器进行访问，多谢理解！',
@@ -263,6 +348,10 @@ export default{
           // })
         })
       })
+    },
+    randomIndex (i) {
+      const index = i % 4;
+      return index  
     }
   },
   mounted () {
@@ -271,6 +360,10 @@ export default{
       console.log(123)
       me.getBlogArray()
     })
+  },
+  created () {
+    const me = this;
+    ts.init(me.prevClick,me.nextClick)
   },
   watch: {
     $route: {

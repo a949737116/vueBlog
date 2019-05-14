@@ -22,5 +22,12 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 
 
 cd c:\Program Files\MongoDB\Server\3.4\bin
-mongod --dbpath=D:\lzh\资料\知识梯级\node.js\node20180102\前端博客VUE重构\blogVue\blogVue\db --port=27020
+mongod --dbpath=D:\博客19年重构\blogVue\db --port=27000
+
+2019
+添加移动端页面（自适应和滑屏显示）
+重绘文章栏
+更换滑动方式
+头像和头像框
+主题选择
 

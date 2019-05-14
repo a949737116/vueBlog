@@ -20,7 +20,7 @@ export default new Router({
     },
     {
       path: '/',
-      name: 'bc',
+      name: 'home',
       component: contentHome
     },
     {

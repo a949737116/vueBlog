@@ -18,7 +18,7 @@ const mongoose = require('mongoose');
 //monogooseDB防止数据库报错
 mongoose.Promise = global.Promise;
 //连接数据库
-mongoose.connect("mongodb://localhost:27020/Blog_dev", { useNewUrlParser: true },function(err){
+mongoose.connect("mongodb://localhost:27000/blogDev", { useNewUrlParser: true },function(err){
   if (err) {
     console.log('数据库链接失败')
   }else{

@@ -54,6 +54,15 @@ const tools = {
     var min = '0' + date.getMinutes()
     return y + '-' + m.substring(m.length - 2, m.length) + '-' + d.substring(d.length - 2, d.length) + ' ' + h.substring(h.length - 2, h.length) + ':' + min.substring(min.length - 2, min.length)
   },
+  timeParser2: function (obj) {
+    var date = new Date(obj)
+    var y = 1900 + date.getYear()
+    var m = '0' + (date.getMonth() + 1)
+    var d = '0' + date.getDate()
+    var h = '0' + date.getHours()
+    var min = '0' + date.getMinutes()
+    return y + '-' + m.substring(m.length - 2, m.length) + '-' + d.substring(d.length - 2, d.length)
+  },
   dateParser: function (date) {
     var y = 1900 + date.getYear()
     var m = '0' + (date.getMonth() + 1)
@@ -488,9 +497,9 @@ router.get('/view_ctae', function (req, res, next) {
     data.forEach((item) => {
       mdata.push(
         {
-          name: item.className,
+          label: item.className,
           show: item.isShow,
-          classId: item._id
+          value: item._id
         }
       )
     })
@@ -606,7 +615,7 @@ router.get('/getBlogArray', (req, res, next) => {
           //     horor: i.blogAhtuorId.hornor
           //   })
           // }
-          i.blogDate = tools.timeParser(Number(i.blogDate))
+          i.blogDate = tools.timeParser2(Number(i.blogDate))
         })
         // 页码处理
         const pageData = {

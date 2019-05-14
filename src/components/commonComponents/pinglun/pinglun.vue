@@ -13,9 +13,9 @@
           <!-- 名字加图标 -->
           <div class='comment'>
             <span class='cm-name'>{{u.userName}}</span>
-            <i class='icon_image icon_head'></i>
+            <!-- <i class='icon_image icon_head'></i>
             <i class='icon_image icon_vip6'></i>
-            <i class='icon_image icon_hot'></i>
+            <i class='icon_image icon_hot'></i> -->
             <span class='cm-name'>：</span>
             <span class='cn-comment'>
               {{u.comment}}
@@ -104,6 +104,7 @@ export default{
           if (data.body.code === 0) {
             this.$message.success(data.body.message)
             bus.$emit('upDateComments')
+            this.textarea = ''
           }
         })
       }

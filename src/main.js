@@ -7,6 +7,8 @@ import elementUi from 'element-ui'
 import vReasource from 'vue-resource'
 import 'element-ui/lib/theme-chalk/index.css'
 import store from './store'
+/* 浏览器不同尺寸 */
+import 'element-ui/lib/theme-chalk/display.css'
 
 Vue.use(elementUi)
 Vue.use(vReasource)
