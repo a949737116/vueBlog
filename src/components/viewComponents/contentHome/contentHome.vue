@@ -22,17 +22,21 @@
       transform:rotate(-45deg);
       span {
         color: #ffffff;
-        font-size: 13px;
+        font-size: 15px;
         vertical-align: sub;
         vertical-align: -webkit-baseline-middle;
       }
     }
       .articel-title {
-        .title {font-size: 20px;}
+        .title {font-size: 20px;font-weight: bold}
       }
       p,.articel-desc {
         margin-top: 10px;
         padding-left: 5px;
+      }
+      .articel-desc{
+        font-size: 13px;
+        color: #424242;
       }
     }
     .blogWall {
@@ -85,11 +89,10 @@
     }
   }
   .mobile-contentLi {
-    background-color: #fff;
+    background-color: #009688;
     padding: 10px;
     margin-bottom:20px;
     border-radius: 10px;
-    .graBg(right, #60abcd, #9c74a3);
     // .graBg(left, #2C3E50, #4CA1AF);
     .mTitle {
       font-size: 18px;
@@ -110,6 +113,7 @@
   }
   .pageRow {
     margin: 30px 0 5px 0;
+    text-align: center;
   }
   .mobileTip {
     text-align: center;
@@ -128,102 +132,104 @@
 </style>
 <template>
   <div>
-    <div :class='customBg[randomIndex(i)].color' class='contentLi hidden-xs-only'  v-for='(u,i) in blogArray' :key='i'>
-      <el-row class='contentRow'>
-        <el-col :span='13'>
-          <div class='articel'>
-            <div class='ribbon'>
-              <span>技术</span>
-            </div>
-            <div class='articel-head'>
-              <div class='articel-title'>
-                <span class='title'>
-                  {{u.blogTitle}}
+    <div>
+      <div :class='customBg[randomIndex(i)].color' class='contentLi hidden-xs-only'  v-for='(u,i) in blogArray' :key='i'>
+        <el-row class='contentRow'>
+          <el-col :span='13'>
+            <div class='articel'>
+              <div class='ribbon'>
+                <span>技术</span>
+              </div>
+              <div class='articel-head'>
+                <div class='articel-title'>
+                  <span class='title'>
+                    {{u.blogTitle}}
+                  </span>
+                </div>
+              </div>
+              <div class='articel-desc'>
+                {{u.blogDesc}}
+              </div>
+              <p>
+                <span>
+                  <i class='icon-like icon iconfont'></i>
+                  {{u.starList.length}}
                 </span>
-              </div>
-            </div>
-            <div class='articel-desc'>
-              {{u.blogDesc}}
-            </div>
-            <p>
-              <span>
-                <i class='icon-like icon iconfont'></i>
-                {{u.starList.length}}
-              </span>
-              <span>
-                <i class='icon-linedesign-01 icon iconfont'></i>
-                {{u.blogComments.length}}
-              </span>
-            </p>
-        </div>
-        </el-col>
-        <el-col :span='4'>
-           <div class='blogWall'>
-            <img :src='customBg[randomIndex(i)].dressUrl' alt="" width="150" height="150">
-          </div>
-        </el-col>
-        <el-col :span='7'>
-          <div class='author'>
-            <div class='author-info'>
-              <p class='info-name'>{{u.blogAhtuorId.name}}</p>
-              <p> <i :class='`icon_image icon_level lv${u.blogAhtuorId.level}`'></i>
-              <i v-if='u.blogAhtuorId.isAdmin' class='icon_image icon_admin'></i>
-              <i v-if='u.blogAhtuorId.hornor.length>0' v-for='(t, n) in u.blogAhtuorId.hornor' :key='n' :class='`icon_image icon_${t}`'></i></p>
-              <p class='info-date'>
-                {{u.blogDate}}
+                <span>
+                  <i class='icon-linedesign-01 icon iconfont'></i>
+                  {{u.blogComments.length}}
+                </span>
               </p>
+          </div>
+          </el-col>
+          <el-col :span='4'>
+            <div class='blogWall'>
+              <img :src='customBg[randomIndex(i)].dressUrl' alt="" width="150" height="150">
             </div>
-            <div class='author-head'>
-              <img :src="u.blogAhtuorId.icon_image" class="image" width='50' height='50' alt='作者头像'>
-              <div class='author-circle'>
-                <img :src="customBg[randomIndex(i)].frameUrl" width='70' >
+          </el-col>
+          <el-col :span='7'>
+            <div class='author'>
+              <div class='author-info'>
+                <p class='info-name'>{{u.blogAhtuorId.name}}</p>
+                <p> <i :class='`icon_image icon_level lv${u.blogAhtuorId.level}`'></i>
+                <i v-if='u.blogAhtuorId.isAdmin' class='icon_image icon_admin'></i>
+                <i v-if='u.blogAhtuorId.hornor.length>0' v-for='(t, n) in u.blogAhtuorId.hornor' :key='n' :class='`icon_image icon_${t}`'></i></p>
+                <p class='info-date'>
+                  {{u.blogDate}}
+                </p>
               </div>
-            </div>
-         </div>
-        </el-col>
-      </el-row>
-    </div>
-    <div class='hidden-sm-and-up mobile-contentLi' v-for='(u,i) in blogArray' :key='"abc" + i'>
-      <div class='contentRow'>
-        <div class='mTitle'>
-          {{u.blogTitle}}
-        </div>
-        <div class='mAuthor'>
-          <i class='icon-yonghu icon iconfont'></i>
-          <span>
-            {{u.blogAhtuorId.name}}
-          </span>
-           <i class='icon-like icon iconfont'></i>
-           <span>
-              {{u.starList.length}}
-           </span>
-          <i class='icon-linedesign-01 icon iconfont'></i>
-          <span>
-            {{u.blogComments.length}}
-          </span>
+              <div class='author-head'>
+                <img :src="u.blogAhtuorId.icon_image" class="image" width='50' height='50' alt='作者头像'>
+                <div class='author-circle'>
+                  <img :src="customBg[randomIndex(i)].frameUrl" width='70' >
+                </div>
+              </div>
+          </div>
+          </el-col>
+        </el-row>
+      </div>
+      <div class='hidden-sm-and-up mobile-contentLi' v-for='(u,i) in blogArray' :key='"abc" + i'>
+        <div class='contentRow'>
+          <div class='mTitle'>
+            {{u.blogTitle}}
+          </div>
+          <div class='mAuthor'>
+            <i class='icon-yonghu icon iconfont'></i>
+            <span>
+              {{u.blogAhtuorId.name}}
+            </span>
+            <i class='icon-like icon iconfont'></i>
+            <span>
+                {{u.starList.length}}
+            </span>
+            <i class='icon-linedesign-01 icon iconfont'></i>
+            <span>
+              {{u.blogComments.length}}
+            </span>
+          </div>
         </div>
       </div>
-    </div>
-    <div class='hidden-sm-and-up mobileTip'>
-      <div class='tip-content'>
-        tip:左右滑动屏幕进行翻页
+      <div class='hidden-sm-and-up mobileTip'>
+        <div class='tip-content'>
+          tip:左右滑动屏幕进行翻页
+        </div>
+      </div>
+      <div class='pageRow hidden-xs-only'>
+        <el-pagination
+          ref='page'
+          background
+          layout="prev, pager, next"
+          pager-count = 5
+          :page-count= 'pageData.Tpage'
+          :page-size = 'pageData.rowNum'
+          :current-page = 'pageData.Dpage'
+          @prev-click = 'prevClick'
+          @next-click = 'nextClick'
+          @current-change = 'pageChange'
+        >
+        </el-pagination>
       </div>
     </div>
-    <!-- <div class='pageRow'>
-      <el-pagination
-        ref='page'
-        background
-        layout="prev, pager, next"
-        pager-count = 5
-        :page-count= 'pageData.Tpage'
-        :page-size = 'pageData.rowNum'
-        :current-page = 'pageData.Dpage'
-        @prev-click = 'prevClick'
-        @next-click = 'nextClick'
-        @current-change = 'pageChange'
-      >
-      </el-pagination>
-    </div> -->
   </div>
 </template>
 <script>
@@ -363,7 +369,15 @@ export default{
   },
   created () {
     const me = this;
-    ts.init(me.prevClick,me.nextClick)
+    ts.init(me.prevClick,me.nextClick);
+    // this.$nextTick(() => {
+    //    var is_mobi = navigator.userAgent.toLowerCase().match(/(ipod|ipad|iphone|android|coolpad|mmp|smartphone|midp|wap|xoom|symbian|j2me|blackberry|wince)/i) != null;
+    //   if (is_mobi) {
+    //     console.log("手机端");
+    //   }else{
+    //     console.log('电脑端')
+    //   }
+    // });
   },
   watch: {
     $route: {

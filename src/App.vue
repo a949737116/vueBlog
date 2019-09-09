@@ -29,18 +29,20 @@
       <p class='mobile-title hidden-sm-and-up'>
         欢迎来到我的博客
       </p>
-      <el-main>
-        <el-row>
-          <el-col :xs="0" :md="5">
-            1
-          </el-col>
-          <el-col :xs="24"  :md="14">
-            <router-view></router-view>
-          </el-col>
-          <el-col :xs="0"  :md="5">
-            3
-          </el-col>
-        </el-row>
+      <el-main class='mainContentBox' >
+        <div class='mainContent' ref='mobileContent'>
+          <el-row>
+            <el-col :xs="0" :md="5">
+              1
+            </el-col>
+            <el-col :xs="24"  :md="14">
+              <router-view></router-view>
+            </el-col>
+            <el-col :xs="0"  :md="5">
+              3
+            </el-col>
+          </el-row>
+        </div>
       </el-main>
       <!-- <el-container class='containerFix'>
         <el-aside width="150px" style='overflow:hidden'>
@@ -154,6 +156,16 @@ export default {
     },
     isAdmin () {
       return this.$store.state.loginInfo.isAdmin
+    },
+    platformType (){
+      var is_mobi = navigator.userAgent.toLowerCase().match(/(ipod|ipad|iphone|android|coolpad|mmp|smartphone|midp|wap|xoom|symbian|j2me|blackberry|wince)/i) != null;
+      if (is_mobi) {
+        // 手机
+        return 1
+      }else{
+        // 电脑
+        return 2
+      }
     }
   },
   components: {
@@ -174,14 +186,23 @@ export default {
     this.$nextTick(() => {
       this.$http.get('/api/view_ctae').then((data) => {
         console.log(data)
-        me.cateList = data.body.classList
+        me.cateList = data.body.classList;
+        var is_mobi = navigator.userAgent.toLowerCase().match(/(ipod|ipad|iphone|android|coolpad|mmp|smartphone|midp|wap|xoom|symbian|j2me|blackberry|wince)/i) != null;
+        if (is_mobi) {
+          // 手机
+          console.log('手机')
+          me.$refs.mobileContent.style.right = '0px'
+        }else{
+          // 电脑
+          console.log('电脑')
+        }
       })
     })
   },
   mounted () {
     const me = this
     bus.$on('toload', (value) => {
-      me.ifLoad = value
+      me.ifLoad = value;
     })
     window.onload = function () {
       me.imgload = false
@@ -296,14 +317,7 @@ body {
       font-weight: bolder;
     }
     .el-container{
-      .el-header, .el-footer {
-      color: #333;
-      text-align: center;
-      line-height: 60px;
-      padding: 0;
-    }
-    &>.el-container{
-      width: 1224px;
+      // width: 1224px;
       margin: 0 auto;
       .el-aside {
         width: 280px;
@@ -320,17 +334,35 @@ body {
           }
         }
       }
-      .el-main {
-        color: #333;
-        text-align: center;
-      }
       #Vmain {
         overflow: hidden;
         padding-top: 0px!important;
         padding-bottom: 56px;
       }
+      .el-header, .el-footer {
+        color: #333;
+        text-align: center;
+        line-height: 60px;
+        padding: 0;
+      }
     }
-  }
+    .mainContentBox {
+      width: 100%;
+      position: relative;
+      overflow: hidden;
+      height: 100%;
+      padding: 0px;
+    }
+    .mainContent {
+      position: absolute;
+      left: 0;
+      top: 0;
+      right: -17px;
+      bottom: 0;
+      overflow-x: hidden;
+      overflow-y: scroll;
+      padding: 20px;
+    }
   }
 }
 </style>
