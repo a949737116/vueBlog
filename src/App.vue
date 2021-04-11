@@ -27,7 +27,7 @@
         <mtbar :options='cateList' :isAdmin='isAdmin'></mtbar>
       </div>
       <p class='mobile-title hidden-sm-and-up'>
-        欢迎来我的博客
+        欢迎来到我的博客
       </p>
       <el-main class='mainContentBox' >
         <div class='mainContent' ref='mobileContent'>
